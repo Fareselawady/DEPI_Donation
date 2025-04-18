@@ -1,0 +1,148 @@
+﻿@model List<DEPI_Donation.Models.User>
+
+<h2>User List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Password</th>
+            <th>User Type</th>
+            <th>Donation IDs</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr id="user-@user.UserId">
+                <td>@user.UserId</td>
+                <td>
+                    <span class="user-field" id="UserName-@user.UserId">@user.UserName</span>
+                    <input type="text" id="edit-UserName-@user.UserId" class="edit-input form-control" value="@user.UserName" style="display:none;" />
+                </td>
+                <td>
+                    <span class="user-field" id="Email-@user.UserId">@user.Email</span>
+                    <input type="text" id="edit-Email-@user.UserId" class="edit-input form-control" value="@user.Email" style="display:none;" />
+                </td>
+                <td>
+                    <span class="user-field" id="Phone-@user.UserId">@user.Phone</span>
+                    <input type="text" id="edit-Phone-@user.UserId" class="edit-input form-control" value="@user.Phone" style="display:none;" />
+                </td>
+                <td>
+                    <span class="user-field" id="Password-@user.UserId">@user.Password</span>
+                    <input type="text" id="edit-Password-@user.UserId" class="edit-input form-control" value="@user.Password" style="display:none;" />
+                </td>
+                <td>
+                    <span class="user-field" id="UserType-@user.UserId">@user.UserType</span>
+                    <input type="text" id="edit-UserType-@user.UserId" class="edit-input form-control" value="@user.UserType" style="display:none;" />
+                </td>
+                <td>
+                    @if (user.Donations != null && user.Donations.Any())
+                    {
+                        <ul>
+                            @foreach (var donation in user.Donations)
+                            {
+                                <li>@donation.DonationId</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div>No donations</div>
+                    }
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-warning edit-btn" data-id="@user.UserId">✏️ Edit</button>
+                    <button class="btn btn-sm btn-success save-btn" data-id="@user.UserId" style="display:none;">💾 Save</button>
+                    <button class="btn btn-sm btn-danger delete-btn" data-id="@user.UserId">🗑️ Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.edit-btn').click(function () {
+                var id = $(this).data('id');
+                $('#user-' + id + ' .user-field').hide();
+                $('#user-' + id + ' .edit-input').show();
+                $(this).hide();
+                $('#user-' + id + ' .save-btn').show();
+            });
+
+            $('.save-btn').click(function () {
+                var id = $(this).data('id');
+                var updatedUser = {
+                    UserId: id,
+                    UserName: $('#edit-UserName-' + id).val(),
+                    Email: $('#edit-Email-' + id).val(),
+                    Phone: $('#edit-Phone-' + id).val(),
+                    Password: $('#edit-Password-' + id).val(),
+                    UserType: $('#edit-UserType-' + id).val()
+                };
+
+                $.ajax({
+                    url: '/Users/Edit/' + id,
+                    type: 'POST',
+                    data: updatedUser,
+                    success: function (response) {
+                        if (response.success) {
+                            $('#UserName-' + id).text(updatedUser.UserName);
+                            $('#Email-' + id).text(updatedUser.Email);
+                            $('#Phone-' + id).text(updatedUser.Phone);
+                            $('#Password-' + id).text(updatedUser.Password);
+                            $('#UserType-' + id).text(updatedUser.UserType);
+
+                            $('#user-' + id + ' .edit-input').hide();
+                            $('#user-' + id + ' .user-field').show();
+                            $('#user-' + id + ' .save-btn').hide();
+                            $('#user-' + id + ' .edit-btn').show();
+
+                            alert('User updated successfully!');
+                        } else {
+                            alert('Failed to update user: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while updating the user.');
+                    }
+                });
+            });
+
+                // When Delete button is clicked
+                $('.delete-btn').on('click', function () {
+            var id = $(this).data('id');
+            console.log("ID to delete: ", id);  // إضافة هذه السطر لتأكد من قيمة ID
+            var row = $('#user-' + id);
+
+            if (confirm('Are you sure you want to delete this user?')) {
+                $.ajax({
+                    url: '@Url.Action("Delete", "Users")',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (response) {
+                        if (response.success) {
+                            row.remove(); // Remove the user row from the table
+                            alert('User deleted successfully!');
+                        } else {
+                            alert('Failed to delete user: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while deleting the user.');
+                    }
+                });
+            }
+        });
+
+
+        });
+    </script>
+}
