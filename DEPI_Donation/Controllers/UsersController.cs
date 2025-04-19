@@ -69,7 +69,7 @@ namespace DEPI_Donation.Controllers
         {
             try
             {
-                Console.WriteLine($"Deleting user with ID: {id}"); // إضافة هذه السطر للتحقق من الـ ID
+                Console.WriteLine($"Deleting user with ID: {id}"); 
 
                 var user = _context.Users.FirstOrDefault(u => u.UserId == id);
                 if (user == null)
