@@ -95,8 +95,34 @@ namespace DEPI_Donation.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+        // GET: Users/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
 
+        // POST: Users/Create
+        [HttpPost]
+        public JsonResult Create(User newUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, message = "Invalid data." });
+            }
 
+            try
+            {
+                newUser.CreatedAt = DateTime.Now;
+                _context.Users.Add(newUser);
+                _context.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
 
 
 
