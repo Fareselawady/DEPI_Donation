@@ -30,9 +30,7 @@ public partial class AppDbcontext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Data Source =DESKTOP-1M8QOF6;Initial Catalog=Donation1;Integrated Security=True;Trust Server Certificate=True");
-
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Activity>(entity =>
