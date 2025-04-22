@@ -2,9 +2,1219 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>Learn about <a href="Users">Show all Users</a>.</p>
-    <a href="@Url.Action("Login", "Account")" class="btn btn-primary">Login</a>
-</div>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>AOUN - عون</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="assets/img/عون.jpg" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+
+</head>
+
+<body class="index-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+                <!-- Uncomment the line below if you also wish to use an image logo -->
+                <!-- <img src="assets/img/logo.png" alt=""> -->
+                <h1>AOUN</h1>
+            </a>
+
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="#hero" class="active">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="Users">Show all Users</a></li>
+
+                    <li><a href="#services">Services</a></li>
+                    <li class="dropdown">
+                        <a href="#"><span>Donation opportunities</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <ul>
+                            <li><a href="#">charity</a></li>
+                            <li class="dropdown">
+                                <a href="#"><span>Zakat</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                                <ul>
+                                    <li><a href="#">Zakat Calculator</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Kaffarah</a></li>
+                            <li><a href="#">Al'Naam</a></li>
+                            <li><a href="#">Orphan</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+
+            <a class="btn-getstarted" href="index.html#about">Get Started</a>
+
+        </div>
+    </header>
+
+    <main class="main">
+
+        <!-- Hero Section -->
+        <section id="hero" class="hero section">
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
+                            <div class="company-badge mb-4">
+                                <i class="bi bi-gear-fill me-2"></i>
+                                Working for your success
+                            </div>
+
+                            <h1 class="mb-4">
+                                AOUN <br>
+                                <span class="accent-text">secretly and openly</span>
+                            </h1>
+
+                            <p class="mb-4 mb-md-5">
+                                The Aoun donation platform is the easiest and most optimal solution for connecting donors to those in need across all regions and cities of the Arab Republic of Egypt through a safe and transparent donation process under the umbrella of the Ministry of Human Resources and Social Development.
+                            </p>
+
+                            <div class="hero-buttons">
+                                <a href="#about" class="btn btn-primary me-0 me-sm-2 mx-1">Get Started</a>
+                                <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="btn btn-link mt-2 mt-sm-0 glightbox">
+                                    <i class="bi bi-play-circle me-1"></i>
+                                    Play Video
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
+                            <img src="assets/img/عون.jpg" alt="Hero Image" class="img-fluid">
+
+                            <div class="customers-badge">
+                                <div class="customer-avatars">
+                                    <img src="assets/img/avatar-1.webp" alt="Customer 1" class="avatar">
+                                    <img src="assets/img/avatar-2.webp" alt="Customer 2" class="avatar">
+                                    <img src="assets/img/avatar-3.webp" alt="Customer 3" class="avatar">
+                                    <img src="assets/img/avatar-4.webp" alt="Customer 4" class="avatar">
+                                    <img src="assets/img/avatar-5.webp" alt="Customer 5" class="avatar">
+                                    <span class="avatar more">12+</span>
+                                </div>
+                                <p class="mb-0 mt-2">12,000+ lorem ipsum dolor sit amet consectetur adipiscing elit</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row stats-row gy-4 mt-5" data-aos="fade-up" data-aos-delay="500">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <i class="bi bi-trophy"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4>172,562,054</h4>
+                                <p class="mb-0">Transactions</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <i class="bi bi-briefcase"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4>6.5k Faucibus</h4>
+                                <p class="mb-0">Completed Opportunities</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4>200k</h4>
+                                <p class="mb-0">OWN app user</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <i class="bi bi-award"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h4>1.5 million</h4>
+                                <p class="mb-0">Follow on social media</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section><!-- /Hero Section -->
+        <!-- About Section -->
+        <section id="about" class="about section">
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row gy-4 align-items-center justify-content-between">
+
+                    <div class="col-xl-5" data-aos="fade-up" data-aos-delay="200">
+                        <span class="about-meta">MORE ABOUT US</span>
+                        <h2 class="about-title">AOUN is the connecting hamza</h2>
+                        <p class="about-description">
+                            We are a dedicated fundraising platform committed to making a real difference in people’s lives. Our mission is to connect generous donors with meaningful causes that need support — whether it's providing food and shelter, supporting education, funding medical treatments, or responding to urgent humanitarian needs.Through our secure and easy-to-use platform, anyone can start or contribute to a fundraising campaign with just a few clicks. We believe in transparency, impact, and the power of community to drive change.
+                            Join us, and be part of a movement that turns compassion into action.
+                        </p>
+
+                        <div class="row feature-list-wrapper">
+                            <div class="col-md-6">
+                                <ul class="feature-list">
+                                    <li><i class="bi bi-check-circle-fill"></i> User-Friendly Interface</li>
+                                    <li><i class="bi bi-check-circle-fill"></i> Trusted Security</li>
+                                    <li><i class="bi bi-check-circle-fill"></i>  Multilingual Support</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="feature-list">
+                                    <li><i class="bi bi-check-circle-fill"></i>  Full Transparency</li>
+                                    <li><i class="bi bi-check-circle-fill"></i> Direct Support for Real Cases</li>
+                                    <li><i class="bi bi-check-circle-fill"></i>  Fully Responsive Design</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="info-wrapper">
+                            <div class="row gy-4">
+                                <div class="col-lg-5">
+                                    <div class="profile d-flex align-items-center gap-3">
+                                        <img src="assets/img/avatar-1.webp" alt="CEO Profile" class="profile-image">
+                                        <div>
+                                            <h4 class="profile-name">Mario Smith</h4>
+                                            <p class="profile-position">CEO &amp; Founder</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7">
+                                    <div class="contact-info d-flex align-items-center gap-2">
+                                        <i class="bi bi-telephone-fill"></i>
+                                        <div>
+                                            <p class="contact-label">Call us anytime</p>
+                                            <p class="contact-number">+123 456-789</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="image-wrapper">
+                            <div class="images position-relative" data-aos="zoom-out" data-aos-delay="400">
+                                <img src="assets/img/about-5.webp" alt="Business Meeting" class="img-fluid main-image rounded-4">
+                                <img src="assets/img/about-2.webp" alt="Team Discussion" class="img-fluid small-image rounded-4">
+                            </div>
+                            <div class="experience-badge floating">
+                                <h3>8+ <span>Years</span></h3>
+                                <p>Of experience in business service</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section><!-- /About Section -->
+        <!-- Features Section -->
+        <section id="features" class="features section">
+
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Features</h2>
+            </div><!-- End Section Title -->
+
+            <div class="container">
+
+                <div class="d-flex justify-content-center">
+
+                    <ul class="nav nav-tabs" data-aos="fade-up" data-aos-delay="100">
+
+                        <li class="nav-item">
+                            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#features-tab-1">
+                                <h4>Ease of Access and Use</h4>
+                            </a>
+                        </li><!-- End tab nav item -->
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-2">
+                                <h4>Transparency and Security</h4>
+                            </a><!-- End tab nav item -->
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#features-tab-3">
+                                <h4>Real Impact on People's Lives ❤️</h4>
+                            </a>
+                        </li><!-- End tab nav item -->
+
+                    </ul>
+
+                </div>
+
+                <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+
+                    <div class="tab-pane fade active show" id="features-tab-1">
+                        <div class="row">
+                            <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                                <h3>Ease of Access and Use</h3>
+                                <p class="fst-italic">
+                                    Start or support a donation campaign in just a few easy steps.
+                                </p>
+                                <ul>
+                                    <li><i class="bi bi-check2-all"></i> <span>A simple and easy-to-use interface for any user, regardless of experience.</span></li>
+                                    <li><i class="bi bi-check2-all"></i> <span>Clear steps for creating or participating in a donation campaign.</span></li>
+                                    <li><i class="bi bi-check2-all"></i> <span>Compatible with all devices: mobile, tablet, and computer.</span></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 order-1 order-lg-2 text-center">
+                                <img src="assets/img/features-illustration-1.webp" alt="" class="img-fluid">
+                            </div>
+                        </div>
+                    </div><!-- End tab content item -->
+
+                    <div class="tab-pane fade" id="features-tab-2">
+                        <div class="row">
+                            <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                                <h3>Transparency and Security</h3>
+                                <p class="fst-italic">
+                                    Safe and secure donation system that protects your data.Clear updates and detailed tracking of donations and campaign progress.
+                                </p>
+                                <ul>
+                                    <li><i class="bi bi-check2-all"></i> <span>A fully encrypted and secure donation system.</span></li>
+                                    <li><i class="bi bi-check2-all"></i> <span>Continuous updates on campaign developments and collected amounts.</span></li>
+                                    <li><i class="bi bi-check2-all"></i> <span>The ability to clearly and directly track the impact of your donation.</span></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 order-1 order-lg-2 text-center">
+                                <img src="assets/img/features-illustration-2.webp" alt="" class="img-fluid">
+                            </div>
+                        </div>
+                    </div><!-- End tab content item -->
+
+                    <div class="tab-pane fade" id="features-tab-3">
+                        <div class="row">
+                            <div class="col-lg-6 order-2 order-lg-1 mt-3 mt-lg-0 d-flex flex-column justify-content-center">
+                                <h3>Real Impact on People's Lives ❤️</h3>
+                                <ul>
+                                    <li><i class="bi bi-check2-all"></i> <span>Direct support for trusted and verified causes.</span></li>
+                                    <li><i class="bi bi-check2-all"></i> <span>Your contribution reaches those in need without an intermediary.</span></li>
+                                    <li><i class="bi bi-check2-all"></i> <span>Opportunities for real change in areas such as health, education, and relief.</span></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 order-1 order-lg-2 text-center">
+                                <img src="assets/img/features-illustration-3.webp" alt="" class="img-fluid">
+                            </div>
+                        </div>
+                    </div><!-- End tab content item -->
+
+                </div>
+
+            </div>
+
+        </section><!-- /Features Section -->
+        <!-- Features Cards Section -->
+        <section id="features-cards" class="features-cards section">
+
+            <div class="container">
+
+                <div class="row gy-4">
+
+                    <div class="col-xl-3 col-md-6" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="feature-box orange">
+                            <i class="bi bi-award"></i>
+                            <h4>Trust & Credibility</h4>
+                            <p>
+                                Officially licensed by the Ministry of Social Solidarity. The website is licensed and supervised by the Ministry of Social Solidarity, ensuring the legality and transparency of operations.
+                                Full documentation of the entity responsible for donations: official data, license numbers, and reliable verification links.
+                                Certificates and acknowledgments from official and community bodies. Enhance credibility by displaying awards or letters of appreciation from relevant entities.
+                            </p>
+                        </div>
+                    </div><!-- End Feature Borx-->
+
+                    <div class="col-xl-3 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="feature-box blue">
+                            <i class="bi bi-patch-check"></i>
+                            <h4>Instant electronic donation receipt</h4>
+                            <p>
+                                Instant electronic donation receipt. After completing the donation process, the donor will receive an electronic PDF receipt sent directly to their email address.
+                                The receipt includes:
+                                Donor's name (optional),
+                                Donation amount,
+                                Campaign name,
+                                Date of transaction,
+                                Receipt number and reference,
+                                Foundation seal and logo
+                            </p>
+                        </div>
+                    </div><!-- End Feature Borx-->
+
+                    <div class="col-xl-3 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="feature-box green">
+                            <i class="bi bi-sunrise"></i>
+                            <h4>Loyalty & Rewards System</h4>
+                            <p>
+                                To encourage people to donate more than once, you can add a points system, or "Goodness Points," so that each time a user donates, they collect points.
+                                How does it work?
+                                Each donation = a specific number of points.
+                                The points can be used to:
+                                1-Receive a unique digital certificate of appreciation<br>
+                                2-Have a tree planted in their name (virtually or physically)<br>
+                                3-Have their name appear on the "Goodness Heroes" page<br>
+                                4-Share their achievements on social media
+                            </p>
+                        </div>
+                    </div><!-- End Feature Borx-->
+
+                    <div class="col-xl-3 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+                        <div class="feature-box red">
+                            <i class="bi bi-shield-check"></i>
+                            <h4>🔒 Transparency and Security</h4>
+                            <p>
+                                A fully encrypted and secure donation system.
+                                Continuous updates on campaign developments and collected amounts.
+                                The ability to clearly and directly track the impact of your donation.
+                            </p>
+                        </div>
+                    </div><!-- End Feature Borx-->
+
+                </div>
+
+            </div>
+
+        </section><!-- /Features Cards Section -->
+        <!-- Features 2 Section -->
+        <section id="features-2" class="features-2 section">
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row align-items-center">
+
+                    <div class="col-lg-4">
+
+                        <div class="feature-item text-end mb-5" data-aos="fade-right" data-aos-delay="200">
+                            <div class="d-flex align-items-center justify-content-end gap-4">
+                                <div class="feature-content">
+                                    <h3>Use On Any Device</h3>
+                                    <p>
+                                        Accessible on Any Device
+                                        Our platform is fully optimized to work seamlessly across all devices, allowing you to donate anytime, anywhere.
+                                        Mobile-friendly (iOS and Android),
+                                        Tablet and desktop compatible,
+                                        Works across all major browsers (Chrome, Safari, Firefox, Edge)
+                                        🔹 Whether you're on your phone, tablet, or computer, you can easily access and support the cause from any device, at any time.
+                                    </p>
+                                </div>
+                                <div class="feature-icon flex-shrink-0">
+                                    <i class="bi bi-display"></i>
+                                </div>
+                            </div>
+                        </div><!-- End .feature-item -->
+
+                        <div class="feature-item text-end mb-5" data-aos="fade-right" data-aos-delay="300">
+                            <div class="d-flex align-items-center justify-content-end gap-4">
+                                <div class="feature-content">
+                                    <h3>Feather Icons</h3>
+                                    <p>
+                                        Our platform uses Feather Icons, designed for clarity and simplicity, to enhance the user experience.
+                                        1-Clear, minimal icons to guide users through every step
+                                        2-Responsive design that adjusts seamlessly to your screen size
+                                        3-Fast load times with lightweight icons that won’t slow down your site
+                                        4-Easy-to-understand navigation with familiar, intuitive symbols
+                                        🔹 Whether it's a donate button, campaign details, or user settings, Feather Icons help you navigate the site smoothly and efficiently
+                                    </p>
+                                </div>
+                                <div class="feature-icon flex-shrink-0">
+                                    <i class="bi bi-feather"></i>
+                                </div>
+                            </div>
+                        </div><!-- End .feature-item -->
+                        <!--  <div class="feature-item text-end" data-aos="fade-right" data-aos-delay="400">
+                           <div class="d-flex align-items-center justify-content-end gap-4">
+                             <div class="feature-content">
+                               <h3>Retina Ready</h3>
+                               <p>Aenean tellus metus bibendum sed posuere ac mattis non nunc vestibulum fringilla purus sit amet fermentum aenean commodo.</p>
+                             </div>
+                             <div class="feature-icon flex-shrink-0">
+                               <i class="bi bi-eye"></i>
+                             </div>
+                           </div>
+                         </div>End .feature-item -->
+
+                    </div>
+
+                    <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="phone-mockup text-center">
+                            <img src="assets/img/phone-app-screen.webp" alt="Phone Mockup" class="img-fluid">
+                        </div>
+                    </div><!-- End Phone Mockup -->
+
+                    <div class="col-lg-4">
+
+                        <!--<div class="feature-item mb-5" data-aos="fade-left" data-aos-delay="200">
+                          <div class="d-flex align-items-center gap-4">
+                            <div class="feature-icon flex-shrink-0">
+                              <i class="bi bi-code-square"></i>
+                            </div>
+                            <div class="feature-content">
+                              <h3>W3c Valid Code</h3>
+                              <p>Donec vitae sapien ut libero venenatis faucibus nullam quis ante etiam sit amet orci eget eros faucibus tincidunt.</p>
+                            </div>
+                          </div>
+                        </div> End .feature-item -->
+
+                        <div class="feature-item mb-5" data-aos="fade-left" data-aos-delay="300">
+                            <div class="d-flex align-items-center gap-4">
+                                <div class="feature-icon flex-shrink-0">
+                                    <i class="bi bi-phone"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h3>Fully Responsive</h3>
+                                    <p>Maecenas tempus tellus eget condimentum rhoncus sem quam semper libero sit amet adipiscing sem neque sed ipsum.</p>
+                                </div>
+                            </div>
+                        </div><!-- End .feature-item -->
+
+                        <div class="feature-item" data-aos="fade-left" data-aos-delay="400">
+                            <div class="d-flex align-items-center gap-4">
+                                <div class="feature-icon flex-shrink-0">
+                                    <i class="bi bi-browser-chrome"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h3>Browser Compatibility</h3>
+                                    <p>Nullam dictum felis eu pede mollis pretium integer tincidunt cras dapibus vivamus elementum semper nisi aenean vulputate.</p>
+                                </div>
+                            </div>
+                        </div><!-- End .feature-item -->
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section><!-- /Features 2 Section -->
+        <!-- Call To Action Section -->
+        <section id="call-to-action" class="call-to-action section">
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row content justify-content-center align-items-center position-relative">
+                    <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="display-4 mb-4">Aoun is a platform for donations secretly and openly</h2>
+                        <p class="mb-4">The Aoun donation platform is the easiest and most optimal solution for connecting donors to those in need across all regions and cities of the Arab Republic of Egypt through a safe and transparent donation process under the umbrella of the Ministry of Human Resources and Social Development.            </p>
+                        <a href="#" class="btn btn-cta">Call To Action</a>
+                    </div>
+
+                    <!-- Abstract Background Elements -->
+                    <div class="shape shape-1">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M47.1,-57.1C59.9,-45.6,68.5,-28.9,71.4,-10.9C74.2,7.1,71.3,26.3,61.5,41.1C51.7,55.9,35,66.2,16.9,69.2C-1.3,72.2,-21,67.8,-36.9,57.9C-52.8,48,-64.9,32.6,-69.1,15.1C-73.3,-2.4,-69.5,-22,-59.4,-37.1C-49.3,-52.2,-32.8,-62.9,-15.7,-64.9C1.5,-67,34.3,-68.5,47.1,-57.1Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+
+                    <div class="shape shape-2">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M41.3,-49.1C54.4,-39.3,66.6,-27.2,71.1,-12.1C75.6,3,72.4,20.9,63.3,34.4C54.2,47.9,39.2,56.9,23.2,62.3C7.1,67.7,-10,69.4,-24.8,64.1C-39.7,58.8,-52.3,46.5,-60.1,31.5C-67.9,16.4,-70.9,-1.4,-66.3,-16.6C-61.8,-31.8,-49.7,-44.3,-36.3,-54C-22.9,-63.7,-8.2,-70.6,3.6,-75.1C15.4,-79.6,28.2,-58.9,41.3,-49.1Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+
+                    <!-- Dot Pattern Groups -->
+                    <div class="dots dots-1">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <pattern id="dot-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <circle cx="2" cy="2" r="2" fill="currentColor"></circle>
+                            </pattern>
+                            <rect width="100" height="100" fill="url(#dot-pattern)"></rect>
+                        </svg>
+                    </div>
+
+                    <div class="dots dots-2">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <pattern id="dot-pattern-2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                                <circle cx="2" cy="2" r="2" fill="currentColor"></circle>
+                            </pattern>
+                            <rect width="100" height="100" fill="url(#dot-pattern-2)"></rect>
+                        </svg>
+                    </div>
+
+                    <div class="shape shape-3">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M43.3,-57.1C57.4,-46.5,71.1,-32.6,75.3,-16.2C79.5,0.2,74.2,19.1,65.1,35.3C56,51.5,43.1,65,27.4,71.7C11.7,78.4,-6.8,78.3,-23.9,72.4C-41,66.5,-56.7,54.8,-65.4,39.2C-74.1,23.6,-75.8,4,-71.7,-13.2C-67.6,-30.4,-57.7,-45.2,-44.3,-56.1C-30.9,-67,-15.5,-74,0.7,-74.9C16.8,-75.8,33.7,-70.7,43.3,-57.1Z" transform="translate(100 100)"></path>
+                        </svg>
+                    </div>
+                </div>
+
+            </div>
+
+        </section><!-- /Call To Action Section -->
+        <!-- Clients Section -->
+        <section id="clients" class="clients section">
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="swiper init-swiper">
+                    <script type="application/json" class="swiper-config">
+                        {
+                          "loop": true,
+                          "speed": 600,
+                          "autoplay": {
+                            "delay": 5000
+                          },
+                          "slidesPerView": "auto",
+                          "pagination": {
+                            "el": ".swiper-pagination",
+                            "type": "bullets",
+                            "clickable": true
+                          },
+                          "breakpoints": {
+                            "320": {
+                              "slidesPerView": 2,
+                              "spaceBetween": 40
+                            },
+                            "480": {
+                              "slidesPerView": 3,
+                              "spaceBetween": 60
+                            },
+                            "640": {
+                              "slidesPerView": 4,
+                              "spaceBetween": 80
+                            },
+                            "992": {
+                              "slidesPerView": 6,
+                              "spaceBetween": 120
+                            }
+                          }
+                        }
+                    </script>
+                    <div class="swiper-wrapper align-items-center">
+                        <div class="swiper-slide"><img src="https://cdn.prod.website-files.com/64c7a82ebb2301da0d91322f/65a7a33ff9054a7d9b0ab789_%D8%A8%D9%87%D9%8A%D8%A9.png" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="https://cdn.prod.website-files.com/64c7a82ebb2301da0d91322f/65a7a4d035a54593d31f8cd8_%D8%A8%D9%86%D9%83%20%D8%A7%D9%84%D8%B4%D9%81%D8%A7%D8%A1.png" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="https://cdn.prod.website-files.com/64c7a82ebb2301da0d91322f/65a7a7d5bb3e8778ea25f168_0%D9%85%D8%B4%D9%83%D8%A7%D8%A9%20%D9%86%D9%88%D8%B1.png" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="https://cdn.prod.website-files.com/64c7a82ebb2301da0d91322f/650180ecb3681a9190f7c81b_image%208.svg" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="https://cdn.prod.website-files.com/64c7a82ebb2301da0d91322f/65a7a22c93b991a6b02ba8ea_%D8%B1%D8%B3%D8%A7%D9%84%D8%A9.png" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="https://cdn.prod.website-files.com/64c7a82ebb2301da0d91322f/65a7a2590c4601f2844eeb5d_%D9%85%D8%B1%D8%B3%D8%A7%D9%84.png" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="https://cdn.prod.website-files.com/64c7a82ebb2301da0d91322f/65a7a268c543b01f7d2cb346_%D8%A8%D9%86%D9%83%20%D8%A7%D9%84%D8%B7%D8%B9%D8%A7%D9%85.png" class="img-fluid" alt=""></div>
+                        <div class="swiper-slide"><img src="https://cdn.prod.website-files.com/64c7a82ebb2301da0d91322f/65a7a2840288dd648ca17935_%D8%A8%D9%86%D9%83%20%D8%A7%D9%84%D9%83%D8%B3%D8%A7%D8%A1.png" class="img-fluid" alt=""></div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+
+            </div>
+
+        </section><!-- /Clients Section -->
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="testimonials section light-background">
+
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Testimonials & Some of Aoun's supporters</h2>
+            </div><!-- End Section Title -->
+
+            <div class="container">
+
+                <div class="row g-5">
+
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="testimonial-item">
+                            <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+                            <h3>Saul Goodman</h3>
+                            <h4>Ceo &amp; Founder</h4>
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                <i class="bi bi-quote quote-icon-left"></i>
+                                <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
+                                <i class="bi bi-quote quote-icon-right"></i>
+                            </p>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="testimonial-item">
+                            <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+                            <h3>Sara Wilsson</h3>
+                            <h4>Designer</h4>
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                <i class="bi bi-quote quote-icon-left"></i>
+                                <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.</span>
+                                <i class="bi bi-quote quote-icon-right"></i>
+                            </p>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="testimonial-item">
+                            <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
+                            <h3>Jena Karlis</h3>
+                            <h4>Store Owner</h4>
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                <i class="bi bi-quote quote-icon-left"></i>
+                                <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>
+                                <i class="bi bi-quote quote-icon-right"></i>
+                            </p>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+                        <div class="testimonial-item">
+                            <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
+                            <h3>Matt Brandon</h3>
+                            <h4>Freelancer</h4>
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                <i class="bi bi-quote quote-icon-left"></i>
+                                <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>
+                                <i class="bi bi-quote quote-icon-right"></i>
+                            </p>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                </div>
+
+            </div>
+
+        </section><!-- /Testimonials Section -->
+        <!-- Stats Section -->
+        <section id="stats" class="stats section">
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row gy-4">
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-item text-center w-100 h-100">
+                            <span data-purecounter-start="0" data-purecounter-end="452567" data-purecounter-duration="1" class="purecounter"></span>
+                            <p>Clients</p>
+                        </div>
+                    </div><!-- End Stats Item -->
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-item text-center w-100 h-100">
+                            <span data-purecounter-start="0" data-purecounter-end="12628" data-purecounter-duration="1" class="purecounter"></span>
+                            <p>Projects</p>
+                        </div>
+                    </div><!-- End Stats Item -->
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-item text-center w-100 h-100">
+                            <span data-purecounter-start="0" data-purecounter-end="24" data-purecounter-duration="1" class="purecounter"></span>
+                            <p>Hours Of Support</p>
+                        </div>
+                    </div><!-- End Stats Item -->
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="stats-item text-center w-100 h-100">
+                            <span data-purecounter-start="0" data-purecounter-end="1500" data-purecounter-duration="1" class="purecounter"></span>
+                            <p>Workers</p>
+                        </div>
+                    </div><!-- End Stats Item -->
+
+                </div>
+
+            </div>
+
+        </section><!-- /Stats Section -->
+        <!-- Services Section -->
+        <section id="services" class="services section light-background">
+
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Services</h2>
+            </div><!-- End Section Title -->
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row g-4">
+
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="service-card d-flex">
+                            <div class="icon flex-shrink-0">
+                                <i class="bi bi-activity"></i>
+                            </div>
+                            <div>
+                                <h3>Charity</h3>
+                                <p>Today, you can choose the impact your donation will make through our diverse donation opportunities, ranging from developmental impact to support sustainable projects such as education, mosque construction, and healthcare projects, to charitable impact to support projects that provide essential assistance to those in need, such as food, shelter, and medical care.</p>
+                                <a href="service-details.html" class="read-more">Read More <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Service Card -->
+
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="service-card d-flex">
+                            <div class="icon flex-shrink-0">
+                                <i class="bi bi-diagram-3"></i>
+                            </div>
+                            <div>
+                                <h3>Orphans</h3>
+                                <p>Sponsor an orphan by meeting their immediate needs through a fixed sponsorship, or commit to monthly care that makes a lasting difference in their life through a periodic sponsorship.</p>
+                                <a href="service-details.html" class="read-more">Read More <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Service Card -->
+
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                        <div class="service-card d-flex">
+                            <div class="icon flex-shrink-0">
+                                <i class="bi bi-easel"></i>
+                            </div>
+                            <div>
+                                <h3>Zakat</h3>
+                                <p>Purify your wealth and fulfill your Islamic duty through Zakat opportunities. You can also use the Zakat calculator to calculate your Zakat!</p>
+                                <a href="service-details.html" class="read-more">Read More <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Service Card -->
+
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+                        <div class="service-card d-flex">
+                            <div class="icon flex-shrink-0">
+                                <i class="bi bi-clipboard-data"></i>
+                            </div>
+                            <div>
+                                <h3>cattle</h3>
+                                <p>Express your gratitude to God and seek His forgiveness by offering a sacrifice. Your giving will not only purify your soul, but it will also provide the needy with the blessing of food and sustenance.</p>
+                                <a href="service-details.html" class="read-more">Read More <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div><!-- End Service Card -->
+
+                </div>
+
+            </div>
+
+        </section><!-- /Services Section -->
+        <!-- Pricing Section -->
+        <section id="pricing" class="pricing section light-background">
+
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Pricing</h2>
+            </div><!-- End Section Title -->
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row g-4 justify-content-center">
+
+                    <!-- Basic Plan -->
+                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="pricing-card">
+                            <h3>Basic Plan - One-Time Donation</h3>
+                            <div class="price">
+                                <span class="currency">$</span>
+                                <span class="amount">any Donation</span>
+                                <span class="period">/ One-Time </span>
+                            </div>
+
+                            <h4>Featured Included:</h4>
+                            <ul class="features-list">
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    One-time donation with no obligation.
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    Receive an instant electronic donation receipt.
+                                </li>
+                            </ul>
+
+                            <a href="#" class="btn btn-primary">
+                                Buy Now
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Standard Plan -->
+                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                        <div class="pricing-card popular">
+                            <div class="popular-badge">Most Popular</div>
+                            <h3>Standard Plan</h3>
+                            <div class="price">
+                                <span class="currency">$</span>
+                                <span class="amount">20</span>
+                                <span class="period">/ month</span>
+                            </div>
+                            <p class="description">Monthly Plan - Recurring Monthly Donation</p>
+
+                            <h4>Featured Included:</h4>
+                            <ul class="features-list">
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    Recurring monthly donation to support sustainable projects.
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    Regular updates on the impact of your donation.
+                                </li>
+                            </ul>
+
+                            <a href="#" class="btn btn-light">
+                                Buy Now
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Premium Plan -->
+                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                        <div class="pricing-card">
+                            <h3>Premium Plan</h3>
+                            <div class="price">
+                                <span class="currency">$</span>
+                                <span class="amount">30</span>
+                                <span class="period">/ month</span>
+                            </div>
+                            <p class="description">Group Plan - Group Donation</p>
+
+                            <h4>Featured Included:</h4>
+                            <ul class="features-list">
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    Group donations from multiple individuals to support a larger goal.
+                                </li>
+                                <li>
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    View campaign progress as a percentage.
+                                </li>
+
+                            </ul>
+
+                            <a href="#" class="btn btn-primary">
+                                Buy Now
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section><!-- /Pricing Section -->
+        <!-- Faq Section -->
+        <section class="faq-9 faq section light-background" id="faq">
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-5" data-aos="fade-up">
+                        <h2 class="faq-title">Have a question? Check out the FAQ</h2>
+                        <p class="faq-description">Maecenas tempus tellus eget condimentum rhoncus sem quam semper libero sit amet adipiscing sem neque sed ipsum.</p>
+                        <div class="faq-arrow d-none d-lg-block" data-aos="fade-up" data-aos-delay="200">
+                            <svg class="faq-arrow" width="200" height="211" viewBox="0 0 200 211" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M198.804 194.488C189.279 189.596 179.529 185.52 169.407 182.07L169.384 182.049C169.227 181.994 169.07 181.939 168.912 181.884C166.669 181.139 165.906 184.546 167.669 185.615C174.053 189.473 182.761 191.837 189.146 195.695C156.603 195.912 119.781 196.591 91.266 179.049C62.5221 161.368 48.1094 130.695 56.934 98.891C84.5539 98.7247 112.556 84.0176 129.508 62.667C136.396 53.9724 146.193 35.1448 129.773 30.2717C114.292 25.6624 93.7109 41.8875 83.1971 51.3147C70.1109 63.039 59.63 78.433 54.2039 95.0087C52.1221 94.9842 50.0776 94.8683 48.0703 94.6608C30.1803 92.8027 11.2197 83.6338 5.44902 65.1074C-1.88449 41.5699 14.4994 19.0183 27.9202 1.56641C28.6411 0.625793 27.2862 -0.561638 26.5419 0.358501C13.4588 16.4098 -0.221091 34.5242 0.896608 56.5659C1.8218 74.6941 14.221 87.9401 30.4121 94.2058C37.7076 97.0203 45.3454 98.5003 53.0334 98.8449C47.8679 117.532 49.2961 137.487 60.7729 155.283C87.7615 197.081 139.616 201.147 184.786 201.155L174.332 206.827C172.119 208.033 174.345 211.287 176.537 210.105C182.06 207.125 187.582 204.122 193.084 201.144C193.346 201.147 195.161 199.887 195.423 199.868C197.08 198.548 193.084 201.144 195.528 199.81C196.688 199.192 197.846 198.552 199.006 197.935C200.397 197.167 200.007 195.087 198.804 194.488ZM60.8213 88.0427C67.6894 72.648 78.8538 59.1566 92.1207 49.0388C98.8475 43.9065 106.334 39.2953 114.188 36.1439C117.295 34.8947 120.798 33.6609 124.168 33.635C134.365 33.5511 136.354 42.9911 132.638 51.031C120.47 77.4222 86.8639 93.9837 58.0983 94.9666C58.8971 92.6666 59.783 90.3603 60.8213 88.0427Z" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7" data-aos="fade-up" data-aos-delay="300">
+                        <div class="faq-container">
+
+                            <div class="faq-item faq-active">
+                                <h3>Non consectetur a erat nam at lectus urna duis?</h3>
+                                <div class="faq-content">
+                                    <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.</p>
+                                </div>
+                                <i class="faq-toggle bi bi-chevron-right"></i>
+                            </div><!-- End Faq item-->
+
+                            <div class="faq-item">
+                                <h3>Feugiat scelerisque varius morbi enim nunc faucibus?</h3>
+                                <div class="faq-content">
+                                    <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
+                                </div>
+                                <i class="faq-toggle bi bi-chevron-right"></i>
+                            </div><!-- End Faq item-->
+
+                            <div class="faq-item">
+                                <h3>Dolor sit amet consectetur adipiscing elit pellentesque?</h3>
+                                <div class="faq-content">
+                                    <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis</p>
+                                </div>
+                                <i class="faq-toggle bi bi-chevron-right"></i>
+                            </div><!-- End Faq item-->
+
+                            <div class="faq-item">
+                                <h3>Ac odio tempor orci dapibus. Aliquam eleifend mi in nulla?</h3>
+                                <div class="faq-content">
+                                    <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
+                                </div>
+                                <i class="faq-toggle bi bi-chevron-right"></i>
+                            </div><!-- End Faq item-->
+
+                            <div class="faq-item">
+                                <h3>Tempus quam pellentesque nec nam aliquam sem et tortor?</h3>
+                                <div class="faq-content">
+                                    <p>Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in</p>
+                                </div>
+                                <i class="faq-toggle bi bi-chevron-right"></i>
+                            </div><!-- End Faq item-->
+
+                            <div class="faq-item">
+                                <h3>Perspiciatis quod quo quos nulla quo illum ullam?</h3>
+                                <div class="faq-content">
+                                    <p>Enim ea facilis quaerat voluptas quidem et dolorem. Quis et consequatur non sed in suscipit sequi. Distinctio ipsam dolore et.</p>
+                                </div>
+                                <i class="faq-toggle bi bi-chevron-right"></i>
+                            </div><!-- End Faq item-->
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section><!-- /Faq Section -->
+        <!-- Call To Action 2 Section -->
+        <section id="call-to-action-2" class="call-to-action-2 section dark-background">
+
+            <div class="container">
+                <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="col-xl-10">
+                        <div class="text-center">
+                            <h3>Donate and contribute to Hope now and be part of the change!</h3>
+                            <a class="cta-btn" href="#">Call To Action</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section><!-- /Call To Action 2 Section -->
+        <!-- Contact Section -->
+        <section id="contact" class="contact section light-background">
+
+            <!-- Section Title -->
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Contact</h2>
+                <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+            </div><!-- End Section Title -->
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row g-4 g-lg-5">
+                    <div class="col-lg-5">
+                        <div class="info-box" data-aos="fade-up" data-aos-delay="200">
+                            <h3>Contact Info</h3>
+                            <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ante ipsum primis.</p>
+
+                            <div class="info-item" data-aos="fade-up" data-aos-delay="300">
+                                <div class="icon-box">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                                <div class="content">
+                                    <h4>Our Location</h4>
+                                    <p>A108 Adam Street</p>
+                                    <p>New York, NY 535022</p>
+                                </div>
+                            </div>
+
+                            <div class="info-item" data-aos="fade-up" data-aos-delay="400">
+                                <div class="icon-box">
+                                    <i class="bi bi-telephone"></i>
+                                </div>
+                                <div class="content">
+                                    <h4>Phone Number</h4>
+                                    <p>+1 5589 55488 55</p>
+                                    <p>+1 6678 254445 41</p>
+                                </div>
+                            </div>
+
+                            <div class="info-item" data-aos="fade-up" data-aos-delay="500">
+                                <div class="icon-box">
+                                    <i class="bi bi-envelope"></i>
+                                </div>
+                                <div class="content">
+                                    <h4>Email Address</h4>
+                                    <p>info@example.com</p>
+                                    <p>contact@example.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div class="contact-form" data-aos="fade-up" data-aos-delay="300">
+                            <h3>Get In Touch</h3>
+
+                            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+                                <div class="row gy-4">
+
+                                    <div class="col-md-6">
+                                        <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                                    </div>
+
+                                    <div class="col-md-6 ">
+                                        <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                                    </div>
+
+                                    <div class="col-12">
+                                        <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                                    </div>
+
+                                    <div class="col-12">
+                                        <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                                    </div>
+
+                                    <div class="col-12 text-center">
+                                        <div class="loading">Loading</div>
+                                        <div class="error-message"></div>
+                                        <div class="sent-message">Your message has been sent. Thank you!</div>
+
+                                        <button type="submit" class="btn">Send Message</button>
+                                    </div>
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section><!-- /Contact Section -->
+
+    </main>
+
+    <footer id="footer" class="footer">
+
+        <div class="container footer-top">
+            <div class="row gy-4">
+                <div class="col-lg-4 col-md-6 footer-about">
+                    <a href="index.html" class="logo d-flex align-items-center">
+                        <span class="sitename">Aoun</span>
+                    </a>
+                    <div class="footer-contact pt-3">
+                        <p>A108 Adam Street</p>
+                        <p>New York, NY 535022</p>
+                        <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
+                        <p><strong>Email:</strong> <span>info@example.com</span></p>
+                    </div>
+                    <div class="social-links d-flex mt-4">
+                        <a href=""><i class="bi bi-twitter-x"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-3 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-3 footer-links">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="#">Web Design</a></li>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Product Management</a></li>
+                        <li><a href="#">Marketing</a></li>
+                        <li><a href="#">Graphic Design</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-3 footer-links">
+                    <h4>Hic solutasetp</h4>
+                    <ul>
+                        <li><a href="#">Molestiae accusamus iure</a></li>
+                        <li><a href="#">Excepturi dignissimos</a></li>
+                        <li><a href="#">Suscipit distinctio</a></li>
+                        <li><a href="#">Dilecta</a></li>
+                        <li><a href="#">Sit quas consectetur</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-md-3 footer-links">
+                    <h4>Nobis illum</h4>
+                    <ul>
+                        <li><a href="#">Ipsam</a></li>
+                        <li><a href="#">Laudantium dolorum</a></li>
+                        <li><a href="#">Dinera</a></li>
+                        <li><a href="#">Trodelas</a></li>
+                        <li><a href="#">Flexo</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container copyright text-center mt-4">
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">Aoun</strong> <span>All Rights Reserved</span></p>
+            <div class="credits">
+                Designed by <a href="#">DEPI Team</a>
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
