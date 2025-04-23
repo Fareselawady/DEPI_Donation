@@ -5,11 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace DEPI_Donation.Models;
-public enum UserType
-{
-    Donor,
-    Admin
-}
+
 [Table("User")]
 [Index("Email", Name = "UQ__User__A9D10534AF242973", IsUnique = true)]
 public partial class User
@@ -38,7 +34,7 @@ public partial class User
     public DateOnly? DateOfBirth { get; set; }
 
     [StringLength(10)]
-    public UserType UserType { get; set; }
+    public required string UserType { get; set; }
 
     [InverseProperty("Donor")]
     public virtual ICollection<Donation> Donations { get; set; } = new List<Donation>();
