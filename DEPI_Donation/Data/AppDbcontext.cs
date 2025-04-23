@@ -115,6 +115,8 @@ public partial class AppDbcontext : DbContext
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.UserId).HasName("PK__User__1788CC4C53F7E6B7");
+            entity.Property(e => e.UserType).HasDefaultValue("Donor");
+
         });
 
         OnModelCreatingPartial(modelBuilder);

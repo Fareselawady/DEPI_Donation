@@ -40,13 +40,19 @@ namespace DEPI_Donation.Controllers
             {
                 return Json(new { success = false, message = "Invalid user ID." });
             }
-
+            if (string.IsNullOrEmpty(updatedUser.UserType))
+            {
+                updatedUser.UserType = "Donor";
+            }
             var user = _context.Users.FirstOrDefault(u => u.UserId == id);
             if (user == null)
             {
                 return Json(new { success = false, message = "User not found." });
             }
-
+            if (updatedUser.UserType != "Admin" && updatedUser.UserType != "Donor")
+            {
+                return Json(new { success = false, message = "UserType must be either 'Admin' or 'Donor'." });
+            }
             user.UserName = updatedUser.UserName;
             user.Email = updatedUser.Email;
             user.Phone = updatedUser.Phone;
