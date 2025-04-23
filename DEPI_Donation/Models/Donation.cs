@@ -6,6 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DEPI_Donation.Models;
 
+public enum DonationStatusType
+{
+    Pending,
+    Confirmed,
+    Failed
+}
+
 public partial class Donation
 {
     [Key]
@@ -26,8 +33,7 @@ public partial class Donation
 
     public DateOnly? DonationDate { get; set; }
 
-    [StringLength(50)]
-    public string? Status { get; set; }
+    public DonationStatusType Status { get; set; }
 
     [ForeignKey("ActivityId")]
     [InverseProperty("Donations")]

@@ -51,6 +51,7 @@ public partial class AppDbcontext : DbContext
             entity.HasKey(e => e.DonationId).HasName("PK__Donation__C5082EDB7E81B6EF");
 
             entity.Property(e => e.DonationId).ValueGeneratedNever();
+            entity.Property(e => e.Status).HasDefaultValue(DonationStatusType.Pending);
 
             // تحديث العلاقة لتطبيق Cascade Delete
             entity.HasOne(d => d.Activity)
