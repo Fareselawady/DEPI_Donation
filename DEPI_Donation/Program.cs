@@ -1,4 +1,4 @@
-using DEPI_Donation.Data;
+﻿using DEPI_Donation.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -6,6 +6,9 @@ namespace DEPI_Donation
 {
     public class Program
     {
+
+        //احلى مسا
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
