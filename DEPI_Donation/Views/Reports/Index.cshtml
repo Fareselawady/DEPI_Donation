@@ -1,0 +1,108 @@
+﻿@model List<DEPI_Donation.Models.Report>
+
+<h2>Report List</h2>
+<a href="@Url.Action("Create", "Reports")" class="btn btn-primary mb-3">➕ Add Report</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var report in Model)
+        {
+            <tr id="report-@report.ReportId">
+                <td>@report.ReportId</td>
+                <td>
+                    <span class="report-field" id="Title-@report.ReportId">@report.Title</span>
+                    <input type="text" id="edit-Title-@report.ReportId" class="edit-input form-control" value="@report.Title" style="display:none;" />
+                </td>
+                <td>
+                    <span class="report-field" id="Description-@report.ReportId">@report.Description</span>
+                    <textarea id="edit-Description-@report.ReportId" class="edit-input form-control" style="display:none;">@report.Description</textarea>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-warning edit-btn" data-id="@report.ReportId">✏️ Edit</button>
+                    <button class="btn btn-sm btn-success save-btn" data-id="@report.ReportId" style="display:none;">💾 Save</button>
+                    <button class="btn btn-sm btn-danger delete-btn" data-id="@report.ReportId">🗑️ Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.edit-btn').click(function () {
+                var id = $(this).data('id');
+                $('#report-' + id + ' .report-field').hide();
+                $('#report-' + id + ' .edit-input').show();
+                $(this).hide();
+                $('#report-' + id + ' .save-btn').show();
+            });
+
+            $('.save-btn').click(function () {
+                var id = $(this).data('id');
+                var updatedReport = {
+                    ReportId: id,
+                    Title: $('#edit-Title-' + id).val(),
+                    Description: $('#edit-Description-' + id).val()
+                };
+
+                $.ajax({
+                    url: '/Reports/Edit/' + id,
+                    type: 'POST',
+                    data: updatedReport,
+                    success: function (response) {
+                        if (response.success) {
+                            $('#Title-' + id).text(updatedReport.Title);
+                            $('#Description-' + id).text(updatedReport.Description);
+
+                            $('#report-' + id + ' .edit-input').hide();
+                            $('#report-' + id + ' .report-field').show();
+                            $('#report-' + id + ' .save-btn').hide();
+                            $('#report-' + id + ' .edit-btn').show();
+
+                            alert('Report updated successfully!');
+                        } else {
+                            alert('Failed to update report: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while updating the report.');
+                    }
+                });
+            });
+
+            $('.delete-btn').click(function () {
+                var id = $(this).data('id');
+                var row = $('#report-' + id);
+
+                if (confirm('Are you sure you want to delete this report?')) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Reports")',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (response) {
+                            if (response.success) {
+                                row.remove();
+                                alert('Report deleted successfully!');
+                            } else {
+                                alert('Failed to delete report: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while deleting the report.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
