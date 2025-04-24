@@ -2,6 +2,7 @@
 using DEPI_Donation.Models;
 using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace DEPI_Donation.Controllers
@@ -19,7 +20,7 @@ namespace DEPI_Donation.Controllers
 
         public IActionResult Index()
         {
-            var reports = _context.Reports.Include(r => r.Activities).ToList();
+            var reports = _context.Reports.Include(r => r.Activity).ToList();
             return View(reports);
         }
 
@@ -71,17 +72,9 @@ namespace DEPI_Donation.Controllers
                 var report = _context.Reports.FirstOrDefault(r => r.ReportId == id);
                 if (report == null)
                 {
-                    Console.WriteLine("Report not found"); // في حالة عدم العثور على المستخدم
+                    Console.WriteLine("Report not found");
                     return Json(new { success = false, message = "Report not found." });
                 }
-
-                // حذف أي Activities مرتبطة بالمستخدم
-                var activities = _context.Activities.Where(a => a.ReportId == id).ToList();
-                if (activities.Any())
-                {
-                    _context.Activities.RemoveRange(activities);
-                }
-
 
                 _context.Reports.Remove(report);
                 _context.SaveChanges();
@@ -93,33 +86,52 @@ namespace DEPI_Donation.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
         // GET: Reports/Create
         public IActionResult Create()
         {
+            var activities = _context.Activities
+                                     .Select(a => new SelectListItem
+                                     {
+                                         Value = a.ActivityId.ToString(),
+                                         Text = a.Title
+                                     }).ToList();
+
+            ViewBag.Activities = activities;
+
             return View();
         }
 
+
+
         // POST: Reports/Create
         [HttpPost]
-        public JsonResult Create(Report newReport)
+        public JsonResult Create(Report report, int activityId)
         {
-            if (!ModelState.IsValid)
-            {
-                return Json(new { success = false, message = "Invalid data." });
-            }
-
             try
             {
-                _context.Reports.Add(newReport);
-                _context.SaveChanges();
+                // العثور على النشاط المرتبط بالتقرير
+                var activity = _context.Activities.FirstOrDefault(a => a.ActivityId == activityId);
 
-                return Json(new { success = true });
+                if (activity != null)
+                {
+                    report.ActivityId = activity.ActivityId;  // تعيين الـ ActivityId للتقرير
+                    _context.Reports.Add(report); // إضافة التقرير
+                    _context.SaveChanges();
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Activity not found." });
+                }
             }
             catch (Exception ex)
             {
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
+
 
 
 

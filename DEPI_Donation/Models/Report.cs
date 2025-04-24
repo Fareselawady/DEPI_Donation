@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DEPI_Donation.Models;
 
-public partial class Report
+public  class Report
 {
     [Key]
     [Column("ReportID")]
@@ -17,6 +17,10 @@ public partial class Report
 
     public string? Description { get; set; }
 
-    [InverseProperty("Report")]
-    public virtual ICollection<Activity> Activities { get; set; } = new List<Activity>();
+    [Column("ActivityID")]
+    public int? ActivityId { get; set; }
+
+    [ForeignKey("ActivityId")]
+    [InverseProperty("Reports")]
+    public virtual Activity? Activity { get; set; }
 }

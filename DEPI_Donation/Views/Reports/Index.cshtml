@@ -9,6 +9,7 @@
             <th>ID</th>
             <th>Title</th>
             <th>Description</th>
+            <th>Activity Title</th> <!-- العمود الجديد لعرض النشاط -->
             <th>Actions</th>
         </tr>
     </thead>
@@ -24,6 +25,9 @@
                 <td>
                     <span class="report-field" id="Description-@report.ReportId">@report.Description</span>
                     <textarea id="edit-Description-@report.ReportId" class="edit-input form-control" style="display:none;">@report.Description</textarea>
+                </td>
+                <td>
+                    @report.Activity?.Title <!-- عرض عنوان النشاط -->
                 </td>
                 <td>
                     <button class="btn btn-sm btn-warning edit-btn" data-id="@report.ReportId">✏️ Edit</button>

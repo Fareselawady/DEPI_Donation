@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DEPI_Donation.Migrations
 {
     [DbContext(typeof(AppDbcontext))]
-    [Migration("20250418212055_UpdateDeleteBehavior")]
-    partial class UpdateDeleteBehavior
+    [Migration("20250424222025_Createdatabase")]
+    partial class Createdatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,10 +44,6 @@ namespace DEPI_Donation.Migrations
                     b.Property<DateOnly?>("EndDate")
                         .HasColumnType("date");
 
-                    b.Property<int?>("ReportId")
-                        .HasColumnType("int")
-                        .HasColumnName("ReportID");
-
                     b.Property<DateOnly?>("StartDate")
                         .HasColumnType("date");
 
@@ -64,8 +60,6 @@ namespace DEPI_Donation.Migrations
 
                     b.HasKey("ActivityId")
                         .HasName("PK__Activiti__45F4A7F1550916E8");
-
-                    b.HasIndex("ReportId");
 
                     b.ToTable("Activities");
                 });
@@ -94,9 +88,10 @@ namespace DEPI_Donation.Migrations
                         .HasColumnType("int")
                         .HasColumnName("PaymentID");
 
-                    b.Property<string>("Status")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.HasKey("DonationId")
                         .HasName("PK__Donation__C5082EDB7E81B6EF");
@@ -180,8 +175,15 @@ namespace DEPI_Donation.Migrations
             modelBuilder.Entity("DEPI_Donation.Models.Report", b =>
                 {
                     b.Property<int>("ReportId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ReportID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportId"));
+
+                    b.Property<int?>("ActivityId")
+                        .HasColumnType("int")
+                        .HasColumnName("ActivityID");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -190,8 +192,9 @@ namespace DEPI_Donation.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.HasKey("ReportId")
-                        .HasName("PK__Reports__D5BD48E52A1E7B15");
+                    b.HasKey("ReportId");
+
+                    b.HasIndex("ActivityId");
 
                     b.ToTable("Reports");
                 });
@@ -231,8 +234,10 @@ namespace DEPI_Donation.Migrations
 
                     b.Property<string>("UserType")
                         .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("nvarchar(10)")
+                        .HasDefaultValue("Donor");
 
                     b.HasKey("UserId")
                         .HasName("PK__User__1788CC4C53F7E6B7");
@@ -242,16 +247,6 @@ namespace DEPI_Donation.Migrations
                         .HasFilter("[Email] IS NOT NULL");
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("DEPI_Donation.Models.Activity", b =>
-                {
-                    b.HasOne("DEPI_Donation.Models.Report", "Report")
-                        .WithMany("Activities")
-                        .HasForeignKey("ReportId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Report");
                 });
 
             modelBuilder.Entity("DEPI_Donation.Models.Donation", b =>
@@ -299,9 +294,21 @@ namespace DEPI_Donation.Migrations
                     b.Navigation("Notification");
                 });
 
+            modelBuilder.Entity("DEPI_Donation.Models.Report", b =>
+                {
+                    b.HasOne("DEPI_Donation.Models.Activity", "Activity")
+                        .WithMany("Reports")
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Activity");
+                });
+
             modelBuilder.Entity("DEPI_Donation.Models.Activity", b =>
                 {
                     b.Navigation("Donations");
+
+                    b.Navigation("Reports");
                 });
 
             modelBuilder.Entity("DEPI_Donation.Models.Notification", b =>
@@ -312,11 +319,6 @@ namespace DEPI_Donation.Migrations
             modelBuilder.Entity("DEPI_Donation.Models.Payment", b =>
                 {
                     b.Navigation("Donations");
-                });
-
-            modelBuilder.Entity("DEPI_Donation.Models.Report", b =>
-                {
-                    b.Navigation("Activities");
                 });
 
             modelBuilder.Entity("DEPI_Donation.Models.User", b =>

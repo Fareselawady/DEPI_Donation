@@ -36,14 +36,12 @@ public partial class AppDbcontext : DbContext
         modelBuilder.Entity<Activity>(entity =>
         {
             entity.HasKey(e => e.ActivityId).HasName("PK__Activiti__45F4A7F1550916E8");
-
             entity.Property(e => e.ActivityId).ValueGeneratedNever();
 
-            // تحديث العلاقة لتطبيق Cascade Delete
-            entity.HasOne(d => d.Report)
-                .WithMany(p => p.Activities)
-                .HasForeignKey(d => d.ReportId)
-                .OnDelete(DeleteBehavior.Cascade); // استخدام Cascade Delete
+            entity.HasMany(a => a.Reports)
+                  .WithOne(r => r.Activity)
+                  .HasForeignKey(r => r.ActivityId)
+                  .OnDelete(DeleteBehavior.Cascade); 
         });
 
         modelBuilder.Entity<Donation>(entity =>
@@ -104,13 +102,13 @@ public partial class AppDbcontext : DbContext
 
             entity.Property(e => e.PaymentId).ValueGeneratedNever();
         });
-
         modelBuilder.Entity<Report>(entity =>
         {
-            entity.HasKey(e => e.ReportId).HasName("PK__Reports__D5BD48E52A1E7B15");
-
-            entity.Property(e => e.ReportId).ValueGeneratedNever();
+            entity.HasKey(e => e.ReportId);
+            entity.Property(e => e.ReportId).ValueGeneratedOnAdd();
         });
+
+
 
         modelBuilder.Entity<User>(entity =>
         {

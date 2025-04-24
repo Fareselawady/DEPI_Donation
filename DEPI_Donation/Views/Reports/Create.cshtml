@@ -17,6 +17,17 @@
         <textarea asp-for="Description" class="form-control" id="Description" rows="5"></textarea>
     </div>
 
+    <div class="form-group">
+        <label for="ActivityId">Activity</label>
+        <select id="ActivityId" name="activityId" class="form-control">
+            <option value="">Select Activity</option>
+            @foreach (var item in (List<SelectListItem>)ViewBag.Activities)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>
+
     <button type="submit" class="btn btn-primary mt-3">Create</button>
 </form>
 
@@ -31,7 +42,8 @@
 
             var formData = {
                 Title: $("#Title").val(),
-                Description: $("#Description").val()
+                Description: $("#Description").val(),
+                activityId: $("#ActivityId").val() // مهم تبعته مع البيانات
             };
 
             $.ajax({

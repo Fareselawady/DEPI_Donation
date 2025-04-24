@@ -15,12 +15,12 @@ namespace DEPI_Donation.Models.ModelsBL
 
         public List<Report> GetAllReports()
         {
-            return _context.Reports.Include(r => r.Activities).ToList();
+            return _context.Reports.Include(r => r.Activity).ToList();
         }
 
         public Report GetReportById(int id)
         {
-            var report = _context.Reports.Include(r => r.Activities)
+            var report = _context.Reports.Include(r => r.Activity)
                                          .FirstOrDefault(r => r.ReportId == id);
             if (report == null)
                 throw new Exception("Report not found.");
@@ -44,18 +44,18 @@ namespace DEPI_Donation.Models.ModelsBL
             _context.SaveChanges();
         }
 
-        public void DeleteReport(int id)
-        {
-            var report = _context.Reports.Include(r => r.Activities)
-                                         .FirstOrDefault(r => r.ReportId == id);
-            if (report == null)
-                throw new Exception("Report not found.");
+        //public void DeleteReport(int id)
+        //{
+        //    var report = _context.Reports.Include(r => r.Activity)
+        //                                 .FirstOrDefault(r => r.ReportId == id);
+        //    if (report == null)
+        //        throw new Exception("Report not found.");
 
-            if (report.Activities.Any())
-                _context.Activities.RemoveRange(report.Activities);
+        //    if (report.Activity.Any())
+        //        _context.Activities.RemoveRange(report.Activity);
 
-            _context.Reports.Remove(report);
-            _context.SaveChanges();
-        }
+        //    _context.Reports.Remove(report);
+        //    _context.SaveChanges();
+        //}
     }
 }
