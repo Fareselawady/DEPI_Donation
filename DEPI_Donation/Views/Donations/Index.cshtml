@@ -1,0 +1,130 @@
+﻿@model List<DEPI_Donation.Models.Donation>
+
+<h2>Donation List</h2>
+<a href="@Url.Action("Create", "Donations")" class="btn btn-primary">Add Donation</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Donor</th>
+            <th>Payment</th>
+            <th>Activity</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var donation in Model)
+        {
+            var formattedDate = donation.DonationDate.HasValue
+                ? donation.DonationDate.Value.ToString("yyyy-MM-dd")
+                : "";
+
+            <tr id="donation-@donation.DonationId">
+                <td>@donation.DonationId</td>
+                <td>
+                    <span class="field" id="Donor-@donation.DonationId">@donation.Donor?.UserName</span>
+                    <input type="number" id="edit-DonorId-@donation.DonationId" class="edit-input form-control" value="@donation.DonorId" style="display:none;" />
+                </td>
+                <td>
+                    <span class="field" id="Payment-@donation.DonationId">@donation.PaymentId</span>
+                    <input type="number" id="edit-PaymentId-@donation.DonationId" class="edit-input form-control" value="@donation.PaymentId" style="display:none;" />
+                </td>
+                <td>
+                    <span class="field" id="Activity-@donation.DonationId">@donation.Activity?.Title</span>
+                    <input type="number" id="edit-ActivityId-@donation.DonationId" class="edit-input form-control" value="@donation.ActivityId" style="display:none;" />
+                </td>
+                <td>
+                    <span class="field" id="Amount-@donation.DonationId">@donation.Amount</span>
+                    <input type="number" step="0.01" id="edit-Amount-@donation.DonationId" class="edit-input form-control" value="@donation.Amount" style="display:none;" />
+                </td>
+                <td>
+                    <span class="field" id="DonationDate-@donation.DonationId">@donation.DonationDate?.ToShortDateString()</span>
+                    <input type="date" id="edit-DonationDate-@donation.DonationId" class="edit-input form-control" value="@formattedDate" style="display:none;" />
+                </td>
+                <td>
+                    <span class="field" id="Status-@donation.DonationId">@donation.Status</span>
+                    <select id="edit-Status-@donation.DonationId" class="edit-input form-control" style="display:none;">
+                        @foreach (var status in Enum.GetValues(typeof(DEPI_Donation.Models.DonationStatusType)))
+                        {
+                            @status
+                        }
+                    </select>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-warning edit-btn" data-id="@donation.DonationId">✏️ Edit</button>
+                    <button class="btn btn-sm btn-success save-btn" data-id="@donation.DonationId" style="display:none;">💾 Save</button>
+                    <button class="btn btn-sm btn-danger delete-btn" data-id="@donation.DonationId">🗑️ Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            $('.edit-btn').click(function () {
+                var id = $(this).data('id');
+                $('#donation-' + id + ' .field').hide();
+                $('#donation-' + id + ' .edit-input').show();
+                $(this).hide();
+                $('#donation-' + id + ' .save-btn').show();
+            });
+
+            $('.save-btn').click(function () {
+                var id = $(this).data('id');
+                var updated = {
+                    DonationId: id,
+                    DonorId: $('#edit-DonorId-' + id).val(),
+                    PaymentId: $('#edit-PaymentId-' + id).val(),
+                    ActivityId: $('#edit-ActivityId-' + id).val(),
+                    Amount: $('#edit-Amount-' + id).val(),
+                    DonationDate: $('#edit-DonationDate-' + id).val(),
+                    Status: $('#edit-Status-' + id).val()
+                };
+
+                $.ajax({
+                    url: '/Donations/Edit/' + id,
+                    type: 'POST',
+                    data: updated,
+                    success: function (response) {
+                        if (response.success) {
+                            location.reload(); // for simplicity
+                        } else {
+                            alert('Update failed: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred.');
+                    }
+                });
+            });
+
+            $('.delete-btn').click(function () {
+                var id = $(this).data('id');
+                if (confirm('Are you sure you want to delete this donation?')) {
+                    $.ajax({
+                        url: '/Donations/Delete',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (response) {
+                            if (response.success) {
+                                $('#donation-' + id).remove();
+                            } else {
+                                alert('Delete failed: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred during deletion.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

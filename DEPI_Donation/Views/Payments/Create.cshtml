@@ -1,0 +1,48 @@
+﻿@model DEPI_Donation.Models.Payment
+
+@{
+    ViewData["Title"] = "Create Payment";
+}
+
+<h2>Create Payment</h2>
+
+<form id="createPaymentForm">
+    <div class="form-group">
+        <label asp-for="PaymentMethod"></label>
+        <input asp-for="PaymentMethod" class="form-control" id="PaymentMethod" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Create</button>
+</form>
+
+<div id="resultMsg" class="mt-3"></div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $("#createPaymentForm").submit(function (e) {
+            e.preventDefault();
+
+            var formData = {
+                PaymentMethod: $("#PaymentMethod").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Create", "Payments")',
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = '@Url.Action("Index", "Payments")';
+                    } else {
+                        $("#resultMsg").html("<div class='alert alert-danger'>" + response.message + "</div>");
+                    }
+                },
+                error: function () {
+                    $("#resultMsg").html("<div class='alert alert-danger'>Something went wrong.</div>");
+                }
+            });
+        });
+    </script>
+}
