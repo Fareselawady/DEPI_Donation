@@ -1,0 +1,115 @@
+﻿@model List<DEPI_Donation.Models.Payment>
+
+<h2>Payment List</h2>
+<a href="@Url.Action("Create", "Payments")" class="btn btn-primary">Add Payment</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Method</th>
+            <th>Donation IDs</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var payment in Model)
+        {
+            <tr id="payment-@payment.PaymentId">
+                <td>@payment.PaymentId</td>
+                <td>
+                    <span class="payment-field" id="PaymentMethod-@payment.PaymentId">@payment.PaymentMethod</span>
+                    <input type="text" id="edit-PaymentMethod-@payment.PaymentId" class="edit-input form-control" value="@payment.PaymentMethod" style="display:none;" />
+                </td>
+                <td>
+                    @if (payment.Donations != null && payment.Donations.Any())
+                    {
+                        <ul>
+                            @foreach (var donation in payment.Donations)
+                            {
+                                <li>@donation.DonationId</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div>No donations</div>
+                    }
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-warning edit-btn" data-id="@payment.PaymentId">✏️ Edit</button>
+                    <button class="btn btn-sm btn-success save-btn" data-id="@payment.PaymentId" style="display:none;">💾 Save</button>
+                    <button class="btn btn-sm btn-danger delete-btn" data-id="@payment.PaymentId">🗑️ Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.edit-btn').click(function () {
+                var id = $(this).data('id');
+                $('#payment-' + id + ' .payment-field').hide();
+                $('#payment-' + id + ' .edit-input').show();
+                $(this).hide();
+                $('#payment-' + id + ' .save-btn').show();
+            });
+
+            $('.save-btn').click(function () {
+                var id = $(this).data('id');
+                var updatedPayment = {
+                    PaymentId: id,
+                    PaymentMethod: $('#edit-PaymentMethod-' + id).val()
+                };
+
+                $.ajax({
+                    url: '/Payments/Edit/' + id,
+                    type: 'POST',
+                    data: updatedPayment,
+                    success: function (response) {
+                        if (response.success) {
+                            $('#PaymentMethod-' + id).text(updatedPayment.PaymentMethod);
+                            $('#payment-' + id + ' .edit-input').hide();
+                            $('#payment-' + id + ' .payment-field').show();
+                            $('#payment-' + id + ' .save-btn').hide();
+                            $('#payment-' + id + ' .edit-btn').show();
+                            alert('Payment updated successfully!');
+                        } else {
+                            alert('Failed to update payment: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while updating the payment.');
+                    }
+                });
+            });
+
+            $('.delete-btn').on('click', function () {
+                var id = $(this).data('id');
+                var row = $('#payment-' + id);
+
+                if (confirm('Are you sure you want to delete this payment?')) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Payments")',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (response) {
+                            if (response.success) {
+                                row.remove();
+                                alert('Payment deleted successfully!');
+                            } else {
+                                alert('Failed to delete payment: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while deleting the payment.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

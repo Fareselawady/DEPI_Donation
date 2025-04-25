@@ -1,0 +1,112 @@
+﻿@model List<DEPI_Donation.Models.Notification>
+
+<h2>Notification List</h2>
+<a href="@Url.Action("Create", "Notifications")" class="btn btn-primary"> Add Notification</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var notification in Model)
+        {
+            <tr id="notification-@notification.NotificationId">
+                <td>@notification.NotificationId</td>
+                <td>
+                    <span class="notification-field" id="Title-@notification.NotificationId">@notification.Title</span>
+                    <input type="text" id="edit-Title-@notification.NotificationId" class="edit-input form-control" value="@notification.Title" style="display:none;" />
+                </td>
+                <td>
+                    <span class="notification-field" id="Description-@notification.NotificationId">@notification.Description</span>
+                    <input type="text" id="edit-Description-@notification.NotificationId" class="edit-input form-control" value="@notification.Description" style="display:none;" />
+                </td>
+                <td>@notification.CreatedAt</td>
+                <td>
+                    <button class="btn btn-sm btn-warning edit-btn" data-id="@notification.NotificationId">✏️ Edit</button>
+                    <button class="btn btn-sm btn-success save-btn" data-id="@notification.NotificationId" style="display:none;">💾 Save</button>
+                    <button class="btn btn-sm btn-danger delete-btn" data-id="@notification.NotificationId">🗑️ Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.edit-btn').click(function () {
+                var id = $(this).data('id');
+                $('#notification-' + id + ' .notification-field').hide();
+                $('#notification-' + id + ' .edit-input').show();
+                $(this).hide();
+                $('#notification-' + id + ' .save-btn').show();
+            });
+
+            $('.save-btn').click(function () {
+                var id = $(this).data('id');
+                var updatedNotification = {
+                    NotificationId: id,
+                    Title: $('#edit-Title-' + id).val(),
+                    Description: $('#edit-Description-' + id).val()
+                };
+
+                $.ajax({
+                    url: '/Notifications/Edit/' + id,
+                    type: 'POST',
+                    data: updatedNotification,
+                    success: function (response) {
+                        if (response.success) {
+                            $('#Title-' + id).text(updatedNotification.Title);
+                            $('#Description-' + id).text(updatedNotification.Description);
+
+                            $('#notification-' + id + ' .edit-input').hide();
+                            $('#notification-' + id + ' .notification-field').show();
+                            $('#notification-' + id + ' .save-btn').hide();
+                            $('#notification-' + id + ' .edit-btn').show();
+
+                            alert('Notification updated successfully!');
+                        } else {
+                            alert('Failed to update notification: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while updating the notification.');
+                    }
+                });
+            });
+
+            // When Delete button is clicked
+            $('.delete-btn').on('click', function () {
+                var id = $(this).data('id');
+                console.log("ID to delete: ", id);  // Ensure the correct ID is being logged
+                var row = $('#notification-' + id);
+
+                if (confirm('Are you sure you want to delete this notification?')) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Notifications")',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (response) {
+                            if (response.success) {
+                                row.remove(); // Remove the notification row from the table
+                                alert('Notification deleted successfully!');
+                            } else {
+                                alert('Failed to delete notification: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while deleting the notification.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

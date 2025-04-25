@@ -1,0 +1,55 @@
+﻿@model DEPI_Donation.Models.Notification
+
+@{
+    ViewData["Title"] = "Create Notification";
+}
+
+<h2>Create Notification</h2>
+
+<form id="createNotificationForm">
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" id="Title" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control" id="Description"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Create</button>
+</form>
+
+<div id="resultMsg" class="mt-3"></div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $("#createNotificationForm").submit(function (e) {
+            e.preventDefault();
+
+            var formData = {
+                Title: $("#Title").val(),
+                Description: $("#Description").val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Create", "Notifications")',
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        // After success, redirect to the notifications list page
+                        window.location.href = '@Url.Action("Index", "Notifications")';
+                    } else {
+                        $("#resultMsg").html("<div class='alert alert-danger'>" + response.message + "</div>");
+                    }
+                },
+                error: function () {
+                    $("#resultMsg").html("<div class='alert alert-danger'>Something went wrong.</div>");
+                }
+            });
+        });
+    </script>
+}
