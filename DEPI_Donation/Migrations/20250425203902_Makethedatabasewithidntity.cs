@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DEPI_Donation.Migrations
 {
     /// <inheritdoc />
-    public partial class Createdatabase : Migration
+    public partial class Makethedatabasewithidntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,8 @@ namespace DEPI_Donation.Migrations
                 name: "Activities",
                 columns: table => new
                 {
-                    ActivityID = table.Column<int>(type: "int", nullable: false),
+                    ActivityID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Category = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -34,7 +35,8 @@ namespace DEPI_Donation.Migrations
                 name: "Notification",
                 columns: table => new
                 {
-                    NotificationId = table.Column<int>(type: "int", nullable: false),
+                    NotificationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true, defaultValueSql: "(getdate())")
@@ -48,7 +50,8 @@ namespace DEPI_Donation.Migrations
                 name: "Payments",
                 columns: table => new
                 {
-                    PaymentID = table.Column<int>(type: "int", nullable: false),
+                    PaymentID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PaymentMethod = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
@@ -101,7 +104,8 @@ namespace DEPI_Donation.Migrations
                 name: "Donations",
                 columns: table => new
                 {
-                    DonationID = table.Column<int>(type: "int", nullable: false),
+                    DonationID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DonorID = table.Column<int>(type: "int", nullable: true),
                     PaymentID = table.Column<int>(type: "int", nullable: true),
                     ActivityID = table.Column<int>(type: "int", nullable: true),

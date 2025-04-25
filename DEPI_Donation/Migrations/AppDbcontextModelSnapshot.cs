@@ -25,8 +25,11 @@ namespace DEPI_Donation.Migrations
             modelBuilder.Entity("DEPI_Donation.Models.Activity", b =>
                 {
                     b.Property<int>("ActivityId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ActivityID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ActivityId"));
 
                     b.Property<string>("Category")
                         .HasMaxLength(100)
@@ -64,8 +67,11 @@ namespace DEPI_Donation.Migrations
             modelBuilder.Entity("DEPI_Donation.Models.Donation", b =>
                 {
                     b.Property<int>("DonationId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("DonationID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DonationId"));
 
                     b.Property<int?>("ActivityId")
                         .HasColumnType("int")
@@ -133,7 +139,10 @@ namespace DEPI_Donation.Migrations
             modelBuilder.Entity("DEPI_Donation.Models.Notification", b =>
                 {
                     b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -156,8 +165,11 @@ namespace DEPI_Donation.Migrations
             modelBuilder.Entity("DEPI_Donation.Models.Payment", b =>
                 {
                     b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("PaymentID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
                     b.Property<string>("PaymentMethod")
                         .HasMaxLength(50)
