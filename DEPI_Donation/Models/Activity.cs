@@ -24,7 +24,7 @@ public  class Activity
     public decimal? TargetAmount { get; set; }
 
     [Column(TypeName = "decimal(18, 2)")]
-    public decimal? CollectedAmount { get; set; }
+    public decimal CollectedAmount { get; set; } = 0;
 
     public DateOnly? StartDate { get; set; }
 

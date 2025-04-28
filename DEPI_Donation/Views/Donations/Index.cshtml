@@ -48,9 +48,12 @@
                 <td>
                     <span class="field" id="Status-@donation.DonationId">@donation.Status</span>
                     <select id="edit-Status-@donation.DonationId" class="edit-input form-control" style="display:none;">
-                        @foreach (var status in Enum.GetValues(typeof(DEPI_Donation.Models.DonationStatusType)))
+                        @foreach (var statusObj in Enum.GetValues(typeof(DonationStatusType)))
                         {
-                            @status
+                            var status = (DonationStatusType)statusObj;
+                            <option value="@status" selected="@(status == donation.Status ? "selected" : null)">
+                                @status
+                            </option>
                         }
                     </select>
                 </td>

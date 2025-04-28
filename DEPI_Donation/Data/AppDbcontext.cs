@@ -37,6 +37,8 @@ public partial class AppDbcontext : DbContext
         {
             entity.HasKey(e => e.ActivityId).HasName("PK__Activiti__45F4A7F1550916E8");
             entity.Property(e => e.ActivityId).ValueGeneratedOnAdd(); // تغيير من Never إلى OnAdd
+            entity.Property(e => e.StartDate).HasDefaultValueSql("(getdate())");
+
 
             entity.HasMany(a => a.Reports)
                   .WithOne(r => r.Activity)
@@ -49,6 +51,7 @@ public partial class AppDbcontext : DbContext
             entity.HasKey(e => e.DonationId).HasName("PK__Donation__C5082EDB7E81B6EF");
             entity.Property(e => e.DonationId).ValueGeneratedOnAdd(); // تغيير من Never إلى OnAdd
             entity.Property(e => e.Status).HasDefaultValue(DonationStatusType.Pending);
+            entity.Property(e => e.DonationDate).HasDefaultValueSql("(getdate())");
 
             entity.HasOne(d => d.Activity)
                 .WithMany(p => p.Donations)
@@ -108,6 +111,7 @@ public partial class AppDbcontext : DbContext
             entity.HasKey(e => e.UserId).HasName("PK__User__1788CC4C53F7E6B7");
             entity.Property(e => e.UserId).ValueGeneratedOnAdd(); // تغيير من Never إلى OnAdd
             entity.Property(e => e.UserType).HasDefaultValue("Donor");
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
         });
 
         OnModelCreatingPartial(modelBuilder);

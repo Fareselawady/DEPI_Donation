@@ -10,7 +10,7 @@ public enum DonationStatusType
 {
     Pending,
     Confirmed,
-    Failed
+    Canceled
 }
 
 public partial class Donation
@@ -28,8 +28,8 @@ public partial class Donation
     [Column("ActivityID")]
     public int? ActivityId { get; set; }
 
-    [Column(TypeName = "decimal(18, 2)")]
-    public decimal? Amount { get; set; }
+    [Column(TypeName = "decimal(18, 2)"), Required]
+    public required decimal Amount { get; set; }
 
     public DateOnly? DonationDate { get; set; }
 
