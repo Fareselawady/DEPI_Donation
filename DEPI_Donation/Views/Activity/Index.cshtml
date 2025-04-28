@@ -40,7 +40,7 @@
                     <span class="field" id="TargetAmount-@activity.ActivityId">@activity.TargetAmount?.ToString("F2")</span>
                     <input type="number" step="0.01" class="form-control edit-input" id="edit-TargetAmount-@activity.ActivityId" value="@activity.TargetAmount" style="display:none;" />
                 </td>
-                <td>@activity.CollectedAmount?.ToString("C")</td>
+                <td>@activity.CollectedAmount.ToString("C")</td>
                 <td>@activity.StartDate?.ToString("yyyy-MM-dd")</td>
                 <td>@activity.EndDate?.ToString("yyyy-MM-dd")</td>
                 <td>

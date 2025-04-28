@@ -19,7 +19,7 @@ namespace DEPI_Donation.Models.ModelsBL
                 DonorId = donorId,
                 PaymentId = paymentId,
                 ActivityId = activityId,
-                Amount = amount,
+                Amount = amount?? 0,
                 DonationDate = donationDate,
                 Status = status
             };
@@ -36,7 +36,7 @@ namespace DEPI_Donation.Models.ModelsBL
                 donation.DonorId = donorId;
                 donation.PaymentId = paymentId;
                 donation.ActivityId = activityId;
-                donation.Amount = amount;
+                donation.Amount = amount ?? 0;
                 donation.DonationDate = donationDate;
                 donation.Status = status;
 

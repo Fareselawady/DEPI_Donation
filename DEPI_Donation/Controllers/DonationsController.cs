@@ -3,6 +3,7 @@ using DEPI_Donation.Models;
 using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace DEPI_Donation.Controllers
 {
@@ -43,6 +44,14 @@ namespace DEPI_Donation.Controllers
             try
             {
                 _context.Donations.Add(newDonation);
+
+                if(newDonation.Status == DonationStatusType.Confirmed) 
+                { 
+                var activity = _context.Activities.Find(newDonation.ActivityId);
+                if(activity == null) return Json(new { success = false, message = "Invalid Activity Id" });
+                activity.CollectedAmount += newDonation.Amount;
+                }
+
                 _context.SaveChanges();
                 return Json(new { success = true });
             }
@@ -76,6 +85,13 @@ namespace DEPI_Donation.Controllers
                 return Json(new { success = false, message = "Donation not found." });
             }
 
+            var activity = _context.Activities.Find(donation.ActivityId);
+            if (activity == null) return Json(new { success = false, message = "Invalid Activity Id" });
+            if (donation.Status == DonationStatusType.Confirmed)
+                activity.CollectedAmount -= donation.Amount; // deduct the old amount
+            if (updatedDonation.Status == DonationStatusType.Confirmed)
+                activity.CollectedAmount += updatedDonation.Amount; // add the new amount
+
             donation.DonorId = updatedDonation.DonorId;
             donation.PaymentId = updatedDonation.PaymentId;
             donation.ActivityId = updatedDonation.ActivityId;
@@ -105,6 +121,12 @@ namespace DEPI_Donation.Controllers
 
             try
             {
+                if (donation.Status == DonationStatusType.Confirmed)
+                {
+                    var activity = _context.Activities.Find(donation.ActivityId);
+                    if (activity == null) return Json(new { success = false, message = "Invalid Activity Id" });
+                    activity.CollectedAmount -= donation.Amount;
+                }
                 _context.Donations.Remove(donation);
                 _context.SaveChanges();
                 return Json(new { success = true });
