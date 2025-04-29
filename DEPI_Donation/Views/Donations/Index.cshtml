@@ -3,7 +3,7 @@
 <h2>Donation List</h2>
 <a href="@Url.Action("Create", "Donations")" class="btn btn-primary">Add Donation</a>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>ID</th>
@@ -20,47 +20,30 @@
         @foreach (var donation in Model)
         {
             var formattedDate = donation.DonationDate.HasValue
-                ? donation.DonationDate.Value.ToString("yyyy-MM-dd")
-                : "";
+            ? donation.DonationDate.Value.ToString("yyyy-MM-dd")
+            : "";
 
             <tr id="donation-@donation.DonationId">
                 <td>@donation.DonationId</td>
+                <td>@donation.Donor?.UserName</td>
+                <td>@donation.Payment?.PaymentMethod</td>
+                <td>@donation.Activity?.Title</td>
+                <td>@donation.Amount</td>
+                <td>@donation.DonationDate?.ToShortDateString()</td>
                 <td>
-                    <span class="field" id="Donor-@donation.DonationId">@donation.Donor?.UserName</span>
-                    <input type="number" id="edit-DonorId-@donation.DonationId" class="edit-input form-control" value="@donation.DonorId" style="display:none;" />
+                    <span class="badge
+                        @(donation.Status == DonationStatusType.Canceled ? "bg-danger" :
+                          donation.Status == DonationStatusType.Confirmed ? "bg-success" :
+                          "bg-warning text-dark")">
+                        @donation.Status
+                    </span>
                 </td>
                 <td>
-                    <span class="field" id="Payment-@donation.DonationId">@donation.PaymentId</span>
-                    <input type="number" id="edit-PaymentId-@donation.DonationId" class="edit-input form-control" value="@donation.PaymentId" style="display:none;" />
-                </td>
-                <td>
-                    <span class="field" id="Activity-@donation.DonationId">@donation.Activity?.Title</span>
-                    <input type="number" id="edit-ActivityId-@donation.DonationId" class="edit-input form-control" value="@donation.ActivityId" style="display:none;" />
-                </td>
-                <td>
-                    <span class="field" id="Amount-@donation.DonationId">@donation.Amount</span>
-                    <input type="number" step="0.01" id="edit-Amount-@donation.DonationId" class="edit-input form-control" value="@donation.Amount" style="display:none;" />
-                </td>
-                <td>
-                    <span class="field" id="DonationDate-@donation.DonationId">@donation.DonationDate?.ToShortDateString()</span>
-                    <input type="date" id="edit-DonationDate-@donation.DonationId" class="edit-input form-control" value="@formattedDate" style="display:none;" />
-                </td>
-                <td>
-                    <span class="field" id="Status-@donation.DonationId">@donation.Status</span>
-                    <select id="edit-Status-@donation.DonationId" class="edit-input form-control" style="display:none;">
-                        @foreach (var statusObj in Enum.GetValues(typeof(DonationStatusType)))
-                        {
-                            var status = (DonationStatusType)statusObj;
-                            <option value="@status" selected="@(status == donation.Status ? "selected" : null)">
-                                @status
-                            </option>
-                        }
-                    </select>
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-warning edit-btn" data-id="@donation.DonationId">✏️ Edit</button>
-                    <button class="btn btn-sm btn-success save-btn" data-id="@donation.DonationId" style="display:none;">💾 Save</button>
-                    <button class="btn btn-sm btn-danger delete-btn" data-id="@donation.DonationId">🗑️ Delete</button>
+                    @if (donation.Status == DonationStatusType.Pending)
+                    {
+                        <button class="btn btn-sm btn-danger cancel-btn" data-id="@donation.DonationId">Cancel</button>
+                        <button class="btn btn-sm btn-success approve-btn" data-id="@donation.DonationId">Approve</button>
+                    }
                 </td>
             </tr>
         }
@@ -70,64 +53,55 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(function () {
-            $('.edit-btn').click(function () {
+                   $(function () {
+            // Cancel button action
+            $('.cancel-btn').click(function () {
                 var id = $(this).data('id');
-                $('#donation-' + id + ' .field').hide();
-                $('#donation-' + id + ' .edit-input').show();
-                $(this).hide();
-                $('#donation-' + id + ' .save-btn').show();
-            });
-
-            $('.save-btn').click(function () {
-                var id = $(this).data('id');
-                var updated = {
-                    DonationId: id,
-                    DonorId: $('#edit-DonorId-' + id).val(),
-                    PaymentId: $('#edit-PaymentId-' + id).val(),
-                    ActivityId: $('#edit-ActivityId-' + id).val(),
-                    Amount: $('#edit-Amount-' + id).val(),
-                    DonationDate: $('#edit-DonationDate-' + id).val(),
-                    Status: $('#edit-Status-' + id).val()
-                };
-
-                $.ajax({
-                    url: '/Donations/Edit/' + id,
-                    type: 'POST',
-                    data: updated,
-                    success: function (response) {
-                        if (response.success) {
-                            location.reload(); // for simplicity
-                        } else {
-                            alert('Update failed: ' + response.message);
-                        }
-                    },
-                    error: function () {
-                        alert('An error occurred.');
-                    }
-                });
-            });
-
-            $('.delete-btn').click(function () {
-                var id = $(this).data('id');
-                if (confirm('Are you sure you want to delete this donation?')) {
+                if (confirm('Are you sure you want to cancel this donation?')) {
                     $.ajax({
-                        url: '/Donations/Delete',
+                        url: '/Donations/Cancel',
                         type: 'POST',
                         data: { id: id },
                         success: function (response) {
                             if (response.success) {
-                                $('#donation-' + id).remove();
+                                var row = $('#donation-' + id);
+                                row.find('.badge').removeClass('bg-warning').addClass('bg-danger').text('Canceled').css('color', 'white'); // تغيير اللون للنص الأبيض
+                                row.find('.cancel-btn, .approve-btn').hide(); 
                             } else {
-                                alert('Delete failed: ' + response.message);
+                                alert('Cancellation failed: ' + response.message);
                             }
                         },
                         error: function () {
-                            alert('An error occurred during deletion.');
+                            alert('An error occurred.');
+                        }
+                    });
+                }
+            });
+
+            // Approve button action
+            $('.approve-btn').click(function () {
+                var id = $(this).data('id');
+                if (confirm('Are you sure you want to approve this donation?')) {
+                    $.ajax({
+                        url: '/Donations/Approve',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (response) {
+                            if (response.success) {
+                                var row = $('#donation-' + id);
+                                row.find('.badge').removeClass('bg-warning').addClass('bg-success').text('Confirmed').css('color', 'white'); // تغيير اللون للنص الأبيض
+                                row.find('.cancel-btn, .approve-btn').hide(); 
+                            } else {
+                                alert('Approval failed: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred.');
                         }
                     });
                 }
             });
         });
+
     </script>
 }

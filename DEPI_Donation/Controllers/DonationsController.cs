@@ -2,6 +2,7 @@
 using DEPI_Donation.Models;
 using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
@@ -28,10 +29,27 @@ namespace DEPI_Donation.Controllers
             return View(donations);
         }
 
-        public IActionResult Create()
+        
+          public IActionResult Create()
         {
+            var activities = _context.Activities.Select(a => new SelectListItem
+            {
+                Value = a.ActivityId.ToString(),
+                Text = a.Title
+            }).ToList();
+
+            var payments = _context.Payments.Select(p => new SelectListItem
+            {
+                Value = p.PaymentId.ToString(),
+                Text = p.PaymentMethod
+            }).ToList();
+
+            ViewBag.Activities = activities;
+            ViewBag.Payments = payments;
+
             return View();
         }
+        
 
         [HttpPost]
         public JsonResult Create(Donation newDonation)
@@ -43,15 +61,8 @@ namespace DEPI_Donation.Controllers
 
             try
             {
+                newDonation.Status = DonationStatusType.Pending; 
                 _context.Donations.Add(newDonation);
-
-                if(newDonation.Status == DonationStatusType.Confirmed) 
-                { 
-                var activity = _context.Activities.Find(newDonation.ActivityId);
-                if(activity == null) return Json(new { success = false, message = "Invalid Activity Id" });
-                activity.CollectedAmount += newDonation.Amount;
-                }
-
                 _context.SaveChanges();
                 return Json(new { success = true });
             }
@@ -59,6 +70,27 @@ namespace DEPI_Donation.Controllers
             {
                 return Json(new { success = false, message = ex.Message });
             }
+        }
+
+        [HttpPost]
+        public JsonResult Cancel(int id)
+        {
+            var donation = _context.Donations.FirstOrDefault(d => d.DonationId == id);
+            if (donation == null)
+            {
+                return Json(new { success = false, message = "Donation not found." });
+            }
+
+            if (donation.Status != DonationStatusType.Pending)
+            {
+                return Json(new { success = false, message = "Only pending donations can be canceled." });
+            }
+
+            donation.Status = DonationStatusType.Canceled;
+
+            _context.SaveChanges(); 
+
+            return Json(new { success = true });
         }
 
         public IActionResult Edit(int id)
@@ -70,6 +102,37 @@ namespace DEPI_Donation.Controllers
             }
             return View(donation);
         }
+
+
+        [HttpPost]
+        public JsonResult Approve(int id)
+        {
+            var donation = _context.Donations.Find(id);
+            if (donation == null)
+                return Json(new { success = false, message = "Donation not found." });
+
+            if (donation.Status != DonationStatusType.Pending)
+                return Json(new { success = false, message = "Donation is not pending." });
+
+            var activity = _context.Activities.Find(donation.ActivityId);
+            if (activity == null)
+                return Json(new { success = false, message = "Activity not found." });
+
+            activity.CollectedAmount += donation.Amount;
+
+            if (activity.CollectedAmount >= activity.TargetAmount)
+            {
+                activity.Status = "Completed"; 
+            }
+
+            donation.Status = DonationStatusType.Confirmed;
+
+            _context.SaveChanges(); 
+
+            return Json(new { success = true });
+        }
+
+
 
         [HttpPost]
         public JsonResult Edit(int id, Donation updatedDonation)
@@ -88,9 +151,9 @@ namespace DEPI_Donation.Controllers
             var activity = _context.Activities.Find(donation.ActivityId);
             if (activity == null) return Json(new { success = false, message = "Invalid Activity Id" });
             if (donation.Status == DonationStatusType.Confirmed)
-                activity.CollectedAmount -= donation.Amount; // deduct the old amount
+                activity.CollectedAmount -= donation.Amount; 
             if (updatedDonation.Status == DonationStatusType.Confirmed)
-                activity.CollectedAmount += updatedDonation.Amount; // add the new amount
+                activity.CollectedAmount += updatedDonation.Amount; 
 
             donation.DonorId = updatedDonation.DonorId;
             donation.PaymentId = updatedDonation.PaymentId;
@@ -110,31 +173,7 @@ namespace DEPI_Donation.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult Delete(int id)
-        {
-            var donation = _context.Donations.Find(id);
-            if (donation == null)
-            {
-                return Json(new { success = false, message = "Donation not found." });
-            }
-
-            try
-            {
-                if (donation.Status == DonationStatusType.Confirmed)
-                {
-                    var activity = _context.Activities.Find(donation.ActivityId);
-                    if (activity == null) return Json(new { success = false, message = "Invalid Activity Id" });
-                    activity.CollectedAmount -= donation.Amount;
-                }
-                _context.Donations.Remove(donation);
-                _context.SaveChanges();
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message });
-            }
-        }
+        
+        
     }
 }

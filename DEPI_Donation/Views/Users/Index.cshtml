@@ -45,16 +45,19 @@
                 <td>
                     @if (user.Donations != null && user.Donations.Any())
                     {
-                        <ul>
-                            @foreach (var donation in user.Donations)
-                            {
-                                <li>@donation.DonationId</li>
-                            }
-                        </ul>
+                        <!-- عرض الزرار لو في تبرعات -->
+                        <a href="@Url.Action("UserDonations", "Users", new { userId = user.UserId })" class="btn btn-info btn-sm">View Donations</a>
                     }
                     else
                     {
-                        <div>No donations</div>
+                        <!-- لو مفيش تبرعات، عرض "No Donations" -->
+                        <div>No Donations</div>
+                    }
+                </td>
+                <td>
+                    @if (user.UserType == "Donor")
+                    {
+                        <!-- باقي الأزرار الأخرى مثل Edit أو Delete -->
                     }
                 </td>
                 <td>

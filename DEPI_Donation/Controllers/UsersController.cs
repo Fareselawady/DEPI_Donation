@@ -130,7 +130,20 @@ namespace DEPI_Donation.Controllers
             }
         }
 
+        public IActionResult UserDonations(int userId)
+        {
+            var user = _context.Users
+             .Include(u => u.Donations)
+             .ThenInclude(d => d.Activity) // إذا كنت تريد عرض معلومات الأنشطة أيضًا
+             .FirstOrDefault(u => u.UserId == userId);
 
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View("UserDonations",user.Donations);
+        }
 
     }
 }

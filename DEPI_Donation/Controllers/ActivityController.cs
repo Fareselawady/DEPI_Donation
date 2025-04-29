@@ -28,23 +28,28 @@ namespace DEPI_Donation.Controllers
 
         // POST: Activity/Create
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Title,Description,Category,TargetAmount,StartDate,EndDate,Status")] Activity activity)
+        public IActionResult Create(Activity activity)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Add(activity);  // No need to set ActivityId, it's auto-generated
-                    await _context.SaveChangesAsync();
+                    // التأكد من أن TargetAmount يتم تعيينه بشكل صحيح
+                    activity.Status = "Incompleted"; // وضع الحالة بشكل افتراضي
+                    _context.Activities.Add(activity);
+                    _context.SaveChanges();
+
                     return Json(new { success = true });
                 }
                 catch (Exception ex)
                 {
-                    return Json(new { success = false, message = "An error occurred while creating the activity: " + ex.Message });
+                    return Json(new { success = false, message = ex.Message });
                 }
             }
-            return Json(new { success = false, message = "Model is invalid" });
+
+            return Json(new { success = false, message = "Invalid data." });
         }
+
 
         // GET: Activity/Edit/5
         public async Task<IActionResult> Edit(int? id)

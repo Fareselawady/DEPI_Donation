@@ -1,0 +1,36 @@
+﻿@model List<DEPI_Donation.Models.Donation>
+
+<h2>Donations for User: @Model.FirstOrDefault()?.Donor?.UserName</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Donation ID</th>
+            <th>Activity</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var donation in Model)
+        {
+            <tr>
+                <td>@donation.DonationId</td>
+                <td>@donation.Activity?.Title</td>
+                <td>@donation.Amount</td>
+                <td>@donation.DonationDate?.ToShortDateString()</td>
+                <td>
+                    <span class="badge
+                        @(donation.Status == DonationStatusType.Canceled ? "bg-danger" :
+                          donation.Status == DonationStatusType.Confirmed ? "bg-success" :
+                          "bg-warning text-dark")">
+                        @donation.Status
+                    </span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Index", "Users")" class="btn btn-primary">Back to User List</a>

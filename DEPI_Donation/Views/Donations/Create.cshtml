@@ -13,32 +13,31 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="PaymentId"></label>
-        <input asp-for="PaymentId" class="form-control" id="PaymentId" type="number" />
+        <label for="PaymentId">Payment Method</label>
+        <select id="PaymentId" name="PaymentId" class="form-control" required>
+            <option value="">-- Select Payment Method --</option>
+            @foreach (var payment in ViewBag.Payments as List<SelectListItem>)
+            {
+                <option value="@payment.Value">@payment.Text</option>
+            }
+        </select>
     </div>
 
     <div class="form-group">
-        <label asp-for="ActivityId"></label>
-        <input asp-for="ActivityId" class="form-control" id="ActivityId" type="number" />
+        <label for="ActivityId">Activity</label>
+        <select id="ActivityId" name="ActivityId" class="form-control" required>
+            <option value="">-- Select Activity --</option>
+            @foreach (var activity in ViewBag.Activities as List<SelectListItem>)
+            {
+                <option value="@activity.Value">@activity.Text</option>
+            }
+        </select>
     </div>
+
 
     <div class="form-group">
         <label asp-for="Amount"></label>
         <input asp-for="Amount" class="form-control" id="Amount" type="number" step="0.01" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="DonationDate"></label>
-        <input asp-for="DonationDate" class="form-control" id="DonationDate" type="date" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Status"></label>
-        <select asp-for="Status" class="form-control" id="Status">
-            <option value="Pending">Pending</option>
-            <option value="Confirmed">Confirmed</option>
-            <option value="Canceled">Canceled</option>
-        </select>
     </div>
 
     <button type="submit" class="btn btn-primary mt-3">Create</button>
@@ -59,7 +58,7 @@
                 ActivityId: $("#ActivityId").val(),
                 Amount: $("#Amount").val(),
                 DonationDate: $("#DonationDate").val(),
-                Status: $("#Status").val()
+                Status: "Pending" 
             };
 
             $.ajax({
