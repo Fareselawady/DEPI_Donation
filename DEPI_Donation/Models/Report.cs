@@ -9,7 +9,6 @@ namespace DEPI_Donation.Models;
 public  class Report
 {
     [Key]
-    [Column("ReportID")]
     public int ReportId { get; set; }
 
     [StringLength(200)]
@@ -17,7 +16,6 @@ public  class Report
 
     public string? Description { get; set; }
 
-    [Column("ActivityID")]
     public int? ActivityId { get; set; }
 
     [ForeignKey("ActivityId")]

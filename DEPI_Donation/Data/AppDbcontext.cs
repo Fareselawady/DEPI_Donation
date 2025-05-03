@@ -2,10 +2,20 @@
 using System.Collections.Generic;
 using DEPI_Donation.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace DEPI_Donation.Data;
 
-public partial class AppDbcontext : DbContext
+public class AppDbcontext : IdentityDbContext<
+    User,
+    IdentityRole<int>,
+    int,
+    IdentityUserClaim<int>,
+    IdentityUserRole<int>,
+    IdentityUserLogin<int>,
+    IdentityRoleClaim<int>,
+    IdentityUserToken<int>>
 {
     public AppDbcontext()
     {
@@ -16,19 +26,19 @@ public partial class AppDbcontext : DbContext
     {
     }
 
-    public virtual DbSet<Activity> Activities { get; set; }
+    public DbSet<Activity> Activities { get; set; }
 
-    public virtual DbSet<Donation> Donations { get; set; }
+    public DbSet<Donation> Donations { get; set; }
 
-    public virtual DbSet<DonorNotification> DonorNotifications { get; set; }
+    public DbSet<DonorNotification> DonorNotifications { get; set; }
 
-    public virtual DbSet<Notification> Notifications { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
-    public virtual DbSet<Payment> Payments { get; set; }
+    public DbSet<Payment> Payments { get; set; }
 
-    public virtual DbSet<Report> Reports { get; set; }
+    public DbSet<Report> Reports { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    //public DbSet<User> Users { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -73,9 +83,6 @@ public partial class AppDbcontext : DbContext
         {
             entity.HasKey(e => new { e.DonorId, e.NotificationId }).HasName("PK__DonorNot__3722CD7B73A8810A");
 
-            entity.Property(e => e.IsRead).HasDefaultValue(false);
-            entity.Property(e => e.SentAt).HasDefaultValueSql("(getdate())");
-
             entity.HasOne(d => d.Donor)
                 .WithMany(p => p.DonorNotifications)
                 .OnDelete(DeleteBehavior.Cascade)
@@ -108,13 +115,18 @@ public partial class AppDbcontext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__User__1788CC4C53F7E6B7");
-            entity.Property(e => e.UserId).ValueGeneratedOnAdd(); // تغيير من Never إلى OnAdd
-            entity.Property(e => e.UserType).HasDefaultValue("Donor");
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).ValueGeneratedOnAdd(); // تغيير من Never إلى OnAdd
         });
 
-        OnModelCreatingPartial(modelBuilder);
+        modelBuilder.Entity<IdentityUserLogin<int>>()
+            .HasKey(l => new { l.LoginProvider, l.ProviderKey });
+
+        modelBuilder.Entity<IdentityUserToken<int>>()
+            .HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
+
+        modelBuilder.Entity<IdentityUserRole<int>>()
+            .HasKey(r => new { r.UserId, r.RoleId });
+
     }
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

@@ -10,17 +10,15 @@ namespace DEPI_Donation.Models;
 public partial class DonorNotification
 {
     [Key]
-    [Column("DonorID")]
     public int DonorId { get; set; }
 
     [Key]
-    [Column("NotificationID")]
     public int NotificationId { get; set; }
 
-    public bool? IsRead { get; set; }
+    public bool IsRead { get; set; } = false;
 
     [Column(TypeName = "datetime")]
-    public DateTime? SentAt { get; set; }
+    public DateTime SentAt { get; set; } = DateTime.Now;
 
     [ForeignKey("DonorId")]
     [InverseProperty("DonorNotifications")]

@@ -16,16 +16,12 @@ public enum DonationStatusType
 public partial class Donation
 {
     [Key]
-    [Column("DonationID")]
     public int DonationId { get; set; }
 
-    [Column("DonorID")]
     public int? DonorId { get; set; }
 
-    [Column("PaymentID")]
     public int? PaymentId { get; set; }
 
-    [Column("ActivityID")]
     public int? ActivityId { get; set; }
 
     [Column(TypeName = "decimal(18, 2)"), Required]
