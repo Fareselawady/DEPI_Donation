@@ -1,6 +1,6 @@
 ﻿using DEPI_Donation.Data;
 using DEPI_Donation.Models;
-using DEPI_Donation.Models.ModelsBL;
+//using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,12 +10,12 @@ namespace DEPI_Donation.Controllers
     public class ReportsController : Controller
     {
         private readonly AppDbcontext _context;
-        private readonly ReportBL _reportBL;
+        //private readonly ReportBL _reportBL;
 
         public ReportsController(AppDbcontext context)
         {
             _context = context;
-            _reportBL = new ReportBL(context);
+            //_reportBL = new ReportBL(context);
         }
 
         public IActionResult Index()

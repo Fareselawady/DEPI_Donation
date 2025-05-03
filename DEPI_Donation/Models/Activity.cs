@@ -9,7 +9,6 @@ namespace DEPI_Donation.Models;
 public  class Activity
 {
     [Key]
-    [Column("ActivityID")]
     public int ActivityId { get; set; }
 
     [StringLength(200)]

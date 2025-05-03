@@ -1,6 +1,6 @@
 ﻿using DEPI_Donation.Data;
 using DEPI_Donation.Models;
-using DEPI_Donation.Models.ModelsBL;
+//using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,12 +9,12 @@ namespace DEPI_Donation.Controllers
     public class PaymentsController : Controller
     {
         private readonly AppDbcontext _context;
-        private readonly PaymentBL _paymentBL;
+        //private readonly PaymentBL _paymentBL;
 
         public PaymentsController(AppDbcontext context)
         {
             _context = context;
-            _paymentBL = new PaymentBL(context);
+            //_paymentBL = new PaymentBL(context);
 
         }
 

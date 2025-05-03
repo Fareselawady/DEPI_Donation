@@ -18,7 +18,7 @@ public partial class Notification
     public string? Description { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime? CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }= DateTime.Now;
 
     [InverseProperty("Notification")]
     public virtual ICollection<DonorNotification> DonorNotifications { get; set; } = new List<DonorNotification>();

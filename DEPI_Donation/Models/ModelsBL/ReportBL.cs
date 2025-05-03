@@ -1,61 +1,61 @@
-﻿using DEPI_Donation.Data;
-using DEPI_Donation.Models;
-using Microsoft.EntityFrameworkCore;
+﻿//using DEPI_Donation.Data;
+//using DEPI_Donation.Models;
+//using Microsoft.EntityFrameworkCore;
 
-namespace DEPI_Donation.Models.ModelsBL
-{
-    public class ReportBL
-    {
-        private readonly AppDbcontext _context;
+//namespace DEPI_Donation.Models.ModelsBL
+//{
+//    public class ReportBL
+//    {
+//        private readonly AppDbcontext _context;
 
-        public ReportBL(AppDbcontext context)
-        {
-            _context = context;
-        }
+//        public ReportBL(AppDbcontext context)
+//        {
+//            _context = context;
+//        }
 
-        public List<Report> GetAllReports()
-        {
-            return _context.Reports.Include(r => r.Activity).ToList();
-        }
+//        public List<Report> GetAllReports()
+//        {
+//            return _context.Reports.Include(r => r.Activity).ToList();
+//        }
 
-        public Report GetReportById(int id)
-        {
-            var report = _context.Reports.Include(r => r.Activity)
-                                         .FirstOrDefault(r => r.ReportId == id);
-            if (report == null)
-                throw new Exception("Report not found.");
-            return report;
-        }
+//        public Report GetReportById(int id)
+//        {
+//            var report = _context.Reports.Include(r => r.Activity)
+//                                         .FirstOrDefault(r => r.ReportId == id);
+//            if (report == null)
+//                throw new Exception("Report not found.");
+//            return report;
+//        }
 
-        public void AddReport(Report newReport)
-        {
-            _context.Reports.Add(newReport);
-            _context.SaveChanges();
-        }
+//        public void AddReport(Report newReport)
+//        {
+//            _context.Reports.Add(newReport);
+//            _context.SaveChanges();
+//        }
 
-        public void UpdateReport(int id, Report updatedReport)
-        {
-            var report = _context.Reports.FirstOrDefault(r => r.ReportId == id);
-            if (report == null)
-                throw new Exception("Report not found.");
+//        public void UpdateReport(int id, Report updatedReport)
+//        {
+//            var report = _context.Reports.FirstOrDefault(r => r.ReportId == id);
+//            if (report == null)
+//                throw new Exception("Report not found.");
 
-            report.Title = updatedReport.Title;
-            report.Description = updatedReport.Description;
-            _context.SaveChanges();
-        }
+//            report.Title = updatedReport.Title;
+//            report.Description = updatedReport.Description;
+//            _context.SaveChanges();
+//        }
 
-        //public void DeleteReport(int id)
-        //{
-        //    var report = _context.Reports.Include(r => r.Activity)
-        //                                 .FirstOrDefault(r => r.ReportId == id);
-        //    if (report == null)
-        //        throw new Exception("Report not found.");
+//        //public void DeleteReport(int id)
+//        //{
+//        //    var report = _context.Reports.Include(r => r.Activity)
+//        //                                 .FirstOrDefault(r => r.ReportId == id);
+//        //    if (report == null)
+//        //        throw new Exception("Report not found.");
 
-        //    if (report.Activity.Any())
-        //        _context.Activities.RemoveRange(report.Activity);
+//        //    if (report.Activity.Any())
+//        //        _context.Activities.RemoveRange(report.Activity);
 
-        //    _context.Reports.Remove(report);
-        //    _context.SaveChanges();
-        //}
-    }
-}
+//        //    _context.Reports.Remove(report);
+//        //    _context.SaveChanges();
+//        //}
+//    }
+//}

@@ -9,7 +9,6 @@ namespace DEPI_Donation.Models;
 public partial class Payment
 {
     [Key]
-    [Column("PaymentID")]
     public int PaymentId { get; set; }
 
     [StringLength(50)]

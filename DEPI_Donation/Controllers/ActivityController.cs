@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using DEPI_Donation.Models;
 using DEPI_Donation.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DEPI_Donation.Controllers
 {
+    
     public class ActivityController : Controller
     {
         private readonly AppDbcontext _context;
@@ -21,6 +23,7 @@ namespace DEPI_Donation.Controllers
         }
 
         // GET: Activity/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -28,6 +31,7 @@ namespace DEPI_Donation.Controllers
 
         // POST: Activity/Create
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public IActionResult Create(Activity activity)
         {
             if (ModelState.IsValid)
@@ -52,6 +56,7 @@ namespace DEPI_Donation.Controllers
 
 
         // GET: Activity/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -64,6 +69,7 @@ namespace DEPI_Donation.Controllers
 
         // POST: Activity/Edit/5
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, string Title, string Description, string Category, string Status, int target)
         {
             var activity = await _context.Activities.FindAsync(id);
@@ -81,6 +87,7 @@ namespace DEPI_Donation.Controllers
         }
 
         // GET: Activity/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -94,6 +101,7 @@ namespace DEPI_Donation.Controllers
 
         // POST: Activity/Delete/5
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var activity = await _context.Activities.FindAsync(id);
@@ -106,11 +114,6 @@ namespace DEPI_Donation.Controllers
             await _context.SaveChangesAsync();
 
             return Json(new { success = true });
-        }
-
-        private bool ActivityExists(int id)
-        {
-            return _context.Activities.Any(e => e.ActivityId == id);
         }
     }
 }

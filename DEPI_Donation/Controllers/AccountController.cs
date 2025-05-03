@@ -1,29 +1,75 @@
-﻿using DEPI_Donation.Data;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+using DEPI_Donation.Models;
+using DEPI_Donation.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
-namespace DEPI_Donation.Controllers
+public class AccountController : Controller
 {
-    public class AccountController : Controller
+    private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
+
+    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
     {
-        private readonly AppDbcontext db;
+        _userManager = userManager;
+        _signInManager = signInManager;
+    }
 
-        public AccountController(AppDbcontext context)
+    //public IActionResult Register() => View();
+
+    [HttpPost]
+    public async Task<IActionResult> Register(RegisterViewModel model)
+    {
+        if (ModelState.IsValid)
         {
-            db = context;
+            var user = new User { UserName = model.UserName, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, false);
+                return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
         }
 
-        public IActionResult Index()
+        return View(nameof(Login));
+    }
+
+    public IActionResult Login()
+    {
+        if(User.Identity.IsAuthenticated)
+            return RedirectToAction("Index", "Home");
+
+        return View();
+    }
+    [HttpPost]
+    public async Task<IActionResult> Login(LoginViewModel model)
+    {
+        if (ModelState.IsValid)
         {
-            return View();
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            if (result.Succeeded)
+                return RedirectToAction("Index", "Home");
+
+            ModelState.AddModelError("", "Invalid login attempt.");
         }
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
+        return View(model);
+    }
+    [Authorize]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Index", "Home");
+    }
 
- 
+    [HttpGet]
+    public async Task<IActionResult> Dashboard()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        var donations = user?.Donations;
+        return View(donations);
     }
 }

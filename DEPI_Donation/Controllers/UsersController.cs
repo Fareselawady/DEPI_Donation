@@ -1,6 +1,7 @@
 ﻿using DEPI_Donation.Data;
 using DEPI_Donation.Models;
-using DEPI_Donation.Models.ModelsBL;
+//using DEPI_Donation.Models.ModelsBL;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,12 +10,13 @@ namespace DEPI_Donation.Controllers
     public class UsersController : Controller
     {
         private readonly AppDbcontext _context;
-        private readonly UserBL _userBL;
-
-        public UsersController(AppDbcontext context)
+        //private readonly UserBL _userBL;
+        private readonly UserManager<User> _userManager;
+        public UsersController(AppDbcontext context, UserManager<User> userManager)
         {
+            _userManager = userManager;
             _context = context;
-            _userBL = new UserBL(context);
+            //_userBL = new UserBL(context);
         }
 
         public IActionResult Index()
@@ -25,7 +27,7 @@ namespace DEPI_Donation.Controllers
 
         public IActionResult Edit(int id)
         {
-            var user = _context.Users.FirstOrDefault(u => u.UserId == id);
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
             if (user == null)
             {
                 return NotFound();
@@ -34,30 +36,30 @@ namespace DEPI_Donation.Controllers
         }
 
         [HttpPost]
-        public JsonResult Edit(int id, User updatedUser)
+        public IActionResult Edit(int id, User updatedUser)
         {
-            if (id != updatedUser.UserId)
+            if (id != updatedUser.Id)
             {
                 return Json(new { success = false, message = "Invalid user ID." });
             }
-            if (string.IsNullOrEmpty(updatedUser.UserType))
-            {
-                updatedUser.UserType = "Donor";
-            }
-            var user = _context.Users.FirstOrDefault(u => u.UserId == id);
+            //if (string.IsNullOrEmpty(updatedUser.UserType))
+            //{
+            //    updatedUser.UserType = "Donor";
+            //}
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
             if (user == null)
             {
                 return Json(new { success = false, message = "User not found." });
             }
-            if (updatedUser.UserType != "Admin" && updatedUser.UserType != "Donor")
-            {
-                return Json(new { success = false, message = "UserType must be either 'Admin' or 'Donor'." });
-            }
+            //if (updatedUser.UserType != "Admin" && updatedUser.UserType != "Donor")
+            //{
+            //    return Json(new { success = false, message = "UserType must be either 'Admin' or 'Donor'." });
+            //}
             user.UserName = updatedUser.UserName;
             user.Email = updatedUser.Email;
-            user.Phone = updatedUser.Phone;
-            user.Password = updatedUser.Password;
-            user.UserType = updatedUser.UserType;
+            user.PhoneNumber  = updatedUser.PhoneNumber;
+            //user.Password = updatedUser.Password;
+            //user.UserType = updatedUser.UserType;
 
             try
             {
@@ -71,13 +73,13 @@ namespace DEPI_Donation.Controllers
         }
 
         [HttpPost]
-        public JsonResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             try
             {
                 Console.WriteLine($"Deleting user with ID: {id}"); 
 
-                var user = _context.Users.FirstOrDefault(u => u.UserId == id);
+                var user = _context.Users.FirstOrDefault(u => u.Id == id);
                 if (user == null)
                 {
                     Console.WriteLine("User not found"); // في حالة عدم العثور على المستخدم
@@ -135,7 +137,7 @@ namespace DEPI_Donation.Controllers
             var user = _context.Users
              .Include(u => u.Donations)
              .ThenInclude(d => d.Activity) // إذا كنت تريد عرض معلومات الأنشطة أيضًا
-             .FirstOrDefault(u => u.UserId == userId);
+             .FirstOrDefault(u => u.Id == userId);
 
             if (user == null)
             {

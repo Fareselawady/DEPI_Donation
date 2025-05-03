@@ -1,6 +1,6 @@
 ﻿using DEPI_Donation.Data;
 using DEPI_Donation.Models;
-using DEPI_Donation.Models.ModelsBL;
+//using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +11,12 @@ namespace DEPI_Donation.Controllers
     public class DonationsController : Controller
     {
         private readonly AppDbcontext _context;
-        private readonly DonationBL _donationBL;
+        //private readonly DonationBL _donationBL;
 
         public DonationsController(AppDbcontext context)
         {
             _context = context;
-            _donationBL = new DonationBL(context);
+            //_donationBL = new DonationBL(context);
         }
 
         public IActionResult Index()
@@ -61,9 +61,36 @@ namespace DEPI_Donation.Controllers
 
             try
             {
-                newDonation.Status = DonationStatusType.Pending; 
+                newDonation.Status = DonationStatusType.Pending;
                 _context.Donations.Add(newDonation);
                 _context.SaveChanges();
+
+                // استرجاع البيانات اللازمة للإشعار
+                var activity = _context.Activities.FirstOrDefault(a => a.ActivityId == newDonation.ActivityId);
+                var donor = _context.Users.FirstOrDefault(u => u.Id == newDonation.DonorId); // Assuming Users table
+
+                if (activity != null && donor != null)
+                {
+                    // إنشاء الإشعار
+                    var notification = new Notification
+                    {
+                        Title = "New Donation",
+                        Description = $"You Donated To '{activity.Title}' With Amount '{newDonation.Amount}' At '{newDonation.DonationDate?.ToString("yyyy-MM-dd")}'",
+                        CreatedAt = DateTime.Now
+                    };
+                    _context.Notifications.Add(notification);
+                    _context.SaveChanges();
+
+                    // ربط الإشعار بالمتبرع (DonorNotification)
+                    var donorNotification = new DonorNotification
+                    {
+                        DonorId = donor.Id,
+                        NotificationId = notification.NotificationId
+                    };
+                    _context.DonorNotifications.Add(donorNotification);
+                    _context.SaveChanges();
+                }
+
                 return Json(new { success = true });
             }
             catch (Exception ex)
@@ -71,6 +98,7 @@ namespace DEPI_Donation.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
 
         [HttpPost]
         public JsonResult Cancel(int id)

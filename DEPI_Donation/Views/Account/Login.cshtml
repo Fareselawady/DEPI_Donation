@@ -76,26 +76,26 @@
 		<!-- FORM SECTION -->
 		<div class="row">
 			<!-- SIGN UP -->
-			<div class="col align-items-center flex-col sign-up">
+			<form asp-area="" asp-controller="Account" asp-action="Register" method="post" class="col align-items-center flex-col sign-up">
 				<div class="form-wrapper align-items-center">
 					<div class="form sign-up">
 						<div class="input-group">
 							<i class='bx bxs-user'></i>
-							<input type="text" placeholder="Username">
+							<input name="UserName" type="text" placeholder="User Name">
 						</div>
 						<div class="input-group">
 							<i class='bx bx-mail-send'></i>
-							<input type="email" placeholder="Email">
+							<input name="Email" type="email" placeholder="Email">
 						</div>
 						<div class="input-group">
 							<i class='bx bxs-lock-alt'></i>
-							<input type="password" placeholder="Password">
+							<input name="Password" type="password" placeholder="Password">
 						</div>
 						<div class="input-group">
 							<i class='bx bxs-lock-alt'></i>
-							<input type="password" placeholder="Confirm password">
+							<input name="ConfirmPassword" type="password" placeholder="Confirm Password">
 						</div>
-						<button>
+						<button type="submit">
 							Sign up
 						</button>
 						<p>
@@ -109,21 +109,26 @@
 					</div>
 				</div>
 
-			</div>
+			</form>
 			<!-- END SIGN UP -->
 			<!-- SIGN IN -->
-			<div class="col align-items-center flex-col sign-in">
+			<form asp-area="" asp-controller="Account" asp-action="Login" method="post" class="col align-items-center flex-col sign-in">
 				<div class="form-wrapper align-items-center">
 					<div class="form sign-in">
 						<div class="input-group">
 							<i class='bx bxs-user'></i>
-							<input type="text" placeholder="Username">
+							<input name="Email" type="text" placeholder="Email">
 						</div>
 						<div class="input-group">
 							<i class='bx bxs-lock-alt'></i>
-							<input type="password" placeholder="Password">
+							<input name="Password" type="password" placeholder="Password">
 						</div>
-						<button>
+						@* <div class="input-group"> *@
+						@* 	<i class='bx bxs-lock-alt'></i> *@
+						@* 	<label for="RememberMe"> Remember Me ?</label> *@
+						@* 	<input name="RememberMe" type="checkbox"> *@
+						@* </div> *@
+						<button type="submit">
 							Sign in
 						</button>
 						<p>
@@ -143,7 +148,7 @@
 				</div>
 				<div class="form-wrapper">
 				</div>
-			</div>
+			</form>
 			<!-- END SIGN IN -->
 		</div>
 		<!-- END FORM SECTION -->

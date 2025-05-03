@@ -1,6 +1,6 @@
 ﻿using DEPI_Donation.Data;
 using DEPI_Donation.Models;
-using DEPI_Donation.Models.ModelsBL;
+//using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,12 +9,12 @@ namespace DEPI_Donation.Controllers
     public class NotificationsController : Controller
     {
         private readonly AppDbcontext _context;
-        private readonly NotificationBL _notificationBL;
+        //private readonly NotificationBL _notificationBL;
 
         public NotificationsController(AppDbcontext context)
         {
             _context = context;
-            _notificationBL = new NotificationBL(context);
+            //_notificationBL = new NotificationBL(context);
         }
 
         // GET: Notifications/Index

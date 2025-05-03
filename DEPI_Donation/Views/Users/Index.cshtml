@@ -20,33 +20,38 @@
     <tbody>
         @foreach (var user in Model)
         {
-            <tr id="user-@user.UserId">
-                <td>@user.UserId</td>
+            <tr id="user-@user.Id">
+                <td>@user.Id</td>
                 <td>
-                    <span class="user-field" id="UserName-@user.UserId">@user.UserName</span>
-                    <input type="text" id="edit-UserName-@user.UserId" class="edit-input form-control" value="@user.UserName" style="display:none;" />
+                    <span class="user-field" id="UserName-@user.Id">@user.UserName</span>
+                    <input type="text" id="edit-UserName-@user.Id" class="edit-input form-control" value="@user.UserName" style="display:none;" />
                 </td>
                 <td>
-                    <span class="user-field" id="Email-@user.UserId">@user.Email</span>
-                    <input type="text" id="edit-Email-@user.UserId" class="edit-input form-control" value="@user.Email" style="display:none;" />
+                    <span class="user-field" id="Email-@user.Id">@user.Email</span>
+                    <input type="text" id="edit-Email-@user.Id" class="edit-input form-control" value="@user.Email" style="display:none;" />
                 </td>
                 <td>
-                    <span class="user-field" id="Phone-@user.UserId">@user.Phone</span>
-                    <input type="text" id="edit-Phone-@user.UserId" class="edit-input form-control" value="@user.Phone" style="display:none;" />
+                    <span class="user-field" id="Phone-@user.Id">@user.PhoneNumber</span>
+                    <input type="text" id="edit-Phone-@user.Id" class="edit-input form-control" value="@user.PhoneNumber" style="display:none;" />
                 </td>
                 <td>
-                    <span class="user-field" id="Password-@user.UserId">@user.Password</span>
-                    <input type="text" id="edit-Password-@user.UserId" class="edit-input form-control" value="@user.Password" style="display:none;" />
+                    @* <span class="user-field" id="Password-@user.Id">@user.Password</span> *@
+                    @* <input type="text" id="edit-Password-@user.Id" class="edit-input form-control" value="@user.Password" style="display:none;" /> *@
+                    <span class="user-field" id="Password-@user.Id"></span>
+                    <input type="text" id="edit-Password-@user.Id" class="edit-input form-control" value="" style="display:none;" />
                 </td>
                 <td>
-                    <span class="user-field" id="UserType-@user.UserId">@user.UserType</span>
-                    <input type="text" id="edit-UserType-@user.UserId" class="edit-input form-control" value="@user.UserType" style="display:none;" />
+                    <span class="user-field" id="UserType-@user.Id"></span>
+                    @* <span class="user-field" id="UserType-@user.Id">@user.UserType</span> *@
+
+                    <input type="text" id="edit-UserType-@user.Id" class="edit-input form-control" value="" style="display:none;" />
+                    @* <input type="text" id="edit-UserType-@user.Id" class="edit-input form-control" value="@user.UserType" style="display:none;" /> *@
                 </td>
                 <td>
                     @if (user.Donations != null && user.Donations.Any())
                     {
                         <!-- عرض الزرار لو في تبرعات -->
-                        <a href="@Url.Action("UserDonations", "Users", new { userId = user.UserId })" class="btn btn-info btn-sm">View Donations</a>
+                        <a href="@Url.Action("UserDonations", "Users", new { userId = user.Id })" class="btn btn-info btn-sm">View Donations</a>
                     }
                     else
                     {
@@ -55,15 +60,15 @@
                     }
                 </td>
                 <td>
-                    @if (user.UserType == "Donor")
-                    {
-                        <!-- باقي الأزرار الأخرى مثل Edit أو Delete -->
-                    }
+                    @* @if (user.UserType == "Donor") *@
+                    @* { *@
+                    @*     <!-- باقي الأزرار الأخرى مثل Edit أو Delete --> *@
+                    @* } *@
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-warning edit-btn" data-id="@user.UserId">✏️ Edit</button>
-                    <button class="btn btn-sm btn-success save-btn" data-id="@user.UserId" style="display:none;">💾 Save</button>
-                    <button class="btn btn-sm btn-danger delete-btn" data-id="@user.UserId">🗑️ Delete</button>
+                    <button class="btn btn-sm btn-warning edit-btn" data-id="@user.Id">✏️ Edit</button>
+                    <button class="btn btn-sm btn-success save-btn" data-id="@user.Id" style="display:none;">💾 Save</button>
+                    <button class="btn btn-sm btn-danger delete-btn" data-id="@user.Id">🗑️ Delete</button>
                 </td>
             </tr>
         }
