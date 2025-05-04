@@ -1,11 +1,14 @@
 ﻿using DEPI_Donation.Data;
 using DEPI_Donation.Models;
+using Microsoft.AspNetCore.Authorization;
+
 //using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DEPI_Donation.Controllers
 {
+    [Authorize]
     public class NotificationsController : Controller
     {
         private readonly AppDbcontext _context;
@@ -25,6 +28,7 @@ namespace DEPI_Donation.Controllers
         }
 
         // GET: Notifications/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -32,6 +36,7 @@ namespace DEPI_Donation.Controllers
 
         // POST: Notifications/Create
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public JsonResult Create(Notification newNotification)
         {
             if (!ModelState.IsValid)
@@ -55,6 +60,7 @@ namespace DEPI_Donation.Controllers
         }
 
         // GET: Notifications/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             var notification = _context.Notifications.FirstOrDefault(n => n.NotificationId == id);
@@ -67,6 +73,7 @@ namespace DEPI_Donation.Controllers
 
         // POST: Notifications/Edit/5
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public JsonResult Edit(int id, Notification updatedNotification)
         {
             if (id != updatedNotification.NotificationId)

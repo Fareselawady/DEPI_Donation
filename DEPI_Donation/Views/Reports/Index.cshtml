@@ -1,43 +1,132 @@
 ﻿@model List<DEPI_Donation.Models.Report>
 
-<h2>Report List</h2>
-<a href="@Url.Action("Create", "Reports")" class="btn btn-primary mb-3">➕ Add Report</a>
+@{
+    ViewData["Title"] = "Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Activity Title</th> <!-- العمود الجديد لعرض النشاط -->
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var report in Model)
-        {
-            <tr id="report-@report.ReportId">
-                <td>@report.ReportId</td>
-                <td>
-                    <span class="report-field" id="Title-@report.ReportId">@report.Title</span>
-                    <input type="text" id="edit-Title-@report.ReportId" class="edit-input form-control" value="@report.Title" style="display:none;" />
-                </td>
-                <td>
-                    <span class="report-field" id="Description-@report.ReportId">@report.Description</span>
-                    <textarea id="edit-Description-@report.ReportId" class="edit-input form-control" style="display:none;">@report.Description</textarea>
-                </td>
-                <td>
-                    @report.Activity?.Title <!-- عرض عنوان النشاط -->
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-warning edit-btn" data-id="@report.ReportId">✏️ Edit</button>
-                    <button class="btn btn-sm btn-success save-btn" data-id="@report.ReportId" style="display:none;">💾 Save</button>
-                    <button class="btn btn-sm btn-danger delete-btn" data-id="@report.ReportId">🗑️ Delete</button>
-                </td>
-            </tr>
+<style>
+    .report-table-container {
+        max-width: 1000px;
+        margin: 4rem auto;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .report-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+        .report-header h2 {
+            font-weight: bold;
+            color: #1f2937;
         }
-    </tbody>
-</table>
+
+    .styled-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+        .styled-table thead th {
+            text-align: left;
+            padding: 0.75rem;
+            background-color: #f3f4f6;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .styled-table tbody tr {
+            background-color: #f9f9fb;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+            .styled-table tbody tr:hover {
+                box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            }
+
+        .styled-table td {
+            padding: 0.75rem;
+            color: #555;
+            border-top: 1px solid #e5e7eb;
+        }
+
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.75rem;
+        border-radius: 10px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.4rem;
+    }
+
+    .styled-table-wrapper {
+        background-color: #f9f9fb;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+</style>
+
+<section class="report-table-container">
+    <div class="report-header">
+        <h2>📑 Report List</h2>
+        <a href="@Url.Action("Create", "Reports")" class="btn btn-primary shadow-sm">➕ Add Report</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <p>No reports found.</p>
+    }
+    else
+    {
+        <div class="styled-table-wrapper">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Activity Title</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var report in Model)
+                    {
+                        <tr id="report-@report.ReportId">
+                            <td>@report.ReportId</td>
+                            <td>
+                                <span class="report-field" id="Title-@report.ReportId">@report.Title</span>
+                                <input type="text" id="edit-Title-@report.ReportId" class="edit-input form-control" value="@report.Title" style="display:none;" />
+                            </td>
+                            <td>
+                                <span class="report-field" id="Description-@report.ReportId">@report.Description</span>
+                                <textarea id="edit-Description-@report.ReportId" class="edit-input form-control" style="display:none;">@report.Description</textarea>
+                            </td>
+                            <td>
+                                @report.Activity?.Title
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-sm btn-warning edit-btn" data-id="@report.ReportId">✏️ Edit</button>
+                                    <button class="btn btn-sm btn-success save-btn" data-id="@report.ReportId" style="display:none;">💾 Save</button>
+                                    <button class="btn btn-sm btn-danger delete-btn" data-id="@report.ReportId">🗑️ Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

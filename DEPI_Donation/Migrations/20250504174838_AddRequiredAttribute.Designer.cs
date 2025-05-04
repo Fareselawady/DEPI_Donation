@@ -4,6 +4,7 @@ using DEPI_Donation.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DEPI_Donation.Migrations
 {
     [DbContext(typeof(AppDbcontext))]
-    partial class AppDbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250504174838_AddRequiredAttribute")]
+    partial class AddRequiredAttribute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +66,7 @@ namespace DEPI_Donation.Migrations
                     b.HasKey("ActivityId")
                         .HasName("PK__Activiti__45F4A7F1550916E8");
 
-                    b.ToTable("Activities", (string)null);
+                    b.ToTable("Activities");
                 });
 
             modelBuilder.Entity("DEPI_Donation.Models.Donation", b =>
@@ -74,7 +77,7 @@ namespace DEPI_Donation.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DonationId"));
 
-                    b.Property<int>("ActivityId")
+                    b.Property<int?>("ActivityId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Amount")
@@ -105,7 +108,7 @@ namespace DEPI_Donation.Migrations
 
                     b.HasIndex("PaymentId");
 
-                    b.ToTable("Donations", (string)null);
+                    b.ToTable("Donations");
                 });
 
             modelBuilder.Entity("DEPI_Donation.Models.DonorNotification", b =>
@@ -127,7 +130,7 @@ namespace DEPI_Donation.Migrations
 
                     b.HasIndex("NotificationId");
 
-                    b.ToTable("DonorNotifications", (string)null);
+                    b.ToTable("DonorNotifications");
                 });
 
             modelBuilder.Entity("DEPI_Donation.Models.Notification", b =>
@@ -153,7 +156,7 @@ namespace DEPI_Donation.Migrations
                     b.HasKey("NotificationId")
                         .HasName("PK__Notifica__20CF2E12171BDDDB");
 
-                    b.ToTable("Notification", (string)null);
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("DEPI_Donation.Models.Payment", b =>
@@ -175,7 +178,7 @@ namespace DEPI_Donation.Migrations
                     b.HasIndex("PaymentMethod")
                         .IsUnique();
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("DEPI_Donation.Models.Report", b =>
@@ -201,7 +204,7 @@ namespace DEPI_Donation.Migrations
 
                     b.HasIndex("ActivityId");
 
-                    b.ToTable("Reports", (string)null);
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("DEPI_Donation.Models.User", b =>
@@ -265,7 +268,7 @@ namespace DEPI_Donation.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -287,7 +290,7 @@ namespace DEPI_Donation.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -309,7 +312,7 @@ namespace DEPI_Donation.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RoleClaims", (string)null);
+                    b.ToTable("RoleClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
@@ -331,7 +334,7 @@ namespace DEPI_Donation.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserClaims", (string)null);
+                    b.ToTable("UserClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
@@ -350,7 +353,7 @@ namespace DEPI_Donation.Migrations
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.ToTable("UserLogins", (string)null);
+                    b.ToTable("UserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
@@ -363,7 +366,7 @@ namespace DEPI_Donation.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -382,7 +385,7 @@ namespace DEPI_Donation.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens", (string)null);
+                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("DEPI_Donation.Models.Donation", b =>
@@ -390,8 +393,7 @@ namespace DEPI_Donation.Migrations
                     b.HasOne("DEPI_Donation.Models.Activity", "Activity")
                         .WithMany("Donations")
                         .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DEPI_Donation.Models.User", "Donor")
                         .WithMany("Donations")

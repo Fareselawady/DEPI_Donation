@@ -11,8 +11,8 @@ public  class Activity
     [Key]
     public int ActivityId { get; set; }
 
-    [StringLength(200)]
-    public string? Title { get; set; }
+    [StringLength(200),Required]
+    public required string Title { get; set; }
 
     public string? Description { get; set; }
 

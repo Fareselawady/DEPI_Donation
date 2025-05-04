@@ -1,5 +1,7 @@
 ﻿using DEPI_Donation.Data;
 using DEPI_Donation.Models;
+using Microsoft.AspNetCore.Authorization;
+
 //using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +10,7 @@ using System.Diagnostics;
 
 namespace DEPI_Donation.Controllers
 {
+    [Authorize]
     public class DonationsController : Controller
     {
         private readonly AppDbcontext _context;
@@ -101,6 +104,7 @@ namespace DEPI_Donation.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public JsonResult Cancel(int id)
         {
             var donation = _context.Donations.FirstOrDefault(d => d.DonationId == id);
@@ -120,7 +124,7 @@ namespace DEPI_Donation.Controllers
 
             return Json(new { success = true });
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             var donation = _context.Donations.Find(id);
@@ -133,6 +137,7 @@ namespace DEPI_Donation.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public JsonResult Approve(int id)
         {
             var donation = _context.Donations.Find(id);
@@ -163,6 +168,7 @@ namespace DEPI_Donation.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public JsonResult Edit(int id, Donation updatedDonation)
         {
             if (id != updatedDonation.DonationId)

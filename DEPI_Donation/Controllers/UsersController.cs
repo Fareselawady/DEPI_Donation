@@ -1,5 +1,7 @@
 ﻿using DEPI_Donation.Data;
 using DEPI_Donation.Models;
+using Microsoft.AspNetCore.Authorization;
+
 //using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DEPI_Donation.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private readonly AppDbcontext _context;

@@ -12,7 +12,7 @@ public partial class Payment
     public int PaymentId { get; set; }
 
     [StringLength(50)]
-    public string? PaymentMethod { get; set; }
+    public required string PaymentMethod { get; set; }
 
     [InverseProperty("Payment")]
     public virtual ICollection<Donation> Donations { get; set; } = new List<Donation>();

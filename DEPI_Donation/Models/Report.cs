@@ -11,14 +11,16 @@ public  class Report
     [Key]
     public int ReportId { get; set; }
 
-    [StringLength(200)]
-    public string? Title { get; set; }
+    [StringLength(200),Required]
+    public required string Title { get; set; }
 
     public string? Description { get; set; }
 
-    public int? ActivityId { get; set; }
+    [Required]
+    public required int ActivityId { get; set; }
 
     [ForeignKey("ActivityId")]
     [InverseProperty("Reports")]
-    public virtual Activity? Activity { get; set; }
+    [Required]
+    public required virtual Activity Activity { get; set; }
 }

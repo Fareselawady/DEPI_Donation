@@ -38,8 +38,6 @@ public class AppDbcontext : IdentityDbContext<
 
     public DbSet<Report> Reports { get; set; }
 
-    //public DbSet<User> Users { get; set; }
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -105,6 +103,7 @@ public class AppDbcontext : IdentityDbContext<
         {
             entity.HasKey(e => e.PaymentId).HasName("PK__Payments__9B556A58925DCF70");
             entity.Property(e => e.PaymentId).ValueGeneratedOnAdd(); // تغيير من Never إلى OnAdd
+            entity.HasIndex(e => e.PaymentMethod).IsUnique();
         });
 
         modelBuilder.Entity<Report>(entity =>

@@ -1,67 +1,214 @@
 ﻿@model List<DEPI_Donation.Models.Activity>
 
-<h2>Activity List</h2>
-<a href="@Url.Action("Create", "Activity")" class="btn btn-primary mb-3">➕ Add Activity</a>
+@{
+    ViewData["Title"] = "Activities";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    /* General styles for activity cards */
+    .activity-card {
+    background-color: #f7f9fc; /* Soft light gray-blue background */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #d1e0f0; /* Light, soft border */
+    border-radius: 16px;
+    font-family: 'Segoe UI', sans-serif; /* Apply the font family */
+    padding: 20px; /* Add padding inside the card for better spacing */
+    }
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Target</th>
-            <th>Collected</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
+    /* Hover effect for the card */
+    .activity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
+
+    /* Title style */
+    .activity-card .card-title {
+    font-size: 1.3rem;
+    font-weight: 600; /* Bold title */
+    color: #3b82f6; /* Soft blue for title */
+    font-family: 'Segoe UI', sans-serif; /* Apply the font family */
+    margin-bottom: 12px; /* Add spacing below the title */
+    }
+
+    /* Text style */
+    .activity-card .card-text,
+    .activity-card li {
+    font-size: 1rem; /* Slightly larger text for better readability */
+    color: #5a5a5a; /* Subtle dark gray for text */
+    font-family: 'Segoe UI', sans-serif; /* Apply the font family */
+    line-height: 1.6; /* Improve line spacing */
+    }
+
+    /* Button styles */
+    .activity-card .btn {
+    transition: all 0.3s ease-in-out;
+    font-size: 1rem;
+    font-family: 'Segoe UI', sans-serif; /* Apply the font family */
+    padding: 10px 20px; /* Better button padding for a more spacious feel */
+    border-radius: 12px; /* Rounded corners */
+    display: block;
+    width: 100%;
+    text-align: center;
+    }
+
+    .activity-card .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    .activity-card .btn-warning {
+    background-color: #fcd34d; /* Soft yellow */
+    border-color: #fcd34d;
+    color: #1f2937; /* Darker text for readability */
+    }
+
+    .activity-card .btn-warning:hover {
+    background-color: #fbbf24; /* Slightly darker yellow */
+    }
+
+    .activity-card .btn-success {
+    background-color: #34d399; /* Soft green */
+    border-color: #34d399;
+    color: #1f2937; /* Darker text for readability */
+    }
+
+    .activity-card .btn-success:hover {
+    background-color: #10b981; /* Slightly darker green */
+    }
+
+    .activity-card .btn-danger {
+    background-color: #f87171; /* Soft red */
+    border-color: #f87171;
+    color: #1f2937; /* Darker text for readability */
+    }
+
+    .activity-card .btn-danger:hover {
+    background-color: #f56565; /* Slightly darker red */
+    }
+
+    /* Centering the cards */
+    .activity-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem; /* Increase the gap between cards */
+    }
+
+    .activity-card-wrapper {
+    flex: 1 0 30%;
+    max-width: 340px; /* Slightly larger card size */
+    margin-bottom: 1.5rem; /* Add more space below each card */
+    min-width: 280px; /* Ensure a minimum card size */
+    }
+
+    /* Card content padding */
+    .activity-card-wrapper .card-body {
+    padding: 20px;
+    }
+
+    /* Focus and accessibility improvements */
+    .activity-card .btn:focus, .activity-card .edit-input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25); /* Blue focus ring */
+    }
+
+    .activity-card .card-title,
+    .activity-card .card-text,
+    .activity-card li {
+    transition: color 0.3s ease;
+    }
+
+    /* Subtle focus transition effect */
+    .activity-card .card-title:hover,
+    .activity-card .card-text:hover {
+    color: #1d4ed8; /* Darker blue on hover */
+    }
+
+    /* Padding for input fields */
+    .edit-input {
+    font-size: 0.9rem;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 8px; /* Add padding to inputs */
+    border-radius: 8px; /* Rounded input fields */
+    width: 100%;
+    }
+
+    .edit-input:focus {
+    border-color: #3b82f6; /* Blue border for focus */
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.2);
+    }
+
+</style>
+
+
+
+<section class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark">📋 Activity List</h2>
+        @if (User.IsInRole("Admin")){
+            <a href="@Url.Action("Create", "Activity")" class="btn btn-primary shadow-sm px-4 py-2">➕ Add Activity</a>
+        }
+    </div>
+
+    <div class="activity-cards-container">
         @foreach (var activity in Model)
         {
-            <tr id="activity-@activity.ActivityId">
-                <td>@activity.ActivityId</td>
+            <div class="activity-card-wrapper" id="activity-@activity.ActivityId">
+                <div class="card activity-card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <span class="field" id="Title-@activity.ActivityId">@activity.Title</span>
+                            <input type="text" class="form-control form-control-sm edit-input mt-1" id="edit-Title-@activity.ActivityId" value="@activity.Title" style="display:none;" />
+                        </h5>
+                        <p class="card-text">
+                            <span class="field" id="Description-@activity.ActivityId">@activity.Description</span>
+                            <textarea class="form-control form-control-sm edit-input mt-1" id="edit-Description-@activity.ActivityId" style="display:none;">@activity.Description</textarea>
+                        </p>
 
-                <td>
-                    <span class="field" id="Title-@activity.ActivityId">@activity.Title</span>
-                    <input type="text" class="form-control edit-input" id="edit-Title-@activity.ActivityId" value="@activity.Title" style="display:none;" />
-                </td>
-                <td>
-                    <span class="field" id="Description-@activity.ActivityId">@activity.Description</span>
-                    <textarea class="form-control edit-input" id="edit-Description-@activity.ActivityId" style="display:none;">@activity.Description</textarea>
-                </td>
-                <td>
-                    <span class="field" id="Category-@activity.ActivityId">@activity.Category</span>
-                    <input type="text" class="form-control edit-input" id="edit-Category-@activity.ActivityId" value="@activity.Category" style="display:none;" />
-                </td>
-                <td>
-                    <span class="field" id="TargetAmount-@activity.ActivityId">@activity.TargetAmount?.ToString("F2")</span>
-                    <input type="number" step="0.01" class="form-control edit-input" id="edit-TargetAmount-@activity.ActivityId" value="@activity.TargetAmount" style="display:none;" />
-                </td>
-                <td>@activity.CollectedAmount.ToString("C")</td>
-                <td>@activity.StartDate?.ToString("yyyy-MM-dd")</td>
-                <td>@activity.EndDate?.ToString("yyyy-MM-dd")</td>
-                <td>
-                    <span class="field" id="Status-@activity.ActivityId">@activity.Status</span>
-                    <input type="text" class="form-control edit-input" id="edit-Status-@activity.ActivityId" value="@activity.Status" style="display:none;" />
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-warning edit-btn" data-id="@activity.ActivityId">✏️</button>
-                    <button class="btn btn-sm btn-success save-btn" data-id="@activity.ActivityId" style="display:none;">💾</button>
-                    <button class="btn btn-sm btn-danger delete-btn" data-id="@activity.ActivityId">🗑️</button>
-                </td>
-            </tr>
+                        <ul class="list-unstyled mb-3">
+                            <li>
+                                <strong>Category:</strong>
+                                <span class="field" id="Category-@activity.ActivityId">@activity.Category</span>
+                                <input type="text" class="form-control form-control-sm edit-input" id="edit-Category-@activity.ActivityId" value="@activity.Category" style="display:none;" />
+                            </li>
+                            <li>
+                                <strong>Target:</strong>
+                                <span class="field" id="TargetAmount-@activity.ActivityId">@activity.TargetAmount?.ToString("F2")</span>
+                                <input type="number" step="0.01" class="form-control form-control-sm edit-input" id="edit-TargetAmount-@activity.ActivityId" value="@activity.TargetAmount" style="display:none;" />
+                            </li>
+                            <li><strong>Collected:</strong> @activity.CollectedAmount.ToString("C")</li>
+                            <li><strong>Start:</strong> @activity.StartDate?.ToString("yyyy-MM-dd")</li>
+                            <li><strong>End:</strong> @activity.EndDate?.ToString("yyyy-MM-dd")</li>
+                            <li>
+                                <strong>Status:</strong>
+                                <span class="field" id="Status-@activity.ActivityId">@activity.Status</span>
+                                <input type="text" class="form-control form-control-sm edit-input" id="edit-Status-@activity.ActivityId" value="@activity.Status" style="display:none;" />
+                            </li>
+                        </ul>
+
+                            <div class="d-flex gap-2">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                <button class="btn btn-sm btn-warning edit-btn w-100" data-id="@activity.ActivityId">✏️ Edit</button>
+                                <button class="btn btn-sm btn-success save-btn w-100" data-id="@activity.ActivityId" style="display:none;">💾 Save</button>
+                                <button class="btn btn-sm btn-danger delete-btn w-100" data-id="@activity.ActivityId">🗑️ Delete</button>
+                                }
+                                @if (User.Identity!.IsAuthenticated)
+                                {
+                                    <button class="btn btn-sm btn-primary donate-btn w-100" data-id="@activity.ActivityId">$ Donate</button>
+                                }
+                            </div>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</section>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            // Edit button functionality
             $('.edit-btn').click(function () {
                 var id = $(this).data('id');
                 $('#activity-' + id + ' .field').hide();
@@ -70,7 +217,6 @@
                 $('#activity-' + id + ' .save-btn').show();
             });
 
-            // Save button functionality
             $('.save-btn').click(function () {
                 var id = $(this).data('id');
                 var updated = {
@@ -110,7 +256,6 @@
                 });
             });
 
-            // Delete button functionality
             $('.delete-btn').click(function () {
                 var id = $(this).data('id');
                 if (confirm('Are you sure you want to delete this activity?')) {
@@ -119,7 +264,7 @@
                         type: 'POST',
                         success: function (response) {
                             if (response.success) {
-                                $('#activity-' + id).remove();  // Remove the deleted row from the table
+                                $('#activity-' + id).remove();
                                 alert('Activity deleted successfully!');
                             } else {
                                 alert('Failed to delete activity: ' + response.message);
@@ -131,6 +276,10 @@
                     });
                 }
             });
+
+
+            // Add .donate-btn in ajax here  
+
         });
     </script>
 }

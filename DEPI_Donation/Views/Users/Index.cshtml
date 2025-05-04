@@ -1,79 +1,149 @@
 ﻿@model List<DEPI_Donation.Models.User>
 
-<h2>User List</h2>
-<a href="@Url.Action("Create", "Users")" class="btn btn-primary"> Add User</a>
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
+<style>
+    .user-table-container {
+        max-width: 1000px;
+        margin: 4rem auto;
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Password</th>
-            <th>User Type</th>
-            <th>Donation IDs</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr id="user-@user.Id">
-                <td>@user.Id</td>
-                <td>
-                    <span class="user-field" id="UserName-@user.Id">@user.UserName</span>
-                    <input type="text" id="edit-UserName-@user.Id" class="edit-input form-control" value="@user.UserName" style="display:none;" />
-                </td>
-                <td>
-                    <span class="user-field" id="Email-@user.Id">@user.Email</span>
-                    <input type="text" id="edit-Email-@user.Id" class="edit-input form-control" value="@user.Email" style="display:none;" />
-                </td>
-                <td>
-                    <span class="user-field" id="Phone-@user.Id">@user.PhoneNumber</span>
-                    <input type="text" id="edit-Phone-@user.Id" class="edit-input form-control" value="@user.PhoneNumber" style="display:none;" />
-                </td>
-                <td>
-                    @* <span class="user-field" id="Password-@user.Id">@user.Password</span> *@
-                    @* <input type="text" id="edit-Password-@user.Id" class="edit-input form-control" value="@user.Password" style="display:none;" /> *@
-                    <span class="user-field" id="Password-@user.Id"></span>
-                    <input type="text" id="edit-Password-@user.Id" class="edit-input form-control" value="" style="display:none;" />
-                </td>
-                <td>
-                    <span class="user-field" id="UserType-@user.Id"></span>
-                    @* <span class="user-field" id="UserType-@user.Id">@user.UserType</span> *@
+    .user-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
 
-                    <input type="text" id="edit-UserType-@user.Id" class="edit-input form-control" value="" style="display:none;" />
-                    @* <input type="text" id="edit-UserType-@user.Id" class="edit-input form-control" value="@user.UserType" style="display:none;" /> *@
-                </td>
-                <td>
-                    @if (user.Donations != null && user.Donations.Any())
-                    {
-                        <!-- عرض الزرار لو في تبرعات -->
-                        <a href="@Url.Action("UserDonations", "Users", new { userId = user.Id })" class="btn btn-info btn-sm">View Donations</a>
-                    }
-                    else
-                    {
-                        <!-- لو مفيش تبرعات، عرض "No Donations" -->
-                        <div>No Donations</div>
-                    }
-                </td>
-                <td>
-                    @* @if (user.UserType == "Donor") *@
-                    @* { *@
-                    @*     <!-- باقي الأزرار الأخرى مثل Edit أو Delete --> *@
-                    @* } *@
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-warning edit-btn" data-id="@user.Id">✏️ Edit</button>
-                    <button class="btn btn-sm btn-success save-btn" data-id="@user.Id" style="display:none;">💾 Save</button>
-                    <button class="btn btn-sm btn-danger delete-btn" data-id="@user.Id">🗑️ Delete</button>
-                </td>
-            </tr>
+        .user-header h2 {
+            font-weight: bold;
+            color: #1f2937;
         }
-    </tbody>
-</table>
+
+    .styled-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+        .styled-table thead th {
+            text-align: left;
+            padding: 0.75rem;
+            background-color: #f3f4f6;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .styled-table tbody tr {
+            background-color: #f9f9fb;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+            .styled-table tbody tr:hover {
+                box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            }
+
+        .styled-table td {
+            padding: 0.75rem;
+            color: #555;
+            border-top: 1px solid #e5e7eb;
+        }
+
+    .badge {
+        padding: 0.35em 0.6em;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.75rem;
+        border-radius: 10px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.4rem;
+    }
+
+    .styled-table-wrapper {
+        background-color: #f9f9fb;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+</style>
+
+<section class="user-table-container">
+    <div class="user-header">
+        <h2>👥 User List</h2>
+        <a href="@Url.Action("Create", "Users")" class="btn btn-primary shadow-sm">➕ Add User</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <p>No users found.</p>
+    }
+    else
+    {
+        <div class="styled-table-wrapper">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>UserName</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Donations</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr id="user-@user.Id">
+                            <td>@user.Id</td>
+                            <td>
+                                <span class="user-field" id="UserName-@user.Id">@user.UserName</span>
+                                <input type="text" id="edit-UserName-@user.Id" class="edit-input form-control" value="@user.UserName" style="display:none;" />
+                            </td>
+                            <td>
+                                <span class="user-field" id="Email-@user.Id">@user.Email</span>
+                                <input type="text" id="edit-Email-@user.Id" class="edit-input form-control" value="@user.Email" style="display:none;" />
+                            </td>
+                            <td>
+                                <span class="user-field" id="Phone-@user.Id">@user.PhoneNumber</span>
+                                <input type="text" id="edit-Phone-@user.Id" class="edit-input form-control" value="@user.PhoneNumber" style="display:none;" />
+                            </td>
+                            <td>
+                                @if (user.Donations != null && user.Donations.Any())
+                                {
+                                    <a href="@Url.Action("UserDonations", "Users", new { userId = user.Id })" class="btn btn-info btn-sm">View Donations</a>
+                                }
+                                else
+                                {
+                                    <div>No Donations</div>
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-warning edit-btn" data-id="@user.Id">✏️ Edit</button>
+                                <button class="btn btn-sm btn-success save-btn" data-id="@user.Id" style="display:none;">💾 Save</button>
+                                <button class="btn btn-sm btn-danger delete-btn" data-id="@user.Id">🗑️ Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -126,33 +196,30 @@
                 });
             });
 
-                // When Delete button is clicked
-                $('.delete-btn').on('click', function () {
-            var id = $(this).data('id');
-            console.log("ID to delete: ", id);  // إضافة هذه السطر لتأكد من قيمة ID
-            var row = $('#user-' + id);
+            $('.delete-btn').on('click', function () {
+                var id = $(this).data('id');
+                console.log("ID to delete: ", id);
+                var row = $('#user-' + id);
 
-            if (confirm('Are you sure you want to delete this user?')) {
-                $.ajax({
-                    url: '@Url.Action("Delete", "Users")',
-                    type: 'POST',
-                    data: { id: id },
-                    success: function (response) {
-                        if (response.success) {
-                            row.remove(); // Remove the user row from the table
-                            alert('User deleted successfully!');
-                        } else {
-                            alert('Failed to delete user: ' + response.message);
+                if (confirm('Are you sure you want to delete this user?')) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Users")',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (response) {
+                            if (response.success) {
+                                row.remove();
+                                alert('User deleted successfully!');
+                            } else {
+                                alert('Failed to delete user: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while deleting the user.');
                         }
-                    },
-                    error: function () {
-                        alert('An error occurred while deleting the user.');
-                    }
-                });
-            }
-        });
-
-
+                    });
+                }
+            });
         });
     </script>
 }
