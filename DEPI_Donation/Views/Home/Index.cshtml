@@ -37,7 +37,7 @@
     <header id="header" class="header d-flex align-items-center fixed-top">
         <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-            <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+            <a href="#hero" class="logo d-flex align-items-center me-auto me-xl-0">
                 <!-- Uncomment the line below if you also wish to use an image logo -->
                 <!-- <img src="assets/img/logo.png" alt=""> -->
                 <h1>AOUN</h1>
@@ -49,14 +49,15 @@
                     <li><a href="#about">About</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#services">Services</a></li>
+                    <li><a href="Activity">Activities</a></li>
                     <li class="dropdown">
                         <a href="#"><span>Donation opportunities</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
-                            <li><a href="charity.html">charity</a></li>
+                            <li><a href="#">charity</a></li>
                             <li class="dropdown">
-                                <a href="zakat.html"><span>Zakat</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                                <a href="#"><span>Zakat</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                                 <ul>
-                                    <li><a href="ZakatCalculator.html">Zakat Calculator</a></li>
+                                    <li><a href="#">Zakat Calculator</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -125,11 +126,8 @@
                 </div>
             </label>
 
-            @using Microsoft.AspNetCore.Identity
-            @inject SignInManager<DEPI_Donation.Models.User> SignInManager
-            @inject UserManager<DEPI_Donation.Models.User> UserManager
 
-            @if (!SignInManager.IsSignedIn(User))
+            @if (!User.Identity!.IsAuthenticated)
             {
                 <div aria-label="User Login Button"
                 tabindex="0"
@@ -149,19 +147,26 @@
             }
             else
             {
-                <div aria-label="User Log Out Button"
-                     tabindex="0"
-                     role="button"
-                     class="user-profile">
+                <div aria-label="User Profile Button"
+                tabindex="0"
+                role="button"
+                class="user-profile">
                     <div class="user-profile-inner">
                         <svg aria-hidden="true"
-                             xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 24 24">
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24">
                             <g data-name="Layer 2" id="Layer_2">
                                 <path d="m15.626 11.769a6 6 0 1 0 -7.252 0 9.008 9.008 0 0 0 -5.374 8.231 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 9.008 9.008 0 0 0 -5.374-8.231zm-7.626-4.769a4 4 0 1 1 4 4 4 4 0 0 1 -4-4zm10 14h-12a1 1 0 0 1 -1-1 7 7 0 0 1 14 0 1 1 0 0 1 -1 1z"></path>
                             </g>
                         </svg>
-                        <a style="color: aliceblue;" href="@Url.Action("Logout", "Account")">Profile</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a style="color: aliceblue;" href="@Url.Action("Dashboard", "Account")">Dashboard</a>
+                        }
+                        else
+                        {
+                            <a style="color: aliceblue;" href="@Url.Action("Profile", "Account")">Profile</a>
+                        }
                     </div>
                 </div>
                 <div aria-label="User Log Out Button"
@@ -169,13 +174,6 @@
                      role="button"
                      class="user-profile">
                     <div class="user-profile-inner">
-                        <svg aria-hidden="true"
-                             xmlns="http://www.w3.org/2000/svg"
-                             viewBox="0 0 24 24">
-                            <g data-name="Layer 2" id="Layer_2">
-                                <path d="m15.626 11.769a6 6 0 1 0 -7.252 0 9.008 9.008 0 0 0 -5.374 8.231 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 9.008 9.008 0 0 0 -5.374-8.231zm-7.626-4.769a4 4 0 1 1 4 4 4 4 0 0 1 -4-4zm10 14h-12a1 1 0 0 1 -1-1 7 7 0 0 1 14 0 1 1 0 0 1 -1 1z"></path>
-                            </g>
-                        </svg>
                         <a style="color: aliceblue;" href="@Url.Action("Logout", "Account")">Log Out</a>
                     </div>
                 </div>

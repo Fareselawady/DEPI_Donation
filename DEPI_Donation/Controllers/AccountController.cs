@@ -22,7 +22,7 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = new User { UserName = model.UserName, Email = model.Email };
+            var user = new User { UserName = model.UserName, Email = model.Email, PhoneNumber = model.PhoneNumber };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
@@ -39,7 +39,7 @@ public class AccountController : Controller
 
     public IActionResult Login()
     {
-        if(User.Identity.IsAuthenticated)
+        if(User.Identity!.IsAuthenticated)
             return RedirectToAction("Index", "Home");
 
         return View();
@@ -62,7 +62,7 @@ public class AccountController : Controller
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
-        return RedirectToAction("Index", "Home");
+        return RedirectToAction("LogIn", "Account");
     }
 
     [HttpGet]
@@ -70,6 +70,12 @@ public class AccountController : Controller
     {
         var user = await _userManager.GetUserAsync(User);
         var donations = user?.Donations;
-        return View(donations);
+        return RedirectToAction("Dashboard", "Account");
+    }
+    public async Task<IActionResult> Profile()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        var donations = user?.Donations;
+        return RedirectToAction("Profile", "Account");
     }
 }

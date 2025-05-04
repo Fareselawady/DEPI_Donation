@@ -38,7 +38,7 @@
 	<header id="header" class="header d-flex align-items-center fixed-top">
 		<div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-			<a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+			<a href="../#hero" class="logo d-flex align-items-center me-auto me-xl-0">
 				<!-- Uncomment the line below if you also wish to use an image logo -->
 				<!-- <img src="assets/img/logo.png" alt=""> -->
 				<h1>AOUN</h1>
@@ -46,10 +46,11 @@
 
 			<nav id="navmenu" class="navmenu">
 				<ul>
-					<li><a href="#hero" class="active">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#features">Features</a></li>
-					<li><a href="#services">Services</a></li>
+					<li><a href="../#hero" class="active">Home</a></li>
+					<li><a href="../#about">About</a></li>
+					<li><a href="../#features">Features</a></li>
+					<li><a href="../#services">Services</a></li>
+					<li><a href="../Activity">Activities</a></li>
 					<li class="dropdown">
 						<a href="#"><span>Donation opportunities</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
 						<ul>
@@ -65,7 +66,7 @@
 							<li><a href="#">Orphan</a></li>
 						</ul>
 					</li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="../#contact">Contact</a></li>
 				</ul>
 				<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 			</nav>
@@ -86,6 +87,10 @@
 						<div class="input-group">
 							<i class='bx bx-mail-send'></i>
 							<input name="Email" type="email" placeholder="Email">
+						</div>
+						<div class="input-group">
+							<i class='bx bx-mail-send'></i>
+							<input name="PhoneNumber" type="tel" placeholder="Phone Number">
 						</div>
 						<div class="input-group">
 							<i class='bx bxs-lock-alt'></i>
@@ -117,17 +122,12 @@
 					<div class="form sign-in">
 						<div class="input-group">
 							<i class='bx bxs-user'></i>
-							<input name="Email" type="text" placeholder="Email">
+							<input name="Email" type="text" placeholder="User Name">
 						</div>
 						<div class="input-group">
 							<i class='bx bxs-lock-alt'></i>
 							<input name="Password" type="password" placeholder="Password">
 						</div>
-						@* <div class="input-group"> *@
-						@* 	<i class='bx bxs-lock-alt'></i> *@
-						@* 	<label for="RememberMe"> Remember Me ?</label> *@
-						@* 	<input name="RememberMe" type="checkbox"> *@
-						@* </div> *@
 						<button type="submit">
 							Sign in
 						</button>

@@ -18,11 +18,12 @@ public partial class Donation
     [Key]
     public int DonationId { get; set; }
 
-    public int? DonorId { get; set; }
-
-    public int? PaymentId { get; set; }
-
-    public int? ActivityId { get; set; }
+    [Required]
+    public required int DonorId { get; set; }
+    [Required]
+    public required int PaymentId { get; set; }
+    [Required]
+    public required int ActivityId { get; set; }
 
     [Column(TypeName = "decimal(18, 2)"), Required]
     public required decimal Amount { get; set; }

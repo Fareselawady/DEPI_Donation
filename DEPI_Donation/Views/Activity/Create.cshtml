@@ -2,88 +2,142 @@
 
 @{
     ViewData["Title"] = "Create Activity";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Use shared layout
 }
 
-<h1>Create Activity</h1>
+<style>
+    .form-container {
+        background-color: #f0f4f8;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        font-family: 'Segoe UI', sans-serif;
+    }
 
-<h4>Activity</h4>
-<hr />
+    h1, h4 {
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-<form id="createActivityForm">
-    <div class="form-group">
-        <label for="Title">Title</label>
-        <input type="text" class="form-control" id="Title" name="Title" />
-        <span class="text-danger" id="TitleError"></span>
+    .form-group label {
+        font-weight: 500;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+        }
+
+    .btn-primary {
+        width: 100%;
+        padding: 12px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+
+    .text-danger {
+        font-size: 0.9em;
+        margin-top: 4px;
+    }
+
+    .container {
+        padding-top: 30px; 
+    }
+</style>
+
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="form-container">
+                <h1>Create Activity</h1>
+                <h4>Fill the form below</h4>
+                <hr />
+
+                <form id="createActivityForm">
+                    <div class="form-group mb-3">
+                        <label for="Title">Title</label>
+                        <input type="text" class="form-control" id="Title" name="Title" />
+                        <span class="text-danger" id="TitleError"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="Description">Description</label>
+                        <input type="text" class="form-control" id="Description" name="Description" />
+                        <span class="text-danger" id="DescriptionError"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="Category">Category</label>
+                        <input type="text" class="form-control" id="Category" name="Category" />
+                        <span class="text-danger" id="CategoryError"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="TargetAmount">Target Amount</label>
+                        <input type="number" class="form-control" id="TargetAmount" name="TargetAmount" />
+                        <span class="text-danger" id="TargetAmountError"></span>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="EndDate">End Date</label>
+                        <input type="date" class="form-control" id="EndDate" name="EndDate" />
+                        <span class="text-danger" id="EndDateError"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="form-group">
-        <label for="Description">Description</label>
-        <input type="text" class="form-control" id="Description" name="Description" />
-        <span class="text-danger" id="DescriptionError"></span>
-    </div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#createActivityForm').on('submit', function (e) {
+                e.preventDefault();
+                $('.text-danger').text('');
 
-    <div class="form-group">
-        <label for="Category">Category</label>
-        <input type="text" class="form-control" id="Category" name="Category" />
-        <span class="text-danger" id="CategoryError"></span>
-    </div>
+                var formData = {
+                    Title: $('#Title').val(),
+                    Description: $('#Description').val(),
+                    Category: $('#Category').val(),
+                    TargetAmount: $('#TargetAmount').val(),
+                    EndDate: $('#EndDate').val(),
+                    Status: "Incompleted"
+                };
 
-    <div class="form-group">
-        <label for="TargetAmount">Target Amount</label>
-        <input type="number" class="form-control" id="TargetAmount" name="TargetAmount" />
-        <span class="text-danger" id="TargetAmountError"></span>
-    </div>
-
-    
-
-    <div class="form-group">
-        <label for="EndDate">End Date</label>
-        <input type="date" class="form-control" id="EndDate" name="EndDate" />
-        <span class="text-danger" id="EndDateError"></span>
-    </div>
-
-  
-
-    <button type="submit" class="btn btn-primary">Create</button>
-</form>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#createActivityForm').on('submit', function (e) {
-            e.preventDefault(); // Prevent the default form submission
-
-            // Clear previous error messages
-            $('.text-danger').text('');
-
-            // Gather form data
-            var formData = {
-                Title: $('#Title').val(),
-                Description: $('#Description').val(),
-                Category: $('#Category').val(),
-                TargetAmount: $('#TargetAmount').val(),
-                StartDate: $('#StartDate').val(),
-                EndDate: $('#EndDate').val(),
-                Status: "Incompleted"
-            };
-
-            // Send the data to the server using AJAX
-            $.ajax({
-                url: '@Url.Action("Create", "Activity")', // Controller action URL
-                type: 'POST',
-                data: formData,
-                success: function (response) {
-                    if (response.success) {
-                        alert('Activity created successfully!');
-                        window.location.href = '@Url.Action("Index", "Activity")'; // Redirect to the index page
-                    } else {
-                        alert('Error: ' + response.message);
+                $.ajax({
+                    url: '@Url.Action("Create", "Activity")',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Activity created successfully!');
+                            window.location.href = '@Url.Action("Index", "Activity")';
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('An error occurred: ' + error);
                     }
-                },
-                error: function (xhr, status, error) {
-                    alert('An error occurred: ' + error);
-                }
+                });
             });
         });
-    });
-</script>
+    </script>
+}

@@ -1,50 +1,144 @@
 ﻿@model List<DEPI_Donation.Models.Payment>
 
-<h2>Payment List</h2>
-<a href="@Url.Action("Create", "Payments")" class="btn btn-primary">Add Payment</a>
+@{
+    ViewData["Title"] = "Payments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Method</th>
-            <th>Donation IDs</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var payment in Model)
-        {
-            <tr id="payment-@payment.PaymentId">
-                <td>@payment.PaymentId</td>
-                <td>
-                    <span class="payment-field" id="PaymentMethod-@payment.PaymentId">@payment.PaymentMethod</span>
-                    <input type="text" id="edit-PaymentMethod-@payment.PaymentId" class="edit-input form-control" value="@payment.PaymentMethod" style="display:none;" />
-                </td>
-                <td>
-                    @if (payment.Donations != null && payment.Donations.Any())
+<style>
+    .payment-table-container {
+        max-width: 1000px;
+        margin: 4rem auto;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .payment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .payment-header h2 {
+        font-weight: bold;
+        color: #1f2937;
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+    .styled-table thead th {
+        text-align: left;
+        padding: 0.75rem;
+        background-color: #f3f4f6;
+        color: #374151;
+        font-weight: 600;
+    }
+
+    .styled-table tbody tr {
+        background-color: #f9f9fb;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: box-shadow 0.3s;
+    }
+
+    .styled-table tbody tr:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .styled-table td {
+        padding: 0.75rem;
+        color: #555;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.75rem;
+        border-radius: 10px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.4rem;
+    }
+
+    .styled-table-wrapper {
+        background-color: #f9f9fb;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .payment-field {
+        display: inline-block;
+    }
+
+    .edit-input {
+        display: none;
+        width: 100%;
+    }
+
+</style>
+
+<section class="payment-table-container">
+    <div class="payment-header">
+        <h2>💰 Payment List</h2>
+        <a href="@Url.Action("Create", "Payments")" class="btn btn-primary shadow-sm">➕ Add Payment</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <p>No payments found.</p>
+    }
+    else
+    {
+        <div class="styled-table-wrapper">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Method</th>
+                        <th>Donation Count</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var payment in Model)
                     {
-                        <ul>
-                            @foreach (var donation in payment.Donations)
-                            {
-                                <li>@donation.DonationId</li>
-                            }
-                        </ul>
+                        <tr id="payment-@payment.PaymentId">
+                            <td>@payment.PaymentId</td>
+                            <td>
+                                <span class="payment-field" id="PaymentMethod-@payment.PaymentId">@payment.PaymentMethod</span>
+                                <input type="text" id="edit-PaymentMethod-@payment.PaymentId" class="edit-input form-control" value="@payment.PaymentMethod" />
+                            </td>
+                            <td>
+                                @if (payment.Donations != null && payment.Donations.Any())
+                                {
+                                    <span>@payment.Donations.Count()  Donations</span>
+                                }
+                                else
+                                {
+                                    <div>No donations</div>
+                                }
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-sm btn-warning edit-btn" data-id="@payment.PaymentId">✏️ Edit</button>
+                                    <button class="btn btn-sm btn-success save-btn" data-id="@payment.PaymentId" style="display:none;">💾 Save</button>
+                                    <button class="btn btn-sm btn-danger delete-btn" data-id="@payment.PaymentId">🗑️ Delete</button>
+                                </div>
+                            </td>
+                        </tr>
                     }
-                    else
-                    {
-                        <div>No donations</div>
-                    }
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-warning edit-btn" data-id="@payment.PaymentId">✏️ Edit</button>
-                    <button class="btn btn-sm btn-success save-btn" data-id="@payment.PaymentId" style="display:none;">💾 Save</button>
-                    <button class="btn btn-sm btn-danger delete-btn" data-id="@payment.PaymentId">🗑️ Delete</button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

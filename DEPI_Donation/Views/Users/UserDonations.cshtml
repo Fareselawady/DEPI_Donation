@@ -1,36 +1,180 @@
 ﻿@model List<DEPI_Donation.Models.Donation>
 
-<h2>Donations for User: @Model.FirstOrDefault()?.Donor?.UserName</h2>
+@{
+    ViewData["Title"] = "Donations for User: " + (Model.FirstOrDefault()?.Donor?.UserName ?? "Unknown User");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Donation ID</th>
-            <th>Activity</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var donation in Model)
-        {
-            <tr>
-                <td>@donation.DonationId</td>
-                <td>@donation.Activity?.Title</td>
-                <td>@donation.Amount</td>
-                <td>@donation.DonationDate?.ToShortDateString()</td>
-                <td>
-                    <span class="badge
-                        @(donation.Status == DonationStatusType.Canceled ? "bg-danger" :
-                          donation.Status == DonationStatusType.Confirmed ? "bg-success" :
-                          "bg-warning text-dark")">
-                        @donation.Status
-                    </span>
-                </td>
-            </tr>
+<style>
+    .donation-table-container {
+        max-width: 1000px;
+        margin: 4rem auto;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .donation-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+        .donation-header h2 {
+            font-weight: bold;
+            color: #1f2937;
         }
-    </tbody>
-</table>
 
-<a href="@Url.Action("Index", "Users")" class="btn btn-primary">Back to User List</a>
+    .styled-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+        .styled-table thead th {
+            text-align: left;
+            padding: 0.75rem;
+            background-color: #f3f4f6;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .styled-table tbody tr {
+            background-color: #f9f9fb;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+            .styled-table tbody tr:hover {
+                box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            }
+
+        .styled-table td {
+            padding: 0.75rem;
+            color: #555;
+            border-top: 1px solid #e5e7eb;
+        }
+
+    .badge {
+        padding: 0.35em 0.6em;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .btn {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.75rem;
+        border-radius: 10px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.4rem;
+    }
+
+    .styled-table-wrapper {
+        background-color: #f9f9fb;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+</style>
+
+<section class="donation-table-container">
+    <div class="donation-header">
+        <h2>💝 Donations for User: @Model.FirstOrDefault()?.Donor?.UserName</h2>
+        <a href="@Url.Action("Index", "Users")" class="btn btn-primary shadow-sm">Back to User List</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <p>No donations found.</p>
+    }
+    else
+    {
+        <div class="styled-table-wrapper">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Donation ID</th>
+                        <th>Activity</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var donation in Model)
+                    {
+                        var formattedDate = donation.DonationDate?.ToString("yyyy-MM-dd") ?? "";
+                        var badgeClass = donation.Status switch
+                        {
+                            DonationStatusType.Canceled => "bg-danger text-white",
+                            DonationStatusType.Confirmed => "bg-success text-white",
+                            _ => "bg-warning text-dark"
+                        };
+
+                        <tr id="donation-@donation.DonationId">
+                            <td>@donation.DonationId</td>
+                            <td>@donation.Activity?.Title</td>
+                            <td>@donation.Amount</td>
+                            <td>@formattedDate</td>
+                            <td>
+                                <span class="badge @badgeClass">@donation.Status</span>
+                            </td>
+                            <td>
+                                @if (donation.Status == DonationStatusType.Pending && User.IsInRole("Admin"))
+                                {
+                                    <div class="action-buttons">
+                                        <button class="btn btn-sm btn-danger cancel-btn" data-id="@donation.DonationId">Cancel</button>
+                                        <button class="btn btn-sm btn-success approve-btn" data-id="@donation.DonationId">Approve</button>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            $('.cancel-btn').click(function () {
+                var id = $(this).data('id');
+                if (confirm('Are you sure you want to cancel this donation?')) {
+                    $.post('/Donations/Cancel', { id: id }, function (response) {
+                        if (response.success) {
+                            var row = $('#donation-' + id);
+                            row.find('.badge').removeClass().addClass('badge bg-danger text-white').text('Canceled');
+                            row.find('.cancel-btn, .approve-btn').hide();
+                        } else {
+                            alert('Cancellation failed: ' + response.message);
+                        }
+                    });
+                }
+            });
+
+            $('.approve-btn').click(function () {
+                var id = $(this).data('id');
+                if (confirm('Are you sure you want to approve this donation?')) {
+                    $.post('/Donations/Approve', { id: id }, function (response) {
+                        if (response.success) {
+                            var row = $('#donation-' + id);
+                            row.find('.badge').removeClass().addClass('badge bg-success text-white').text('Confirmed');
+                            row.find('.cancel-btn, .approve-btn').hide();
+                        } else {
+                            alert('Approval failed: ' + response.message);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

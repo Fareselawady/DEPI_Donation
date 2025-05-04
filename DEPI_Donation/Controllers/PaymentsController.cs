@@ -1,11 +1,14 @@
 ﻿using DEPI_Donation.Data;
 using DEPI_Donation.Models;
+using Microsoft.AspNetCore.Authorization;
+
 //using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DEPI_Donation.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PaymentsController : Controller
     {
         private readonly AppDbcontext _context;
@@ -99,13 +102,19 @@ namespace DEPI_Donation.Controllers
         {
             try
             {
+
+                if (payment.PaymentMethod == null)
+                {
+                    return Json(new { success = false, message = "Payment Is Required." });
+                }
                 _context.Payments.Add(payment);
                 _context.SaveChanges();
                 return Json(new { success = true });
+                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Json(new { success = false, message = ex.Message });
+                return Json(new { success = false, message = "This Payment Method Already Exists" });
             }
         }
     }
