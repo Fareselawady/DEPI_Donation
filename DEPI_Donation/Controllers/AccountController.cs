@@ -3,16 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using DEPI_Donation.Models;
 using DEPI_Donation.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using DEPI_Donation.Data;
 
 public class AccountController : Controller
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
-
-    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+    private readonly AppDbcontext _context; 
+    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager , AppDbcontext appDbcontext)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _context = appDbcontext;
     }
 
     //public IActionResult Register() => View();
@@ -69,13 +72,38 @@ public class AccountController : Controller
     public async Task<IActionResult> Dashboard()
     {
         var user = await _userManager.GetUserAsync(User);
-        var donations = user?.Donations;
-        return RedirectToAction("Dashboard", "Account");
+
+        if (user == null)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        var donations = user.Donations; 
+
+        return View(donations);
     }
+
+    [HttpGet]
+
     public async Task<IActionResult> Profile()
     {
-        var user = await _userManager.GetUserAsync(User);
-        var donations = user?.Donations;
-        return RedirectToAction("Profile", "Account");
+        var user = await _userManager.GetUserAsync(User); // الحصول على المستخدم الحالي
+        if (user == null)
+        {
+            return RedirectToAction("Login", "Account"); // إذا لم يكن المستخدم موجودًا، يتم إعادة التوجيه لتسجيل الدخول
+        }
+
+        // تحميل التبرعات الخاصة بالمستخدم
+        var donations = await _context.Donations
+                                      .Where(d => d.DonorId == user.Id)  // التأكد من أن التبرعات تخص المستخدم
+                                      .Include(d => d.Activity)
+                                      .ToListAsync();
+
+        // تمرير التبرعات للـ View
+        return View("Profile",donations);
     }
+
+
+
+
 }

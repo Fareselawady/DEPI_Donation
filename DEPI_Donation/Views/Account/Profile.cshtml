@@ -1,5 +1,56 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<DEPI_Donation.Models.Donation>
+
 @{
+    ViewData["Title"] = "Your Donations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<section class="donation-table-container">
+    <div class="donation-header">
+        <h2>💝 Your Donations</h2>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-primary shadow-sm">Back to Home</a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <p>No donations found.</p>
+    }
+    else
+    {
+        <div class="styled-table-wrapper">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Donation ID</th>
+                        <th>Activity</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var donation in Model)
+                    {
+                        var formattedDate = donation.DonationDate?.ToString("yyyy-MM-dd") ?? "";
+                        var badgeClass = donation.Status switch
+                        {
+                            DonationStatusType.Canceled => "bg-danger text-white",
+                            DonationStatusType.Confirmed => "bg-success text-white",
+                            _ => "bg-warning text-dark"
+                        };
+
+                        <tr id="donation-@donation.DonationId">
+                            <td>@donation.DonationId</td>
+                            <td>@donation.Activity?.Title</td>
+                            <td>@donation.Amount</td>
+                            <td>@formattedDate</td>
+                            <td>
+                                <span class="badge @badgeClass">@donation.Status</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
