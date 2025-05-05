@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using DEPI_Donation.Models;
 using DEPI_Donation.Data;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using System.Globalization;
 
 namespace DEPI_Donation.Controllers
 {
-    
     public class ActivityController : Controller
     {
         private readonly AppDbcontext _context;
@@ -16,30 +17,28 @@ namespace DEPI_Donation.Controllers
             _context = context;
         }
 
-        // GET: Activity
         public async Task<IActionResult> Index()
         {
+            ViewBag.PaymentMethods = await _context.Payments.ToListAsync();
+
             return View(await _context.Activities.ToListAsync());
         }
 
-        // GET: Activity/Create
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Activity/Create
         [HttpPost]
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(Activity activity)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // التأكد من أن TargetAmount يتم تعيينه بشكل صحيح
-                    activity.Status = "Incompleted"; // وضع الحالة بشكل افتراضي
+                    activity.Status = "Incompleted";
                     _context.Activities.Add(activity);
                     _context.SaveChanges();
 
@@ -54,8 +53,6 @@ namespace DEPI_Donation.Controllers
             return Json(new { success = false, message = "Invalid data." });
         }
 
-
-        // GET: Activity/Edit/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -67,7 +64,6 @@ namespace DEPI_Donation.Controllers
             return View(activity);
         }
 
-        // POST: Activity/Edit/5
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, string Title, string Description, string Category, string Status, int target)
@@ -86,7 +82,6 @@ namespace DEPI_Donation.Controllers
             return Json(new { success = true });
         }
 
-        // GET: Activity/Delete/5
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -99,7 +94,6 @@ namespace DEPI_Donation.Controllers
             return View(activity);
         }
 
-        // POST: Activity/Delete/5
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -115,5 +109,55 @@ namespace DEPI_Donation.Controllers
 
             return Json(new { success = true });
         }
+        public IActionResult GetPaymentMethods()
+        {
+            var paymentMethods = _context.Payments.ToList(); // تأكد من أن PaymentMethods هو جدول طرق الدفع في قاعدة البيانات
+            return Json(paymentMethods); // العودة بالبيانات بتنسيق JSON
+        }
+
+        // تبرع
+        [HttpPost]
+        [Authorize]
+      
+        public async Task<IActionResult> Donate(int activityId, int paymentMethod, decimal amount)
+        {
+            try
+            {
+                var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (!int.TryParse(userIdString, out int userId))
+                {
+                    return Json(new { success = false, message = "User ID is invalid or missing." });
+                }
+
+                var activity = await _context.Activities.FindAsync(activityId);
+                var payment = await _context.Payments.FindAsync(paymentMethod);
+
+                if (activity == null || payment == null)
+                {
+                    return Json(new { success = false, message = "Invalid activity or payment method." });
+                }
+
+                var donation = new Donation
+                {
+                    ActivityId = activityId,
+                    PaymentId = paymentMethod,
+                    Amount = amount,
+                    DonationDate = DateOnly.FromDateTime(DateTime.Now),
+                    DonorId = userId
+                };
+
+                _context.Donations.Add(donation);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+
     }
 }

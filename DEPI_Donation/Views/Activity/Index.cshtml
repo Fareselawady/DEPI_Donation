@@ -4,148 +4,127 @@
     ViewData["Title"] = "Activities";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <style>
     /* General styles for activity cards */
     .activity-card {
-    background-color: #f7f9fc; /* Soft light gray-blue background */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #d1e0f0; /* Light, soft border */
-    border-radius: 16px;
-    font-family: 'Segoe UI', sans-serif; /* Apply the font family */
-    padding: 20px; /* Add padding inside the card for better spacing */
+        background-color: #f7f9fc;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #d1e0f0;
+        border-radius: 16px;
+        font-family: 'Segoe UI', sans-serif;
+        padding: 20px;
     }
 
-    /* Hover effect for the card */
-    .activity-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
-    }
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+        }
 
-    /* Title style */
-    .activity-card .card-title {
-    font-size: 1.3rem;
-    font-weight: 600; /* Bold title */
-    color: #3b82f6; /* Soft blue for title */
-    font-family: 'Segoe UI', sans-serif; /* Apply the font family */
-    margin-bottom: 12px; /* Add spacing below the title */
-    }
+        /* Title style */
+        .activity-card .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #3b82f6;
+            font-family: 'Segoe UI', sans-serif;
+            margin-bottom: 12px;
+        }
 
-    /* Text style */
-    .activity-card .card-text,
-    .activity-card li {
-    font-size: 1rem; /* Slightly larger text for better readability */
-    color: #5a5a5a; /* Subtle dark gray for text */
-    font-family: 'Segoe UI', sans-serif; /* Apply the font family */
-    line-height: 1.6; /* Improve line spacing */
-    }
+        /* Text style */
+        .activity-card .card-text,
+        .activity-card li {
+            font-size: 1rem;
+            color: #5a5a5a;
+            font-family: 'Segoe UI', sans-serif;
+            line-height: 1.6;
+        }
 
-    /* Button styles */
-    .activity-card .btn {
-    transition: all 0.3s ease-in-out;
-    font-size: 1rem;
-    font-family: 'Segoe UI', sans-serif; /* Apply the font family */
-    padding: 10px 20px; /* Better button padding for a more spacious feel */
-    border-radius: 12px; /* Rounded corners */
-    display: block;
-    width: 100%;
-    text-align: center;
-    }
+        /* Button styles */
+        .activity-card .btn {
+            transition: all 0.3s ease-in-out;
+            font-size: 1rem;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 10px 20px;
+            border-radius: 12px;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
 
-    .activity-card .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    }
+            .activity-card .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            }
 
-    .activity-card .btn-warning {
-    background-color: #fcd34d; /* Soft yellow */
-    border-color: #fcd34d;
-    color: #1f2937; /* Darker text for readability */
-    }
+        /* Specific button styles */
+        .activity-card .btn-warning {
+            background-color: #fcd34d;
+            border-color: #fcd34d;
+            color: #1f2937;
+        }
 
-    .activity-card .btn-warning:hover {
-    background-color: #fbbf24; /* Slightly darker yellow */
-    }
+            .activity-card .btn-warning:hover {
+                background-color: #fbbf24;
+            }
 
-    .activity-card .btn-success {
-    background-color: #34d399; /* Soft green */
-    border-color: #34d399;
-    color: #1f2937; /* Darker text for readability */
-    }
+        .activity-card .btn-success {
+            background-color: #34d399;
+            border-color: #34d399;
+            color: #1f2937;
+        }
 
-    .activity-card .btn-success:hover {
-    background-color: #10b981; /* Slightly darker green */
-    }
+            .activity-card .btn-success:hover {
+                background-color: #10b981;
+            }
 
-    .activity-card .btn-danger {
-    background-color: #f87171; /* Soft red */
-    border-color: #f87171;
-    color: #1f2937; /* Darker text for readability */
-    }
+        .activity-card .btn-danger {
+            background-color: #f87171;
+            border-color: #f87171;
+            color: #1f2937;
+        }
 
-    .activity-card .btn-danger:hover {
-    background-color: #f56565; /* Slightly darker red */
-    }
+            .activity-card .btn-danger:hover {
+                background-color: #f56565;
+            }
 
     /* Centering the cards */
     .activity-cards-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem; /* Increase the gap between cards */
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
     }
 
     .activity-card-wrapper {
-    flex: 1 0 30%;
-    max-width: 340px; /* Slightly larger card size */
-    margin-bottom: 1.5rem; /* Add more space below each card */
-    min-width: 280px; /* Ensure a minimum card size */
+        flex: 1 0 30%;
+        max-width: 340px;
+        margin-bottom: 1.5rem;
+        min-width: 280px;
     }
 
-    /* Card content padding */
-    .activity-card-wrapper .card-body {
-    padding: 20px;
-    }
+        /* Card content padding */
+        .activity-card-wrapper .card-body {
+            padding: 20px;
+        }
 
-    /* Focus and accessibility improvements */
-    .activity-card .btn:focus, .activity-card .edit-input:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25); /* Blue focus ring */
-    }
-
-    .activity-card .card-title,
-    .activity-card .card-text,
-    .activity-card li {
-    transition: color 0.3s ease;
-    }
-
-    /* Subtle focus transition effect */
-    .activity-card .card-title:hover,
-    .activity-card .card-text:hover {
-    color: #1d4ed8; /* Darker blue on hover */
-    }
-
-    /* Padding for input fields */
     .edit-input {
-    font-size: 0.9rem;
-    font-family: 'Segoe UI', sans-serif;
-    padding: 8px; /* Add padding to inputs */
-    border-radius: 8px; /* Rounded input fields */
-    width: 100%;
+        font-size: 0.9rem;
+        font-family: 'Segoe UI', sans-serif;
+        padding: 8px;
+        border-radius: 8px;
+        width: 100%;
     }
 
-    .edit-input:focus {
-    border-color: #3b82f6; /* Blue border for focus */
-    box-shadow: 0 0 5px rgba(59, 130, 246, 0.2);
-    }
-
+        .edit-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 5px rgba(59, 130, 246, 0.2);
+        }
 </style>
-
-
-
 <section class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold text-dark">📋 Activity List</h2>
-        @if (User.IsInRole("Admin")){
+        @if (User.IsInRole("Admin"))
+        {
             <a href="@Url.Action("Create", "Activity")" class="btn btn-primary shadow-sm px-4 py-2">➕ Add Activity</a>
         }
     </div>
@@ -186,18 +165,35 @@
                             </li>
                         </ul>
 
-                            <div class="d-flex gap-2">
-                                @if (User.IsInRole("Admin"))
-                                {
+                        <div class="d-flex gap-2">
+                            @if (User.IsInRole("Admin"))
+                            {
                                 <button class="btn btn-sm btn-warning edit-btn w-100" data-id="@activity.ActivityId">✏️ Edit</button>
                                 <button class="btn btn-sm btn-success save-btn w-100" data-id="@activity.ActivityId" style="display:none;">💾 Save</button>
                                 <button class="btn btn-sm btn-danger delete-btn w-100" data-id="@activity.ActivityId">🗑️ Delete</button>
-                                }
-                                @if (User.Identity!.IsAuthenticated)
+                            }
+                            @if (User.Identity!.IsAuthenticated)
+                            {
+                                <button class="btn btn-sm btn-primary donate-btn w-100" data-id="@activity.ActivityId">$ Donate</button>
+                            }
+                        </div>
+
+                        <!-- نموذج التبرع -->
+                        <div class="donation-form" data-id="@activity.ActivityId" style="display:none;">
+                            <label for="paymentMethod-@activity.ActivityId">Choose a payment method:</label>
+                            <select class="form-control form-control-sm" id="paymentMethod-@activity.ActivityId">
+                                <option value="">Select payment method</option>
+                                @foreach (var method in ViewBag.PaymentMethods)
                                 {
-                                    <button class="btn btn-sm btn-primary donate-btn w-100" data-id="@activity.ActivityId">$ Donate</button>
+                                    <option value="@method.PaymentId">@method.PaymentMethod</option> <!-- تم تعديل @method.PaymentMethod بناءً على الـ Model -->
                                 }
-                            </div>
+                            </select>
+
+                            <label for="donationAmount-@activity.ActivityId" class="mt-2">Enter donation amount:</label>
+                            <input type="number" class="form-control form-control-sm" id="donationAmount-@activity.ActivityId" placeholder="Enter amount" min="1" step="any" />
+
+                            <button class="btn btn-sm btn-primary mt-2 donate-submit" data-id="@activity.ActivityId">Donate</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -277,9 +273,66 @@
                 }
             });
 
+              $(".donate-btn").on("click", function() {
+            var activityId = $(this).data("id");
 
-            // Add .donate-btn in ajax here  
+            // إظهار نموذج التبرع
+            $(".donation-form[data-id='" + activityId + "']").show();
 
+            // جلب طرق الدفع عبر AJAX
+            $.ajax({
+                url: '@Url.Action("GetPaymentMethods", "Activity")', // رابط الـ Controller الذي يعرض طرق الدفع
+                type: 'GET',
+                success: function(response) {
+                    var paymentSelect = $("#paymentMethod-" + activityId);
+                    paymentSelect.empty(); // مسح الاختيارات القديمة
+                    paymentSelect.append('<option value="">Select payment method</option>'); // إضافة الخيار الافتراضي
+
+                    // إضافة طرق الدفع إلى القائمة
+                    $.each(response, function(index, method) {
+                        paymentSelect.append('<option value="' + method.paymentId + '">' + method.paymentMethod + '</option>');
+                    });
+                },
+                error: function() {
+                    alert('Error loading payment methods.');
+                }
+            });
+        });
+
+        // عند الضغط على زر التبرع في نموذج التبرع
+        $(".donate-submit").on("click", function() {
+            var activityId = $(this).data("id");
+            var paymentMethod = $("#paymentMethod-" + activityId).val();
+            var amount = $("#donationAmount-" + activityId).val();
+
+            if (!paymentMethod || !amount) {
+                alert("Please select a payment method and enter a donation amount.");
+                return;
+            }
+
+            // إرسال البيانات للتبرع عبر AJAX
+            $.ajax({
+                url: '@Url.Action("Donate", "Activity")', // رابط الـ Controller الذي يعالج التبرعات
+                type: 'POST',
+                data: {
+                    activityId: activityId,
+                    paymentMethod: paymentMethod,
+                    amount: amount
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('Donation successful!');
+                        $(".donation-form[data-id='" + activityId + "']").hide(); // إخفاء النموذج بعد التبرع
+                    } else {
+                        alert('Donation failed: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('Error making donation.');
+                }
+            });
+        });
         });
     </script>
 }
+

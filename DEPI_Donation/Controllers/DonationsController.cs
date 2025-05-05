@@ -1,8 +1,6 @@
 ﻿using DEPI_Donation.Data;
 using DEPI_Donation.Models;
 using Microsoft.AspNetCore.Authorization;
-
-//using DEPI_Donation.Models.ModelsBL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,12 +12,10 @@ namespace DEPI_Donation.Controllers
     public class DonationsController : Controller
     {
         private readonly AppDbcontext _context;
-        //private readonly DonationBL _donationBL;
 
         public DonationsController(AppDbcontext context)
         {
             _context = context;
-            //_donationBL = new DonationBL(context);
         }
 
         public IActionResult Index()
@@ -32,8 +28,7 @@ namespace DEPI_Donation.Controllers
             return View(donations);
         }
 
-        
-          public IActionResult Create()
+        public IActionResult Create()
         {
             var activities = _context.Activities.Select(a => new SelectListItem
             {
@@ -52,7 +47,6 @@ namespace DEPI_Donation.Controllers
 
             return View();
         }
-        
 
         [HttpPost]
         public JsonResult Create(Donation newDonation)
@@ -68,13 +62,12 @@ namespace DEPI_Donation.Controllers
                 _context.Donations.Add(newDonation);
                 _context.SaveChanges();
 
-                // استرجاع البيانات اللازمة للإشعار
+                // Create notification
                 var activity = _context.Activities.FirstOrDefault(a => a.ActivityId == newDonation.ActivityId);
-                var donor = _context.Users.FirstOrDefault(u => u.Id == newDonation.DonorId); // Assuming Users table
+                var donor = _context.Users.FirstOrDefault(u => u.Id == newDonation.DonorId);
 
                 if (activity != null && donor != null)
                 {
-                    // إنشاء الإشعار
                     var notification = new Notification
                     {
                         Title = "New Donation",
@@ -84,7 +77,6 @@ namespace DEPI_Donation.Controllers
                     _context.Notifications.Add(notification);
                     _context.SaveChanges();
 
-                    // ربط الإشعار بالمتبرع (DonorNotification)
                     var donorNotification = new DonorNotification
                     {
                         DonorId = donor.Id,
@@ -102,7 +94,6 @@ namespace DEPI_Donation.Controllers
             }
         }
 
-
         [HttpPost]
         [Authorize]
         public JsonResult Cancel(int id)
@@ -119,11 +110,11 @@ namespace DEPI_Donation.Controllers
             }
 
             donation.Status = DonationStatusType.Canceled;
-
-            _context.SaveChanges(); 
+            _context.SaveChanges();
 
             return Json(new { success = true });
         }
+
         [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
@@ -134,7 +125,6 @@ namespace DEPI_Donation.Controllers
             }
             return View(donation);
         }
-
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -155,17 +145,15 @@ namespace DEPI_Donation.Controllers
 
             if (activity.CollectedAmount >= activity.TargetAmount)
             {
-                activity.Status = "Completed"; 
+                activity.Status = "Completed";
             }
 
             donation.Status = DonationStatusType.Confirmed;
 
-            _context.SaveChanges(); 
+            _context.SaveChanges();
 
             return Json(new { success = true });
         }
-
-
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -185,9 +173,9 @@ namespace DEPI_Donation.Controllers
             var activity = _context.Activities.Find(donation.ActivityId);
             if (activity == null) return Json(new { success = false, message = "Invalid Activity Id" });
             if (donation.Status == DonationStatusType.Confirmed)
-                activity.CollectedAmount -= donation.Amount; 
+                activity.CollectedAmount -= donation.Amount;
             if (updatedDonation.Status == DonationStatusType.Confirmed)
-                activity.CollectedAmount += updatedDonation.Amount; 
+                activity.CollectedAmount += updatedDonation.Amount;
 
             donation.DonorId = updatedDonation.DonorId;
             donation.PaymentId = updatedDonation.PaymentId;
@@ -207,7 +195,6 @@ namespace DEPI_Donation.Controllers
             }
         }
 
-        
-        
+       
     }
 }
