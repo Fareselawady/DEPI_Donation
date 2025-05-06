@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DEPI_Donation.Models.Donation>
+﻿@model List<DEPI_Donation.Models.Donation>
 
 @{
     Layout = null;
@@ -23,7 +23,20 @@
 
     <!-- Custom styles for this template-->
     <link href="~/dashboard/css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .table-responsive::-webkit-scrollbar {
+            width: 8px;
+        }
 
+        .table-responsive::-webkit-scrollbar-thumb {
+            background-color: #4e73df;
+            border-radius: 4px;
+        }
+
+        .table-responsive::-webkit-scrollbar-track {
+            background-color: #f8f9fc;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -77,37 +90,54 @@
             </li>
 
             <!-- Divider -->
-            <hr class="sidebar-divider">
-
             <!-- Heading -->
             <div class="sidebar-heading">
-                Addons
+                Models
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Items for Models -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                   aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
+                <a class="nav-link model-link" href="@Url.Action("Index", "Users")" data-controller="Users" id="showUsers">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
                 </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <div class="collapse-divider"></div>
-                    </div>
-                </div>
             </li>
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+            <li class="nav-item">
+                <a class="nav-link model-link" href="@Url.Action("Index", "Donations")" data-controller="Donations" id="showDonations">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Donations</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link model-link" href="@Url.Action("Index", "Activity")" data-controller="Activity" id="showActivity">
+                    <i class="fas fa-tasks"></i>
+                    <span>Activities</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link model-link" href="@Url.Action("Index", "Payments")" data-controller="Payments" id="showPayments">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payments</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link model-link" href="@Url.Action("Index", "Reports")" data-controller="Reports" id="showReports">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link model-link" href="@Url.Action("Index", "Notifications")" data-controller="Notifications" id="showNotifications">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </a>
+            </li>
 
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
 
         </ul>
+        <div id="mainContent">
+            <!-- سيتم تحميل المحتوى هنا -->
+        </div>
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -182,17 +212,71 @@
                 </nav>
                 <!-- End of Topbar -->
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <!-- Page Heading -->
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                            <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
-                        </a>
+
+
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Your Donations</h1>
+                    <a href="@Url.Action("Index", "Home")" class="btn btn-sm btn-primary shadow-sm">
+                        <i class="fas fa-home fa-sm text-white-50"></i> Back to Home
+                    </a>
+                </div>
+
+                <div id="Emptythis">
+
+              
+
+                @if (!Model.Any())
+                {
+                    <div class="alert alert-info">No donations found.</div>
+                }
+                else
+                {
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Donations Table</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                <table class="table table-bordered table-hover mb-0" width="100%" cellspacing="0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Donation ID</th>
+                                            <th>Activity</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var donation in Model)
+                                        {
+                                            var formattedDate = donation.DonationDate?.ToString("yyyy-MM-dd") ?? "";
+                                            var badgeClass = donation.Status switch
+                                            {
+                                                DonationStatusType.Canceled => "badge badge-danger",
+                                                DonationStatusType.Confirmed => "badge badge-success",
+                                                _ => "badge badge-warning text-dark"
+                                            };
+
+                                            <tr id="donation-@donation.DonationId">
+                                                <td>@donation.DonationId</td>
+                                                <td>@donation.Activity?.Title</td>
+                                                <td>@donation.Amount</td>
+                                                <td>@formattedDate</td>
+                                                <td><span class="@badgeClass">@donation.Status</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
+                }
 
                 </div>
+
             </div>
 
         </div>
@@ -255,6 +339,48 @@
     <script src="~/dashboard/js/demo/chart-area-demo.js"></script>
     <script src="~/dashboard/js/demo/chart-pie-demo.js"></script>
 
+    <!-- Here you add your custom script for handling AJAX and page content change -->
+    <script>
+        $(document).ready(function () {
+            function loadContent(url) {
+                $('#Emptythis').html('<div class="text-center my-5"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div>');
+                $('#Emptythis').load(url);
+            }
+
+            $('#showUsers').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Index", "Users")');
+            });
+
+            $('#showDonations').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Index", "Donations")');
+            });
+
+            $('#showActivity').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Index", "Activity")');
+            });
+
+            $('#showPayments').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Index", "Payments")');
+            });
+
+            $('#showReports').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Index", "Reports")');
+            });
+
+            $('#showNotifications').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Index", "Notifications")');
+            });
+        });
+    </script>
+
+
 </body>
 
 </html>
+

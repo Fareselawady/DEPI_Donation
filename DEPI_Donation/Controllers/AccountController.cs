@@ -71,35 +71,35 @@ public class AccountController : Controller
     [HttpGet]
     public async Task<IActionResult> Dashboard()
     {
-        var user = await _userManager.GetUserAsync(User);
-
+        var user = await _userManager.GetUserAsync(User); 
         if (user == null)
         {
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Login", "Account"); 
         }
 
-        var donations = user.Donations; 
+        var donations = await _context.Donations
+                                      .Where(d => d.DonorId == user.Id) 
+                                      .Include(d => d.Activity)
+                                      .ToListAsync();
 
-        return View(donations);
+        return View("Dashboard",donations);
     }
 
     [HttpGet]
 
     public async Task<IActionResult> Profile()
     {
-        var user = await _userManager.GetUserAsync(User); // الحصول على المستخدم الحالي
+        var user = await _userManager.GetUserAsync(User); 
         if (user == null)
         {
-            return RedirectToAction("Login", "Account"); // إذا لم يكن المستخدم موجودًا، يتم إعادة التوجيه لتسجيل الدخول
+            return RedirectToAction("Login", "Account"); 
         }
 
-        // تحميل التبرعات الخاصة بالمستخدم
         var donations = await _context.Donations
-                                      .Where(d => d.DonorId == user.Id)  // التأكد من أن التبرعات تخص المستخدم
+                                      .Where(d => d.DonorId == user.Id) 
                                       .Include(d => d.Activity)
                                       .ToListAsync();
 
-        // تمرير التبرعات للـ View
         return View("Profile",donations);
     }
 

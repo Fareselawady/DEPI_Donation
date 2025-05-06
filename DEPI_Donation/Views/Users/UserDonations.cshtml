@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Donations for User: " + (Model.FirstOrDefault()?.Donor?.UserName ?? "Unknown User");
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
+
 }
 
 <style>
