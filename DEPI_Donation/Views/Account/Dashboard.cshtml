@@ -96,42 +96,86 @@
             </div>
 
             <!-- Nav Items for Models -->
+            <!-- Users -->
             <li class="nav-item">
-                <a class="nav-link model-link" href="@Url.Action("Index", "Users")" data-controller="Users" id="showUsers">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers">
                     <i class="fas fa-users"></i>
                     <span>Users</span>
                 </a>
+                <div id="collapseUsers" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">User Actions:</h6>
+                        <a class="collapse-item load-content" href="@Url.Action("Index", "Users")" id="showUsers">View All</a>
+                        <a class="collapse-item load-content" href="@Url.Action("Create", "Users")" id="addUsers">Add New</a> <!-- Add New User -->
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link model-link" href="@Url.Action("Index", "Donations")" data-controller="Donations" id="showDonations">
-                    <i class="fas fa-hand-holding-heart"></i>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDonations">
+                    <i class="fas fa-users"></i>
                     <span>Donations</span>
                 </a>
+                <div id="collapseDonations" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">User Actions:</h6>
+                        <a class="collapse-item load-content" href="@Url.Action("Index", "Donations")" id="showDonations">View All</a>
+                        <a class="collapse-item load-content" href="@Url.Action("Create", "Donations")" id="addDonations">Add New</a> <!-- Add New User -->
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link model-link" href="@Url.Action("Index", "Activity")" data-controller="Activity" id="showActivity">
-                    <i class="fas fa-tasks"></i>
-                    <span>Activities</span>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseActivity">
+                    <i class="fas fa-users"></i>
+                    <span>Activity</span>
                 </a>
+                <div id="collapseActivity" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">User Actions:</h6>
+                        <a class="collapse-item load-content" href="@Url.Action("Index", "Activity")" id="showActivity">View All</a>
+                        <a class="collapse-item load-content" href="@Url.Action("Create", "Activity")" id="addActivity">Add New</a> <!-- Add New User -->
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link model-link" href="@Url.Action("Index", "Payments")" data-controller="Payments" id="showPayments">
-                    <i class="fas fa-credit-card"></i>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePayments">
+                    <i class="fas fa-users"></i>
                     <span>Payments</span>
                 </a>
+                <div id="collapsePayments" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">User Actions:</h6>
+                        <a class="collapse-item load-content" href="@Url.Action("Index", "Payments")" id="showPayments">View All</a>
+                        <a class="collapse-item load-content" href="@Url.Action("Create", "Payments")" id="addPayments">Add New</a> <!-- Add New User -->
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link model-link" href="@Url.Action("Index", "Reports")" data-controller="Reports" id="showReports">
-                    <i class="fas fa-file-alt"></i>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReports">
+                    <i class="fas fa-users"></i>
                     <span>Reports</span>
                 </a>
+                <div id="collapseReports" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">User Actions:</h6>
+                        <a class="collapse-item load-content" href="@Url.Action("Index", "Reports")" id="showReports">View All</a>
+                        <a class="collapse-item load-content" href="@Url.Action("Create", "Reports")" id="addReports">Add New</a> <!-- Add New User -->
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link model-link" href="@Url.Action("Index", "Notifications")" data-controller="Notifications" id="showNotifications">
-                    <i class="fas fa-bell"></i>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNotifications	">
+                    <i class="fas fa-users"></i>
                     <span>Notifications</span>
                 </a>
+                <div id="collapseNotifications" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">User Actions:</h6>
+                        <a class="collapse-item load-content" href="@Url.Action("Index", "Notifications")" id="showNotifications">View All</a>
+                        <a class="collapse-item load-content" href="@Url.Action("Create", "Notifications")" id="addNotifications">Add New</a> <!-- Add New User -->
+                    </div>
+                </div>
             </li>
+           
 
 
         </ul>
@@ -351,10 +395,17 @@
                 e.preventDefault();
                 loadContent('@Url.Action("Index", "Users")');
             });
-
+             $('#addUsers').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Create", "Users")');
+            });
             $('#showDonations').click(function (e) {
                 e.preventDefault();
                 loadContent('@Url.Action("Index", "Donations")');
+            });
+            $('#addDonations').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Create", "Donations")');
             });
 
             $('#showActivity').click(function (e) {
@@ -362,19 +413,37 @@
                 loadContent('@Url.Action("Index", "Activity")');
             });
 
+             $('#addActivity').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Create", "Activity")');
+            });
+
             $('#showPayments').click(function (e) {
                 e.preventDefault();
                 loadContent('@Url.Action("Index", "Payments")');
+            });
+              $('#addPayments').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Create", "Payments")');
             });
 
             $('#showReports').click(function (e) {
                 e.preventDefault();
                 loadContent('@Url.Action("Index", "Reports")');
             });
+              $('#addReports').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Create", "Reports")');
+            });
 
             $('#showNotifications').click(function (e) {
                 e.preventDefault();
                 loadContent('@Url.Action("Index", "Notifications")');
+            });
+
+             $('#addNotifications').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Create", "Notifications")');
             });
         });
     </script>

@@ -2,26 +2,28 @@
 
 @{
     ViewData["Title"] = "Your Donations";
-    Layout = null;
+    Layout = "~/Views/Shared/NewLayout.cshtml"; // تأكد إن عندك Layout مناسب
 }
 
-<section class="donation-table-container">
-    <div class="donation-header">
-        <h2>💝 Your Donations</h2>
-        <a href="@Url.Action("Index", "Home")" class="btn btn-primary shadow-sm">Back to Home</a>
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold">💝 Your Donations</h2>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-outline-primary shadow-sm">🏠 Back to Home</a>
     </div>
 
     @if (!Model.Any())
     {
-        <p>No donations found.</p>
+        <div class="alert alert-info text-center">
+            You haven't made any donations yet.
+        </div>
     }
     else
     {
-        <div class="styled-table-wrapper">
-            <table class="styled-table">
-                <thead>
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover align-middle">
+                <thead class="table-primary">
                     <tr>
-                        <th>Donation ID</th>
+                        <th>#ID</th>
                         <th>Activity</th>
                         <th>Amount</th>
                         <th>Date</th>
@@ -34,18 +36,18 @@
                         var formattedDate = donation.DonationDate?.ToString("yyyy-MM-dd") ?? "";
                         var badgeClass = donation.Status switch
                         {
-                            DonationStatusType.Canceled => "bg-danger text-white",
-                            DonationStatusType.Confirmed => "bg-success text-white",
+                            DonationStatusType.Canceled => "bg-danger",
+                            DonationStatusType.Confirmed => "bg-success",
                             _ => "bg-warning text-dark"
                         };
 
                         <tr id="donation-@donation.DonationId">
-                            <td>@donation.DonationId</td>
+                            <td class="fw-bold text-secondary">#@donation.DonationId</td>
                             <td>@donation.Activity?.Title</td>
-                            <td>@donation.Amount</td>
-                            <td>@formattedDate</td>
+                            <td class="text-success fw-semibold">$@donation.Amount</td>
+                            <td><i class="bi bi-calendar-event"></i> @formattedDate</td>
                             <td>
-                                <span class="badge @badgeClass">@donation.Status</span>
+                                <span class="badge @badgeClass px-3 py-2">@donation.Status</span>
                             </td>
                         </tr>
                     }
@@ -53,4 +55,4 @@
             </table>
         </div>
     }
-</section>
+</div>
