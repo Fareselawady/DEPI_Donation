@@ -49,6 +49,7 @@ namespace DEPI_Donation.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public JsonResult Create(Donation newDonation)
         {
             if (!ModelState.IsValid)
@@ -58,13 +59,22 @@ namespace DEPI_Donation.Controllers
 
             try
             {
+                var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+                if (string.IsNullOrEmpty(currentUserId))
+                {
+                    return Json(new { success = false, message = "User not authenticated." });
+                }
+
+                newDonation.DonorId = int.Parse(currentUserId);
                 newDonation.Status = DonationStatusType.Pending;
+                newDonation.DonationDate = DateOnly.FromDateTime(DateTime.Now);
+
                 _context.Donations.Add(newDonation);
                 _context.SaveChanges();
 
-                // Create notification
                 var activity = _context.Activities.FirstOrDefault(a => a.ActivityId == newDonation.ActivityId);
-                var donor = _context.Users.FirstOrDefault(u => u.Id == newDonation.DonorId);
+                var donor = _context.Users.FirstOrDefault(u => u.Id == int.Parse(currentUserId));
 
                 if (activity != null && donor != null)
                 {
@@ -86,13 +96,23 @@ namespace DEPI_Donation.Controllers
                     _context.SaveChanges();
                 }
 
-                return Json(new { success = true });
+                var isAdmin = User.IsInRole("Admin");
+
+                return Json(new
+                {
+                    success = true,
+                    redirectUrl = isAdmin
+                        ? Url.Action("Dashboard", "Account") 
+                        : Url.Action("Profile", "Account")   
+                });
             }
             catch (Exception ex)
             {
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
+
 
         [HttpPost]
         [Authorize]

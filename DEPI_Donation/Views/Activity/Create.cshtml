@@ -137,7 +137,7 @@
                     success: function (response) {
                         if (response.success) {
                             alert('Activity created successfully!');
-                            window.location.href = '@Url.Action("Index", "Activity")';
+                            window.location.href = '@Url.Action("Dashboard", "Account")';
                         } else {
                             alert('Error: ' + response.message);
                         }

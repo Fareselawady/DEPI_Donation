@@ -4,11 +4,12 @@
     ViewData["Title"] = "Your Donations";
     Layout = "~/Views/Shared/NewLayout.cshtml"; // تأكد إن عندك Layout مناسب
 }
-
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary fw-bold">💝 Your Donations</h2>
-        <a href="@Url.Action("Index", "Home")" class="btn btn-outline-primary shadow-sm">🏠 Back to Home</a>
+        <h2 class="text-primary fw-bold">💝 Your Donations  : @Model.FirstOrDefault()?.Donor?.UserName</h2>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-outline-primary shadow-sm">
+            🏠 Back to Home
+        </a>
     </div>
 
     @if (!Model.Any())
@@ -19,9 +20,9 @@
     }
     else
     {
-        <div class="table-responsive shadow-sm rounded">
-            <table class="table table-hover align-middle">
-                <thead class="table-primary">
+        <div class="table-responsive shadow-lg rounded-3 border border-light" style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-hover align-middle table-striped">
+                <thead class="table-dark text-light">
                     <tr>
                         <th>#ID</th>
                         <th>Activity</th>
@@ -41,7 +42,7 @@
                             _ => "bg-warning text-dark"
                         };
 
-                        <tr id="donation-@donation.DonationId">
+                        <tr id="donation-@donation.DonationId" class="hover-shadow">
                             <td class="fw-bold text-secondary">#@donation.DonationId</td>
                             <td>@donation.Activity?.Title</td>
                             <td class="text-success fw-semibold">$@donation.Amount</td>
@@ -55,4 +56,60 @@
             </table>
         </div>
     }
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="@Url.Action("Create", "Donations")" class="btn btn-outline-primary shadow-sm">➕ Add New Donation</a> <!-- الزر هنا -->
+    </div>
 </div>
+
+<style>
+    .hover-shadow:hover {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f8f9fa;
+    }
+
+    .table-dark {
+        background-color: #343a40 !important;
+    }
+
+    .btn-outline-primary {
+        border-radius: 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+    .badge {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .table-responsive {
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+        /* Custom scroll bar */
+        .table-responsive::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb {
+            background-color: #007bff;
+            border-radius: 5px;
+        }
+
+        .table-responsive::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+</style>

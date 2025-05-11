@@ -74,11 +74,7 @@
                 <hr />
 
                 <form id="createDonationForm">
-                    <div class="form-group mb-3">
-                        <label asp-for="DonorId"></label>
-                        <input asp-for="DonorId" class="form-control" type="number" />
-                        <span asp-validation-for="DonorId" class="text-danger"></span>
-                    </div>
+                    
 
                     <div class="form-group mb-3">
                         <label asp-for="PaymentId"></label>
@@ -116,14 +112,13 @@
     <partial name="_ValidationScriptsPartial" />
 
     <script>
-        $(document).ready(function () {
+                $(document).ready(function () {
             $('#createDonationForm').on('submit', function (e) {
                 e.preventDefault();
                 $('.text-danger').text('');
                 $('#resultMsg').html('');
 
                 var formData = {
-                    DonorId: $('#DonorId').val(),
                     PaymentId: $('#PaymentId').val(),
                     ActivityId: $('#ActivityId').val(),
                     Amount: $('#Amount').val()
@@ -135,7 +130,7 @@
                     data: formData,
                     success: function (response) {
                         if (response.success) {
-                            window.location.href = '@Url.Action("Index", "Donations")';
+                            window.location.href = response.redirectUrl;
                         } else {
                             $("#resultMsg").html("<div class='alert alert-danger'>" + response.message + "</div>");
                         }
@@ -146,5 +141,6 @@
                 });
             });
         });
+
     </script>
 }

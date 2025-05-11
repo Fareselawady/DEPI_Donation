@@ -115,7 +115,7 @@
                 data: formData,
                 success: function (response) {
                     if (response.success) {
-                        window.location.href = '@Url.Action("Index", "Reports")';
+                            window.location.href = '@Url.Action("Dashboard", "Account")';
                     } else {
                         $("#resultMsg").html("<div class='alert alert-danger'>" + response.message + "</div>");
                     }
