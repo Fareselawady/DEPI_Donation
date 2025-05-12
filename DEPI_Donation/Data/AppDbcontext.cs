@@ -37,10 +37,17 @@ public class AppDbcontext : IdentityDbContext<
     public DbSet<Payment> Payments { get; set; }
 
     public DbSet<Report> Reports { get; set; }
+    public DbSet<FeedBack> FeedBacks { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<FeedBack>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedOnAdd(); // تغيير من Never إلى OnAdd
+        });
+
+
         modelBuilder.Entity<Activity>(entity =>
         {
             entity.HasKey(e => e.ActivityId).HasName("PK__Activiti__45F4A7F1550916E8");

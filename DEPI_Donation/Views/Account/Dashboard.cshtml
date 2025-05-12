@@ -48,7 +48,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
                 </div>
                 <div class="sidebar-brand-text mx-3">Admin<sup></sup></div>
@@ -59,14 +59,13 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
 
             <!-- Divider -->
-
             <!-- Heading -->
             <div class="sidebar-heading">
                 Interface
@@ -163,6 +162,18 @@
                 </div>
             </li>
             <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFeedBacks">
+                    <i class="fas fa-feedbacks"></i>
+                    <span>FeedBacks</span>
+                </a>
+                <div id="collapseFeedBacks" class="collapse" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">FeedBack Actions:</h6>
+                        <a class="collapse-item load-content" href="@Url.Action("Index", "FeedBacks")" id="showFeedBacks">View All</a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNotifications	">
                     <i class="fas fa-users"></i>
                     <span>Notifications</span>
@@ -175,7 +186,7 @@
                     </div>
                 </div>
             </li>
-           
+
 
 
         </ul>
@@ -197,47 +208,60 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                   aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    @* <!-- Topbar Search --> *@
+                    @* <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"> *@
+                    @*     <div class="input-group"> *@
+                    @*         <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." *@
+                    @*                aria-label="Search" aria-describedby="basic-addon2"> *@
+                    @*         <div class="input-group-append"> *@
+                    @*             <button class="btn btn-primary" type="button"> *@
+                    @*                 <i class="fas fa-search fa-sm"></i> *@
+                    @*             </button> *@
+                    @*         </div> *@
+                    @*     </div> *@
+                    @* </form> *@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                        </li>
+                        @* <!-- Nav Item - Search Dropdown (Visible Only XS) --> *@
+                        @* <li class="nav-item dropdown no-arrow d-sm-none"> *@
+                        @*     <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" *@
+                        @*        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> *@
+                        @*         <i class="fas fa-search fa-fw"></i> *@
+                        @*     </a> *@
+                        @* </li> *@
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
-                                <span class="badge badge-danger badge-counter">3+</span>
+                                <span class="badge badge-danger badge-counter" id="notificationCount"></span>
                             </a>
+
+                            <!-- Dropdown - Alerts -->
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Notifications Center
+                                </h6>
+                                <div id="notificationsList">
+                                    <!-- Notifications will be loaded here -->
+                                </div>
+                                <a class="dropdown-item text-center small text-gray-500" href="/Notifications/Index">View All</a>
+                            </div>
                         </li>
 
-                        <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                        </li>
+
+                        @* <!-- Nav Item - Messages --> *@
+                        @* <li class="nav-item dropdown no-arrow mx-1"> *@
+                        @*     <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" *@
+                        @*        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> *@
+                        @*         <i class="fas fa-envelope fa-fw"></i> *@
+                        @*         <span class="badge badge-danger badge-counter">7</span> *@
+                        @*     </a> *@
+                        @* </li> *@
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -245,12 +269,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                     src="img/undraw_profile.svg">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name</span>
                             </a>
                         </li>
-
                     </ul>
 
                 </nav>
@@ -269,55 +290,55 @@
 
                 <div id="Emptythis">
 
-              
 
-                @if (!Model.Any())
-                {
-                    <div class="alert alert-info">No donations found.</div>
-                }
-                else
-                {
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Donations Table</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                                <table class="table table-bordered table-hover mb-0" width="100%" cellspacing="0">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>Donation ID</th>
-                                            <th>Activity</th>
-                                            <th>Amount</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var donation in Model)
-                                        {
-                                            var formattedDate = donation.DonationDate?.ToString("yyyy-MM-dd") ?? "";
-                                            var badgeClass = donation.Status switch
-                                            {
-                                                DonationStatusType.Canceled => "badge badge-danger",
-                                                DonationStatusType.Confirmed => "badge badge-success",
-                                                _ => "badge badge-warning text-dark"
-                                            };
 
-                                            <tr id="donation-@donation.DonationId">
-                                                <td>@donation.DonationId</td>
-                                                <td>@donation.Activity?.Title</td>
-                                                <td>@donation.Amount</td>
-                                                <td>@formattedDate</td>
-                                                <td><span class="@badgeClass">@donation.Status</span></td>
+                    @if (!Model.Any())
+                    {
+                        <div class="alert alert-info">No donations found.</div>
+                    }
+                    else
+                    {
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Donations Table</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                    <table class="table table-bordered table-hover mb-0" width="100%" cellspacing="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Donation ID</th>
+                                                <th>Activity</th>
+                                                <th>Amount</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var donation in Model)
+                                            {
+                                                var formattedDate = donation.DonationDate?.ToString("yyyy-MM-dd") ?? "";
+                                                var badgeClass = donation.Status switch
+                                                {
+                                                    DonationStatusType.Canceled => "badge badge-danger",
+                                                    DonationStatusType.Confirmed => "badge badge-success",
+                                                    _ => "badge badge-warning text-dark"
+                                                };
+
+                                                <tr id="donation-@donation.DonationId">
+                                                    <td>@donation.DonationId</td>
+                                                    <td>@donation.Activity?.Title</td>
+                                                    <td>@donation.Amount</td>
+                                                    <td>@formattedDate</td>
+                                                    <td><span class="@badgeClass">@donation.Status</span></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
 
                 </div>
 
@@ -338,7 +359,7 @@
     </footer>
     <!-- End of Footer -->
     <div>
-    <!-- End of Content Wrapper -->
+        <!-- End of Content Wrapper -->
     </div>
     <!-- End of Page Wrapper -->
     <!-- Scroll to Top Button-->
@@ -385,6 +406,39 @@
 
     <!-- Here you add your custom script for handling AJAX and page content change -->
     <script>
+
+
+        $(document).ready(function () {
+            $.getJSON('/Notifications/GetRecentNotifications', function (data) {
+                const listContainer = $('#notificationsList');
+                const count = data.length;
+
+                $('#notificationCount').text(count > 0 ? count : '');
+
+                if (count === 0) {
+                    listContainer.append('<span class="dropdown-item text-center small text-gray-500">No notifications</span>');
+                    return;
+                }
+
+                data.forEach(n => {
+                    const item = `
+                        <a class="dropdown-item d-flex align-items-center" href="/Notifications">
+                            <div class="mr-3">
+                                <div class="icon-circle bg-primary">
+                                    <i class="fas fa-info text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="small text-gray-500">${n.createdAt}</div>
+                                <span class="font-weight-bold">${n.title}</span>
+                            </div>
+                        </a>`;
+                    listContainer.append(item);
+                });
+            });
+        });
+
+
         $(document).ready(function () {
             function loadContent(url) {
                 $('#Emptythis').html('<div class="text-center my-5"><div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div></div>');
@@ -436,6 +490,11 @@
                 loadContent('@Url.Action("Create", "Reports")');
             });
 
+            $('#showFeedBacks').click(function (e) {
+                e.preventDefault();
+                loadContent('@Url.Action("Index", "FeedBacks")');
+            });
+
             $('#showNotifications').click(function (e) {
                 e.preventDefault();
                 loadContent('@Url.Action("Index", "Notifications")');
@@ -452,4 +511,10 @@
 </body>
 
 </html>
+
+
+
+
+
+
 

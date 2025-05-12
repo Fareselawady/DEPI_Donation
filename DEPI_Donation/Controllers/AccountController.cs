@@ -6,104 +6,105 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using DEPI_Donation.Data;
 
-public class AccountController : Controller
+namespace DEPI_Donation.Controllers
 {
-    private readonly UserManager<User> _userManager;
-    private readonly SignInManager<User> _signInManager;
-    private readonly AppDbcontext _context; 
-    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager , AppDbcontext appDbcontext)
+    public class AccountController : Controller
     {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _context = appDbcontext;
-    }
-
-    //public IActionResult Register() => View();
-
-    [HttpPost]
-    public async Task<IActionResult> Register(RegisterViewModel model)
-    {
-        if (ModelState.IsValid)
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly AppDbcontext _context;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, AppDbcontext appDbcontext)
         {
-            var user = new User { UserName = model.UserName, Email = model.Email, PhoneNumber = model.PhoneNumber };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _context = appDbcontext;
+        }
+
+        //public IActionResult Register() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
             {
-                await _signInManager.SignInAsync(user, false);
-                return RedirectToAction("Index", "Home");
+                var user = new User { UserName = model.UserName, Email = model.Email, PhoneNumber = model.PhoneNumber };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, false);
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
             }
 
-            foreach (var error in result.Errors)
-                ModelState.AddModelError("", error.Description);
+            return View(nameof(Login));
         }
 
-        return View(nameof(Login));
-    }
-
-    public IActionResult Login()
-    {
-        if(User.Identity!.IsAuthenticated)
-            return RedirectToAction("Index", "Home");
-
-        return View();
-    }
-    [HttpPost]
-    public async Task<IActionResult> Login(LoginViewModel model)
-    {
-        if (ModelState.IsValid)
+        public IActionResult Login()
         {
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-            if (result.Succeeded)
+            if (User.Identity!.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
-            ModelState.AddModelError("", "Invalid login attempt.");
+            return View();
         }
-
-        return View(model);
-    }
-    [Authorize]
-    public async Task<IActionResult> Logout()
-    {
-        await _signInManager.SignOutAsync();
-        return RedirectToAction("LogIn", "Account");
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Dashboard()
-    {
-        var user = await _userManager.GetUserAsync(User); 
-        if (user == null)
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            return RedirectToAction("Login", "Account"); 
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+                if (result.Succeeded)
+                    return RedirectToAction("Index", "Home");
+
+                ModelState.AddModelError("", "Invalid login attempt.");
+            }
+
+            return View(model);
         }
-
-        var donations = await _context.Donations
-                                      .Where(d => d.DonorId == user.Id) 
-                                      .Include(d => d.Activity)
-                                      .ToListAsync();
-
-        return View("Dashboard",donations);
-    }
-
-    [HttpGet]
-
-    public async Task<IActionResult> Profile()
-    {
-        var user = await _userManager.GetUserAsync(User); 
-        if (user == null)
+        [Authorize]
+        public async Task<IActionResult> Logout()
         {
-            return RedirectToAction("Login", "Account"); 
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("LogIn", "Account");
         }
 
-        var donations = await _context.Donations
-                                      .Where(d => d.DonorId == user.Id) 
-                                      .Include(d => d.Activity)
-                                      .ToListAsync();
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Dashboard()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
-        return View("Profile",donations);
+            var donations = await _context.Donations
+                                          .Where(d => d.DonorId == user.Id)
+                                          .Include(d => d.Activity)
+                                          .ToListAsync();
+
+            return View("Dashboard", donations);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var donations = await _context.Donations
+                                          .Where(d => d.DonorId == user.Id)
+                                          .Include(d => d.Activity)
+                                          .ToListAsync();
+
+            return View("Profile", donations);
+        }
+
     }
-
-
-
-
 }

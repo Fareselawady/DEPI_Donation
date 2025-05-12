@@ -130,5 +130,25 @@ namespace DEPI_Donation.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
+
+        [HttpGet]
+        public JsonResult GetRecentNotifications(int count = 5)
+        {
+            var notifications = _context.Notifications
+                .OrderByDescending(n => n.CreatedAt)
+                .Take(count)
+                .Select(n => new
+                {
+                    n.NotificationId,
+                    n.Title,
+                    n.Description,
+                    n.CreatedAt
+                })
+                .ToList();
+
+            return Json(notifications);
+        }
     }
 }
+

@@ -49,20 +49,22 @@
                     <li><a href="#about">About</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#services">Services</a></li>
-                    <li><a href="Activity">Activities</a></li>
-                    <li class="dropdown">
-                        <a href="#"><span>Donation opportunities</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                            <li><a href="#">charity</a></li>
-                            <li class="dropdown">
-                                <a href="#"><span>Zakat</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                                <ul>
-                                    <li><a href="#">Zakat Calculator</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
                     <li><a href="#contact">Contact</a></li>
+                    <li><a href="Activity">Activities</a></li>
+                    <li><a href="Donations/Create">Donate</a></li>
+
+                    @* <li class="dropdown"> *@
+                    @*     <a href="#"><span>Donation opportunities</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a> *@
+                    @*     <ul> *@
+                    @*         <li><a href="#">charity</a></li> *@
+                    @*         <li class="dropdown"> *@
+                    @*             <a href="#"><span>Zakat</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a> *@
+                    @*             <ul> *@
+                    @*                 <li><a href="#">Zakat Calculator</a></li> *@
+                    @*             </ul> *@
+                    @*         </li> *@
+                    @*     </ul> *@
+                    @* </li> *@
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
@@ -130,13 +132,13 @@
             @if (!User.Identity!.IsAuthenticated)
             {
                 <div aria-label="User Login Button"
-                tabindex="0"
-                role="button"
-                class="user-profile">
+                     tabindex="0"
+                     role="button"
+                     class="user-profile">
                     <div class="user-profile-inner">
                         <svg aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24">
+                             xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24">
                             <g data-name="Layer 2" id="Layer_2">
                                 <path d="m15.626 11.769a6 6 0 1 0 -7.252 0 9.008 9.008 0 0 0 -5.374 8.231 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 9.008 9.008 0 0 0 -5.374-8.231zm-7.626-4.769a4 4 0 1 1 4 4 4 4 0 0 1 -4-4zm10 14h-12a1 1 0 0 1 -1-1 7 7 0 0 1 14 0 1 1 0 0 1 -1 1z"></path>
                             </g>
@@ -148,13 +150,13 @@
             else
             {
                 <div aria-label="User Profile Button"
-                tabindex="0"
-                role="button"
-                class="user-profile">
+                     tabindex="0"
+                     role="button"
+                     class="user-profile">
                     <div class="user-profile-inner">
                         <svg aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24">
+                             xmlns="http://www.w3.org/2000/svg"
+                             viewBox="0 0 24 24">
                             <g data-name="Layer 2" id="Layer_2">
                                 <path d="m15.626 11.769a6 6 0 1 0 -7.252 0 9.008 9.008 0 0 0 -5.374 8.231 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 9.008 9.008 0 0 0 -5.374-8.231zm-7.626-4.769a4 4 0 1 1 4 4 4 4 0 0 1 -4-4zm10 14h-12a1 1 0 0 1 -1-1 7 7 0 0 1 14 0 1 1 0 0 1 -1 1z"></path>
                             </g>
@@ -1185,36 +1187,29 @@
                     <div class="col-lg-7">
                         <div class="contact-form" data-aos="fade-up" data-aos-delay="300">
                             <h3>Get In Touch</h3>
-
-                            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+                            <form id="feedbackForm" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200" action="/Feedbacks/Create">
                                 <div class="row gy-4">
-
                                     <div class="col-md-6">
-                                        <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                                        <input type="text" name="Name" class="form-control" placeholder="Your Name" required />
                                     </div>
-
-                                    <div class="col-md-6 ">
-                                        <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                                    <div class="col-md-6">
+                                        <input type="email" name="Email" class="form-control" placeholder="Your Email" required />
                                     </div>
-
                                     <div class="col-12">
-                                        <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
+                                        <input type="text" name="Subject" class="form-control" placeholder="Subject" />
                                     </div>
-
                                     <div class="col-12">
-                                        <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
+                                        <textarea name="Message" class="form-control" rows="6" placeholder="Message" required></textarea>
                                     </div>
-
                                     <div class="col-12 text-center">
-                                        <div class="loading">Loading</div>
-                                        <div class="error-message"></div>
-                                        <div class="sent-message">Your message has been sent. Thank you!</div>
-
+                                        <div class="loading" style="display:none;">Loading</div>
+                                        <div class="error-message" style="display:none;color:red;"></div>
+                                        <div class="sent-message" style="display:none;color:green;">Your message has been sent. Thank you!</div>
                                         <button type="submit" class="btn">Send Message</button>
                                     </div>
-
                                 </div>
                             </form>
+
 
                         </div>
                     </div>
@@ -1355,3 +1350,42 @@
 </body>
 
 </html>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#feedbackForm').submit(function (e) {
+                e.preventDefault();
+
+                var formData = {
+                    Name: $('input[name="Name"]').val(),
+                    Email: $('input[name="Email"]').val(),
+                    Subject: $('input[name="Subject"]').val(),
+                    Message: $('textarea[name="Message"]').val()
+                };
+
+                $('.loading').show();
+                $('.error-message').hide();
+                $('.sent-message').hide();
+
+                $.ajax({
+                    url: '/Feedbacks/Create',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        $('.loading').hide();
+                        if (response.success) {
+                            $('.sent-message').show().text('Your message has been sent. Thank you!');
+                            $('#feedbackForm')[0].reset();
+                        } else {
+                            $('.error-message').show().text(response.message);
+                        }
+                    },
+                    error: function () {
+                        $('.loading').hide();
+                        $('.error-message').show().text('An error occurred while sending your feedback.');
+                    }
+                });
+            });
+        });
+    </script>
+}
