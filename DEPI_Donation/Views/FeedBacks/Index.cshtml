@@ -1,0 +1,76 @@
+﻿@model List<DEPI_Donation.Models.FeedBack>
+
+@{
+    ViewData["Title"] = "Feedbacks";
+    Layout = "~/Views/Shared/NewLayout.cshtml";
+}
+
+<!-- Keep your existing CSS styles if applicable -->
+
+<section class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark">📬 Feedback List</h2>
+    </div>
+
+    <div class="activity-cards-container">
+        @foreach (var feedback in Model)
+        {
+            <div class="activity-card-wrapper" id="feedback-@feedback.Id">
+                <div class="card activity-card shadow-sm h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <span class="field" id="Name-@feedback.Id">@feedback.Name</span>
+                            <input type="text" class="form-control edit-input mt-1" id="edit-Name-@feedback.Id" value="@feedback.Name" style="display:none;" />
+                        </h5>
+                        <p class="card-text">
+                            <strong>Email:</strong>
+                            <span class="field" id="Email-@feedback.Id">@feedback.Email</span>
+                            <input type="email" class="form-control edit-input mt-1" id="edit-Email-@feedback.Id" value="@feedback.Email" style="display:none;" />
+                        </p>
+                        <p class="card-text">
+                            <strong>Subject:</strong>
+                            <span class="field" id="Subject-@feedback.Id">@feedback.Subject</span>
+                            <input type="text" class="form-control edit-input mt-1" id="edit-Subject-@feedback.Id" value="@feedback.Subject" style="display:none;" />
+                        </p>
+                        <p class="card-text">
+                            <strong>Message:</strong>
+                            <span class="field" id="Message-@feedback.Id">@feedback.Message</span>
+                            <textarea class="form-control edit-input mt-1" id="edit-Message-@feedback.Id" style="display:none;">@feedback.Message</textarea>
+                        </p>
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-danger delete-btn w-100" data-id="@feedback.Id">🗑️ Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.delete-btn').click(function () {
+                var id = $(this).data('id');
+                if (confirm('Are you sure you want to delete this feedback?')) {
+                    $.ajax({
+                        url: '/Feedbacks/Delete/' + id,
+                        type: 'POST',
+                        success: function (response) {
+                            if (response.success) {
+                                $('#feedback-' + id).remove();
+                                alert('Feedback deleted successfully!');
+                            } else {
+                                alert('Failed to delete feedback: ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while deleting the feedback.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

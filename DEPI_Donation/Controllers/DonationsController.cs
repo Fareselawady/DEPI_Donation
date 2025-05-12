@@ -8,7 +8,6 @@ using System.Diagnostics;
 
 namespace DEPI_Donation.Controllers
 {
-    [Authorize]
     public class DonationsController : Controller
     {
         private readonly AppDbcontext _context;
@@ -17,7 +16,7 @@ namespace DEPI_Donation.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var donations = _context.Donations
@@ -27,7 +26,7 @@ namespace DEPI_Donation.Controllers
                 .ToList();
             return View(donations);
         }
-
+        [Authorize]
         public IActionResult Create()
         {
             var activities = _context.Activities.Select(a => new SelectListItem
@@ -102,8 +101,8 @@ namespace DEPI_Donation.Controllers
                 {
                     success = true,
                     redirectUrl = isAdmin
-                        ? Url.Action("Dashboard", "Account") 
-                        : Url.Action("Profile", "Account")   
+                        ? Url.Action("Dashboard", "Account")
+                        : Url.Action("Profile", "Account")
                 });
             }
             catch (Exception ex)
@@ -215,6 +214,6 @@ namespace DEPI_Donation.Controllers
             }
         }
 
-       
+
     }
 }
